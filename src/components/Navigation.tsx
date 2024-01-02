@@ -9,7 +9,6 @@ import {
     MenubarTrigger,
 } from "@/components/ui/menubar";
 import {
-    ArrowDown,
     ChevronDown,
     Facebook,
     Instagram,
@@ -30,13 +29,10 @@ import {
     CollapsibleContent,
     CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import useVisibility from "@/hooks/useVisibility";
 import { cn } from "@/lib/utils";
 
 export default function Navigation() {
     const mobileNavMenuRef = useRef(null);
-    const isMobileNavMenuVisible = useVisibility(mobileNavMenuRef.current!);
-
     const [hasLoaded, setHasLoaded] = useState(false);
     useEffect(() => {
         mobileNavMenuRef.current && setHasLoaded(true);
@@ -46,7 +42,7 @@ export default function Navigation() {
         <div className="sticky top-0 z-50 flex h-[60px] w-screen max-w-full items-center justify-between bg-white px-6 shadow-xl">
             <div className="mr-5">LOGO</div>
             <Sheet>
-                <SheetTrigger onClick={()=>{setHasLoaded(true)}}>
+                <SheetTrigger className="sm:hidden" onClick={()=>{setHasLoaded(true)}}>
                     <Menu />
                 </SheetTrigger>
                 <SheetContent
