@@ -15,11 +15,13 @@ import { Contact, Phone } from "lucide-react";
 export default function Home() {
     const [carouselApi, setApi] = useState<CarouselApi | undefined>();
     const [activeIndex, setActiveIndex] = useState(0);
-
     useEffect(() => {
         if (carouselApi) {
             carouselApi.scrollTo(activeIndex);
         }
+        carouselApi?.on("select", () => {
+            setActiveIndex(carouselApi.selectedScrollSnap())
+        })
     }, [activeIndex, carouselApi]);
 
     return (
@@ -158,7 +160,7 @@ const MissionSection: React.FC = () => {
 
     return (
         <section className="relative h-fit min-h-[150vh] w-full">
-            <div className="z-3 sticky top-[60px] flex h-screen w-full justify-center bg-[url('/school.jpg')] bg-cover sm:items-center sm:justify-end md:items-start md:p-10 lg:pr-[7.5rem] lg:pt-[7.5rem]">
+            <div className="z-3 sticky top-0 flex h-screen w-full justify-center bg-[url('/school.jpg')] bg-cover sm:items-center sm:justify-end md:items-start md:p-10 lg:pr-[7.5rem] lg:pt-[7.5rem]">
                 <h3
                     ref={missionTitleRef}
                     className={cn(
