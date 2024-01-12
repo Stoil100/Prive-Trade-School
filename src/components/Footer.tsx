@@ -1,7 +1,7 @@
 "use client";
 import { FC, useRef,useEffect, useState } from "react";
 import { Facebook, Instagram, Mail, Map, Phone, Twitter } from "lucide-react";
-import useVisibility from "@/hooks/useVisibility";
+import { useIntersectionObserver as useVisibility} from "usehooks-ts";
 import { cn } from "@/lib/utils";
 
 const FooterLinksSection: FC<{ title: string; links: string[] }> = ({
@@ -9,7 +9,7 @@ const FooterLinksSection: FC<{ title: string; links: string[] }> = ({
     links,
 }) => {
     const linksRef = useRef(null);
-    const isLinkVisible = useVisibility(linksRef.current!);
+    const isLinkVisible = !!useVisibility(linksRef, {})?.isIntersecting;
     return (
         <div
             ref={linksRef}
@@ -34,7 +34,7 @@ const FooterProgramsSection: FC<{ title: string; links: string[] }> = ({
     links,
 }) => {
     const programsRef = useRef(null);
-    const isProgramsVisible = useVisibility(programsRef.current!);
+    const isProgramsVisible = !!useVisibility(programsRef, {})?.isIntersecting;
     return (
         <div
             ref={programsRef}
@@ -56,7 +56,7 @@ const FooterProgramsSection: FC<{ title: string; links: string[] }> = ({
 };
 const ContactInfo: FC = () => {
     const contactRef = useRef(null);
-    const isContactVisible = useVisibility(contactRef.current!);
+    const isContactVisible = !!useVisibility(contactRef, {})?.isIntersecting;
 
     return (
         <div
@@ -91,7 +91,7 @@ const ContactInfo: FC = () => {
 
 export default function Footer() {
     const titleBoxRef = useRef(null);
-    const isTitleBoxVisible = useVisibility(titleBoxRef.current!);
+    const isTitleBoxVisible = !!useVisibility(titleBoxRef, {})?.isIntersecting;
     
     const [hasLoaded,setHasLoaded]=useState(false);
     useEffect(() =>{
