@@ -47,7 +47,7 @@ export default function Navigation() {
             <div className="mr-5">LOGO</div>
             <Sheet>
                 <SheetTrigger
-                    className="sm:hidden"
+                    className="md:hidden"
                     onClick={() => {
                         setHasLoaded(true);
                     }}
