@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import TopSocialMedia from "@/components/TopSocialMedia";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-
+import { Providers } from "./providers";
 export const fontSans = FontSans({
     subsets: ["latin"],
     variable: "--font-sans",
@@ -33,7 +33,7 @@ export default function RootLayout({
             >
                 <TopSocialMedia />
                 <Navigation />
-                {children}
+                <Providers>{children}</Providers>
                 <Footer />
             </body>
         </html>

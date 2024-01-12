@@ -9,86 +9,168 @@ import {
     type CarouselApi,
 } from "@/components/ui/carousel";
 import { useEffect, useState, useRef } from "react";
-import useVisibility from "@/hooks/useVisibility";
+import { useIntersectionObserver as useVisibility } from 'usehooks-ts'
 import { cn } from "@/lib/utils";
-import { Contact, Phone } from "lucide-react";
+import { DollarSign, FileSearch, Landmark, Phone } from "lucide-react";
+import Autoplay from "embla-carousel-autoplay";
+import ContactForm from "@/components/ContactForm";
+import { Profiles } from "../models/profile";
+import { Reasons } from "../models/reason";
+import { Parallax } from "react-scroll-parallax";
+import { Header, Headers } from "../models/headerItem";
+const headerItems:Headers = [
+    {title:"Качество и Специализация",description:"При нас ще получиш висококачествено образование, съобразено с твоите интереси и способности. Изучавай специални дисциплини, свързани с избраната от теб специалност, които ще те подготвят за успешна кариера.",direction: "items-start",textDirection: "text-left"},
+    {title:"Форми на обучение:",description:"Дневна форма <br/> Самостоятелна форма <br/> Дистанционна (on-line) форма",direction: "items-center",textDirection: "text-center"},
+    {title:"Прием условия: ",description:"интервю с кандидатите и с техните родители (настойници) (лице в лице или онлайн) <br/> изпит по Английски език (за установяване на ниво)",direction: "items-end",textDirection: "text-right"},
+]
+const profiles: Profiles = [
+    {
+        type: "Данъчен и митнически контрол",
+        icon: <FileSearch />,
+        description: "",
+    },
+    {
+        type: "Банково дело",
+        icon: <Landmark />,
+        description: "",
+    },
+    {
+        type: "Оперативно счетоводство",
+        icon: <DollarSign />,
+        description: "",
+    },
+];
+const aboutReasons: Reasons = [
+    {
+        title: "Международни Възможности:",
+        description:
+            "Отворени сме за записвания от цяла Европа - разстоянието не е препятствие! Без значение къде се намираш в Европа, ти имаш възможността да се присъединиш към нас. ",
+    },
+    {
+        title: "",
+        description:
+            "Освен богатство от специализирани и икономически и общообразователни дисциплини, ти ще се впуснеш и в засилено изучаване на чужд език - Английски, Немски или Испански. Готви се за стажове в чужбина и международни проекти, като програма Еразмус +.        ",
+    },
+    {
+        title: "Персонален Подход:",
+        description:
+            "Вярваме, че всеки ученик е уникален. Разчитай на индивидуален подход, подкрепа и възможност да напредваш в собствени темпове.",
+    },
+    {
+        title: "Подготовка за Бизнес Успех:",
+        description:
+            "Ние не само ти предоставяме знания, но и условия за умения, научаваме те да ги използваш практически. Обочаваме те да стартираш свой собствен бизнес след завършване на гимназията.",
+    },
+];
+
 export default function Home() {
+    const pageRef = useRef(null);
+    const [isPageReady, setIsPageReady] = useState(false);
+    useEffect(() => {
+        pageRef.current && setIsPageReady(true);
+    }, [pageRef]);
+    return (
+        <main
+            ref={pageRef}
+            className="flex min-h-screen w-full flex-col items-center justify-center"
+        >
+            <HeroSection />
+           
+            <NewsSection />
+      
+            <AboutSection />
+            <ProfilesSection />
+            <ContactSection />
+        </main>
+    );
+}
+
+const HeroSection: React.FC = () => {
     const [carouselApi, setApi] = useState<CarouselApi | undefined>();
     const [activeIndex, setActiveIndex] = useState(0);
+
     useEffect(() => {
         if (carouselApi) {
             carouselApi.scrollTo(activeIndex);
         }
         carouselApi?.on("select", () => {
-            setActiveIndex(carouselApi.selectedScrollSnap())
-        })
+            setActiveIndex(carouselApi.selectedScrollSnap());
+        });
     }, [activeIndex, carouselApi]);
 
     return (
-        <main className="flex min-h-screen flex-col items-center justify-center">
-            <HeroSection />
-            <QuoteSection />
-            <NewsSection
-                carouselApi={carouselApi}
-                setActiveIndex={setActiveIndex}
-                activeIndex={activeIndex}
+        <section className="relative flex w-full items-center justify-between gap-5">
+            <Carousel
                 setApi={setApi}
-            />
-            <MissionSection />
-            <ProfilesSection />
-        </main>
+                className="h-fit w-full"
+                opts={{
+                    loop: true,
+                }}
+                plugins={[
+                    Autoplay({
+                        delay: 4000,
+                    }),
+                ]}
+            >
+                <CarouselContent className="h-[600px]">
+                    {headerItems.map((item, index) => (
+                        <CarouselItem
+                            key={index}
+                          
+                            className={cn("w-full border-b-[44px] border-sky-500")}
+                        >
+                            <CarouselHeaderItemContent key={index} direction={item.direction} title={item.title} description={item.description} textDirection={item.textDirection}/>
+                        </CarouselItem>
+                    ))}
+                </CarouselContent>
+            </Carousel>
+            <div className="space-between absolute bottom-6 left-[50%] flex w-fit translate-x-[-50%] gap-2 drop-shadow-xl">
+                {carouselApi?.scrollSnapList().map((_: any, index: number) => (
+                    <div
+                        key={index}
+                        className={cn(
+                            "h-2 w-2 cursor-pointer rounded-full bg-white",
+                            index === activeIndex && "bg-blue-800",
+                        )}
+                        onClick={() => {
+                            setActiveIndex(index);
+                        }}
+                    />
+                ))}
+            </div>
+        </section>
     );
-}
+};
 
-const HeroSection: React.FC = () => (
-    <section className="flex h-fit w-full flex-col items-center justify-between gap-5 bg-slate-500 bg-[url('/school.jpg')] bg-cover bg-fixed p-5 sm:h-screen md:p-14 lg:flex-row lg:px-24 lg:py-28">
-        <div className="flex h-fit w-full animate-fade-up flex-col items-center justify-between gap-4 rounded-xl bg-white px-5 py-10 text-center shadow-xl animate-duration-500 lg:h-full lg:w-[350px] ">
-            <h3 className="text-2xl">Lorem Ipsum</h3>
-            <h4 className="text-lg">Lorem Ipsum</h4>
-            <Button>Lorem Ipsum</Button>
-            <p className="text-md">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum
-                delectus ducimus hic velit deserunt, soluta autem placeat
-                architecto minima odio nobis inventore, error voluptate
-                corrupti! Saepe veniam veritatis dolorum quidem.
-            </p>
-        </div>
-        <div className="flex h-full w-full animate-fade flex-col rounded-md border-b-4 border-sky-600 bg-white p-2 delay-300 lg:w-auto">
-            <div className="flex-1">
-                <iframe
-                    className="h-full w-full"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2908.3079355977425!2d27.916657411454345!3d43.20303018131007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40a453f471687209%3A0xf1a81062daaa8d89!2z0KfQsNGB0YLQvdCwINGC0YrRgNCz0L7QstGB0LrQsCDQs9C40LzQvdCw0LfQuNGP!5e0!3m2!1sbg!2sbg!4v1703864908152!5m2!1sbg!2sbg"
-                />
-            </div>
-            <div>
-                <h1 className="text-3xl">
-                    Lorem Lorem Lorem Lorem Lorem Lorem
-                </h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            </div>
+const ContactSection: React.FC = () => (
+    <section className="flex w-full flex-col border-y-4 border-black bg-white pb-4">
+        <h3 className="w-full p-3 text-center text-4xl underline  decoration-4 sm:text-left lg:text-6xl">
+            Свържете се с нас
+        </h3>
+        <div className="flex w-full flex-col gap-2 bg-white p-3 sm:flex-row">
+            <iframe
+                className="w-full"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2908.3079355977425!2d27.916657411454345!3d43.20303018131007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40a453f471687209%3A0xf1a81062daaa8d89!2z0KfQsNGB0YLQvdCwINGC0YrRgNCz0L7QstGB0LrQsCDQs9C40LzQvdCw0LfQuNGP!5e0!3m2!1sbg!2sbg!4v1703864908152!5m2!1sbg!2sbg"
+            />
+            <ContactForm />
         </div>
     </section>
 );
 
-const QuoteSection: React.FC = () => (
-    <section className="flex h-[150px] w-full items-center justify-center bg-slate-500 p-3 text-white">
-        <blockquote>
-            <p className="text-2xl font-bold italic">
-                &ldquo;Гимназия Гимназия Гимназия&rdquo;
-            </p>
-            <footer className="text-sm">-Гимназия</footer>
-        </blockquote>
-    </section>
-);
+const NewsSection: React.FC = () => {
+    const [carouselApi, setApi] = useState<CarouselApi | undefined>();
+    const [activeIndex, setActiveIndex] = useState(0);
+    const carouselRef = useRef<HTMLDivElement | null>(null);
+    const isCarouselVisible =  !!useVisibility(carouselRef, {})?.isIntersecting;
 
-const NewsSection: React.FC<{
-    carouselApi: CarouselApi | undefined;
-    setApi: CarouselApi | undefined;
-    setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
-    activeIndex: number;
-}> = ({ carouselApi, setActiveIndex, setApi, activeIndex }) => {
-    const carouselRef = useRef(null);
-    const isCarouselVisible = useVisibility(carouselRef.current!);
+    useEffect(() => {
+        if (carouselApi) {
+            carouselApi.scrollTo(activeIndex);
+        }
+        carouselApi?.on("select", () => {
+            setActiveIndex(carouselApi.selectedScrollSnap());
+        });
+    }, [activeIndex, carouselApi]);
 
     return (
         <section className="flex h-fit w-full flex-col items-center justify-center gap-2 bg-white p-5 sm:min-h-fit sm:max-lg:p-20">
@@ -113,7 +195,7 @@ const NewsSection: React.FC<{
                             key={index}
                             className="p-4 pl-1 md:basis-1/2 lg:basis-1/3"
                         >
-                            <CarouselItemContent key={index} />
+                            <CarouselNewsItemContent key={index} />
                         </CarouselItem>
                     ))}
                 </CarouselContent>
@@ -138,7 +220,7 @@ const NewsSection: React.FC<{
     );
 };
 
-const CarouselItemContent: React.FC = () => (
+const CarouselNewsItemContent: React.FC = () => (
     <div className="h-full min-h-[450px] w-full bg-[url('/school.jpg')] bg-cover">
         <div className="flex h-full w-full flex-col justify-end border-sky-500 bg-opacity-30 bg-gradient-to-t from-black to-transparent to-70% p-4 text-white transition-all hover:border-b-8 hover:to-80% sm:to-50%">
             <p className="text-4xl">Title</p>
@@ -151,53 +233,65 @@ const CarouselItemContent: React.FC = () => (
         </div>
     </div>
 );
+const CarouselHeaderItemContent: React.FC<Header> = ({direction,title,description,textDirection}) => (
+    <div className={cn("h-full w-full bg-[url('/school.jpg')] bg-cover flex justify-center flex-col px-8",direction)}>
+        <div className={cn("flex flex-col justify-center text-white  w-1/2 p-5 rounded-xl h-fit bg-sky-300/50 backdrop-blur-sm ",textDirection)}>
+        <h2 className="text-3xl md:text-6xl">{title}</h2>
+        <h4 className="text-2xl md:text-4xl">{description}</h4>
+        </div>
+    </div>
+);
 
-const MissionSection: React.FC = () => {
-    const missionTitleRef = useRef(null);
-    const missionBoxesRef = useRef(null);
-    const isMissionTitleVisible = useVisibility(missionTitleRef.current!);
-    const isMissionBoxesVisible = useVisibility(missionBoxesRef.current!);
+
+const AboutSection: React.FC = () => {
+    const [progress,setProgress] = useState(0);
+    const sectionBoxRef = useRef<HTMLDivElement | null>(null);
+    const aboutBoxRef=useRef<HTMLDivElement | null>(null);
+    const aboutTitleRef = useRef<HTMLHeadingElement | null>(null);
+    const isAboutTitleVisible = !!useVisibility(aboutTitleRef, {})?.isIntersecting;
+    const isAboutBoxRefVisible = !!useVisibility(aboutBoxRef,{})?.isIntersecting;
+    const isSectionBoxRefFVisible = !!useVisibility(sectionBoxRef,{threshold:0.95})?.isIntersecting;
 
     return (
-        <section className="relative h-fit min-h-[150vh] w-full">
-            <div className="z-3 sticky top-0 flex h-screen w-full justify-center bg-[url('/school.jpg')] bg-cover sm:items-center sm:justify-end md:items-start md:p-10 lg:pr-[7.5rem] lg:pt-[7.5rem]">
+        <Parallax  onProgressChange={(progress) => setProgress(progress)}>
+        <section  className={cn("relative h-fit min-h-[400vh] bg-white transition-colors duration-1000", isSectionBoxRefFVisible&&"bg-slate-600 text-white")}>
+            <div ref={sectionBoxRef} className={cn("z-3 flex flex-col justify-center w-screen sticky top-0 left-0 h-screen bg-transparent",progress>0.5&&"bg-slate-600 text-white")}>
                 <h3
-                    ref={missionTitleRef}
+                    ref={aboutTitleRef}
                     className={cn(
-                        "rounded text-center text-3xl text-white  opacity-0 backdrop-blur-sm sm:text-end sm:text-5xl md:text-7xl lg:text-8xl",
-                        isMissionTitleVisible &&
-                            "animate-fade-left opacity-100",
+                        "text-center text-3xl sm:text-5xl md:text-7xl lg:text-8xl",
+                        isAboutTitleVisible && "animate-fade-down",
                     )}
                 >
-                    Нашата цел
+                    Защо да изберете нас?
                 </h3>
-            </div>
-            <div
-                ref={missionBoxesRef}
-                className={cn(
-                    "z-10 mt-[-100vh] flex h-full w-full flex-col items-start justify-start gap-5 bg-transparent p-3 pb-5 pt-12 md:p-10 lg:p-[7.5rem]",
-                    isMissionBoxesVisible &&
-                        "animate-fade-down opacity-100 sm:animate-fade-right",
-                )}
-            >
-                {Array.from({ length: 10 }).map((_, index) => (
-                    <div
-                        key={index}
-                        className="flex h-fit flex-col items-center justify-around rounded-xl bg-white px-5 text-center sm:w-[300px] md:w-[400px]"
+                {/* <Parallax  startScroll={boxRef.current?.offsetTop!+boxRef.current?.offsetHeight!} endScroll={sectionRef.current?.offsetTop!+sectionRef.current?.offsetHeight!} className="bg-gradient-to-r from-slate-400 to-slate-900" translateX={["25vw","-400vw"]} opacity={[0,100]}> */}
+                   <div className={cn("relative w-fullh-fit flex items-center opacity-0", isSectionBoxRefFVisible&&"animate-fade-up")}>
+                    <div className="aboslute min-h-[400px]"/>
+                    <div ref={aboutBoxRef}
+                        className={cn(
+                            "z-10 absolute flex h-fit w-fit items-center md:gap-[25vw] border-yellow-500 justify-between transform transition-transform ",
+                            // 
+                            (progress>0.3&&progress<0.5)&&"-translate-x-[100vw]",
+                            (progress>0.5&&progress<0.7)&&"-translate-x-[200vw]",
+                            progress>0.7&&"-translate-x-[300vw]",
+                        )}
                     >
-                        <h3 className="text-2xl">Lorem Ipsum</h3>
+                        {aboutReasons.map((item, index) => (
+                            <div
+                                key={index}
+                                className="flex h-fit w-screen md:w-[75vw] flex-col items-center md:translate-x-[12.5vw] justify-around rounded-xl p-8 text-center"
+                            >
+                                <h3 className="text-xl sm:text-2xl md:text-4xl lg:text-6xl">{item.title}</h3>
 
-                        <p className="text-md">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Eum delectus ducimus hic velit deserunt,
-                            soluta autem placeat architecto minima odio nobis
-                            inventore, error voluptate corrupti! Saepe veniam
-                            veritatis dolorum quidem.
-                        </p>
+                                <p className="text-md sm:text-1xl md:text-2xl lg:text-3xl">{item.description}</p>
+                            </div>
+                        ))}
                     </div>
-                ))}
+                    </div>
             </div>
         </section>
+        </Parallax>
     );
 };
 
@@ -205,27 +299,30 @@ const ProfilesSection: React.FC = () => {
     return (
         <section className="flex min-h-[40vh] w-full flex-col items-center justify-center gap-3 bg-slate-600 p-2 sm:p-5">
             <h2 className="text-center text-3xl text-white sm:text-6xl">
-                Профилиращи предмети
+                Специалности
             </h2>
             <div className="flex h-fit w-full flex-wrap items-center justify-center gap-3 px-4 py-3 sm:px-8">
-                {Array.from({ length: 4 }).map((_, index) => (
+                {profiles.map((item, index) => (
                     <div key={index} className="relative h-[250px] w-[300px]">
                         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-lg border bg-white">
-                            <p className="text-lg font-bold">Паралелка</p>
-                            <Contact size={48} />
+                            <p className="text-center text-lg font-bold">
+                                {item.type}
+                            </p>
+                            {item.icon}
                         </div>
                         <div className="absolute inset-0 flex transform flex-col items-center justify-center gap-2 rounded-lg border-2 bg-blue-500 p-4 text-center text-white opacity-0 transition-opacity hover:opacity-100">
-                            <p className="text-2xl font-bold">Title</p>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur
-                                adipisicing elit. Porro soluta rerum nemo. Eaque
-                                tempore harum est doloribus temporibus!
-                            </p>
+                            <p className="text-2xl font-bold">{item.type}</p>
+                            <p>{item.description}</p>
                         </div>
                     </div>
                 ))}
             </div>
-            <p className="flex gap-2">За повече информация се свържете с нас на <span className="text-blue-500 flex underline cursor-pointer"><Phone/> +359 000 000 000</span></p>
+            <p className="flex gap-2">
+                За повече информация се свържете с нас на{" "}
+                <span className="flex cursor-pointer text-blue-500 underline">
+                    <Phone /> +359 000 000 000
+                </span>
+            </p>
         </section>
     );
 };
