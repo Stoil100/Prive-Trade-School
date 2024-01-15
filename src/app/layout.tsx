@@ -28,7 +28,7 @@ export default function RootLayout({
             <head />
             <body
                 className={cn(
-                    "box-border min-h-screen overflow-x-hidden bg-gray-900 font-montserrat antialiased",
+                    "box-border min-h-screen overflow-x-hidden bg-gray-900 font-montserrat antialiased max-w-screen scroll-smooth",
                 )}
             >
                 <TopSocialMedia />

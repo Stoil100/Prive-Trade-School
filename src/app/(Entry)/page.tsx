@@ -9,7 +9,7 @@ import {
     type CarouselApi,
 } from "@/components/ui/carousel";
 import { useEffect, useState, useRef } from "react";
-import { useIntersectionObserver as useVisibility } from 'usehooks-ts'
+import { useIntersectionObserver as useVisibility } from "usehooks-ts";
 import { cn } from "@/lib/utils";
 import { DollarSign, FileSearch, Landmark, Phone } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
@@ -18,11 +18,29 @@ import { Profiles } from "../models/profile";
 import { Reasons } from "../models/reason";
 import { Parallax } from "react-scroll-parallax";
 import { Header, Headers } from "../models/headerItem";
-const headerItems:Headers = [
-    {title:"Качество и Специализация",description:"При нас ще получиш висококачествено образование, съобразено с твоите интереси и способности. Изучавай специални дисциплини, свързани с избраната от теб специалност, които ще те подготвят за успешна кариера.",direction: "items-start",textDirection: "text-left"},
-    {title:"Форми на обучение:",description:"Дневна форма <br/> Самостоятелна форма <br/> Дистанционна (on-line) форма",direction: "items-center",textDirection: "text-center"},
-    {title:"Прием условия: ",description:"интервю с кандидатите и с техните родители (настойници) (лице в лице или онлайн) <br/> изпит по Английски език (за установяване на ниво)",direction: "items-end",textDirection: "text-right"},
-]
+const headerItems: Headers = [
+    {
+        title: "Качество и Специализация",
+        description:
+            "При нас ще получиш висококачествено образование, съобразено с твоите интереси и способности. Изучавай специални дисциплини, свързани с избраната от теб специалност, които ще те подготвят за успешна кариера.",
+        direction: "items-center sm:items-start",
+        textDirection: "text-center sm:text-left",
+    },
+    {
+        title: "Форми на обучение:",
+        description:
+            "Дневна форма \n Самостоятелна форма \n Дистанционна (on-line) форма",
+        direction: "items-center",
+        textDirection: "text-center",
+    },
+    {
+        title: "Прием условия: ",
+        description:
+            "Интервю с кандидатите и с техните родители (настойници) (лице в лице или онлайн) \n изпит по Английски език (за установяване на ниво)",
+        direction: "items-center sm:items-end",
+        textDirection: "text-center sm:text-right",
+    },
+];
 const profiles: Profiles = [
     {
         type: "Данъчен и митнически контрол",
@@ -75,9 +93,9 @@ export default function Home() {
             className="flex min-h-screen w-full flex-col items-center justify-center"
         >
             <HeroSection />
-           
+
             <NewsSection />
-      
+
             <AboutSection />
             <ProfilesSection />
             <ContactSection />
@@ -116,10 +134,17 @@ const HeroSection: React.FC = () => {
                     {headerItems.map((item, index) => (
                         <CarouselItem
                             key={index}
-                          
-                            className={cn("w-full border-b-[44px] border-sky-500")}
+                            className={cn(
+                                "w-full border-b-[44px] border-sky-500",
+                            )}
                         >
-                            <CarouselHeaderItemContent key={index} direction={item.direction} title={item.title} description={item.description} textDirection={item.textDirection}/>
+                            <CarouselHeaderItemContent
+                                key={index}
+                                direction={item.direction}
+                                title={item.title}
+                                description={item.description}
+                                textDirection={item.textDirection}
+                            />
                         </CarouselItem>
                     ))}
                 </CarouselContent>
@@ -161,7 +186,7 @@ const NewsSection: React.FC = () => {
     const [carouselApi, setApi] = useState<CarouselApi | undefined>();
     const [activeIndex, setActiveIndex] = useState(0);
     const carouselRef = useRef<HTMLDivElement | null>(null);
-    const isCarouselVisible =  !!useVisibility(carouselRef, {})?.isIntersecting;
+    const isCarouselVisible = !!useVisibility(carouselRef, {})?.isIntersecting;
 
     useEffect(() => {
         if (carouselApi) {
@@ -233,64 +258,119 @@ const CarouselNewsItemContent: React.FC = () => (
         </div>
     </div>
 );
-const CarouselHeaderItemContent: React.FC<Header> = ({direction,title,description,textDirection}) => (
-    <div className={cn("h-full w-full bg-[url('/school.jpg')] bg-cover flex justify-center flex-col px-8",direction)}>
-        <div className={cn("flex flex-col justify-center text-white  w-1/2 p-5 rounded-xl h-fit bg-sky-300/50 backdrop-blur-sm ",textDirection)}>
-        <h2 className="text-3xl md:text-6xl">{title}</h2>
-        <h4 className="text-2xl md:text-4xl">{description}</h4>
+const CarouselHeaderItemContent: React.FC<Header> = ({
+    direction,
+    title,
+    description,
+    textDirection,
+}) => (
+    <div
+        className={cn(
+            "flex h-full w-full flex-col justify-center bg-[url('/school.jpg')] bg-cover p-8",
+            direction,
+        )}
+    >
+        <div
+            className={cn(
+                "flex h-full w-full flex-col justify-center bg-blue-300/50 p-5 text-white backdrop-blur-sm sm:w-1/2 ",
+                textDirection,
+            )}
+        >
+            <h2 className="text-3xl md:text-6xl border-b-[5px] pb-2">{title}</h2>
+            <h4 className="text-2xl md:text-4xl">{description}</h4>
         </div>
     </div>
 );
 
-
 const AboutSection: React.FC = () => {
-    const [progress,setProgress] = useState(0);
+    const [progress, setProgress] = useState(0);
     const sectionBoxRef = useRef<HTMLDivElement | null>(null);
-    const aboutBoxRef=useRef<HTMLDivElement | null>(null);
+    const aboutBoxRef = useRef<HTMLDivElement | null>(null);
     const aboutTitleRef = useRef<HTMLHeadingElement | null>(null);
-    const isAboutTitleVisible = !!useVisibility(aboutTitleRef, {})?.isIntersecting;
-    const isAboutBoxRefVisible = !!useVisibility(aboutBoxRef,{})?.isIntersecting;
-    const isSectionBoxRefFVisible = !!useVisibility(sectionBoxRef,{threshold:0.95})?.isIntersecting;
+    const isAboutTitleVisible = !!useVisibility(aboutTitleRef, {})
+        ?.isIntersecting;
+    const isSectionBoxRefFVisible = !!useVisibility(sectionBoxRef, {
+        threshold: 0.95,
+    })?.isIntersecting;
 
+    console.log(progress)
     return (
-        <Parallax  onProgressChange={(progress) => setProgress(progress)}>
-        <section  className={cn("relative h-fit min-h-[400vh] bg-white transition-colors duration-1000", isSectionBoxRefFVisible&&"bg-slate-600 text-white")}>
-            <div ref={sectionBoxRef} className={cn("z-3 flex flex-col justify-center w-screen sticky top-0 left-0 h-screen bg-transparent",progress>0.5&&"bg-slate-600 text-white")}>
-                <h3
-                    ref={aboutTitleRef}
+        <Parallax onProgressChange={(progress) => setProgress(progress)}>
+            <section
+                className={cn(
+                    
+                    "max-w-screen relative h-fit min-h-[400vh] w-screen bg-white transition-colors duration-1000 bg-gradient-to-r",
+                    isSectionBoxRefFVisible && "bg-slate-600 text-white mix-blend-difference", 
+                    progress>0&&progress<0.3&&isSectionBoxRefFVisible&&
+                    "bg-sky-600",
+                    progress > 0.3 &&
+                    progress < 0.5 &&
+                    "bg-blue-600",
+                progress > 0.5 &&
+                    progress < 0.7 &&
+                    "bg-indigo-700",
+                progress > 0.7 && "bg-slate-600",
+            )}
+                
+            >
+                     <div className="h-full w-1/4 bg-white absolute -skew-x-[30deg]  mix-blend-overlay" />
+                <div
+                    ref={sectionBoxRef}
                     className={cn(
-                        "text-center text-3xl sm:text-5xl md:text-7xl lg:text-8xl",
-                        isAboutTitleVisible && "animate-fade-down",
+                        "z-3 sticky top-0 flex h-screen flex-col justify-center bg-transparent",
+                        progress > 0.5 && "text-white",
                     )}
                 >
-                    Защо да изберете нас?
-                </h3>
-                {/* <Parallax  startScroll={boxRef.current?.offsetTop!+boxRef.current?.offsetHeight!} endScroll={sectionRef.current?.offsetTop!+sectionRef.current?.offsetHeight!} className="bg-gradient-to-r from-slate-400 to-slate-900" translateX={["25vw","-400vw"]} opacity={[0,100]}> */}
-                   <div className={cn("relative w-fullh-fit flex items-center opacity-0", isSectionBoxRefFVisible&&"animate-fade-up")}>
-                    <div className="aboslute min-h-[400px]"/>
-                    <div ref={aboutBoxRef}
+               
+                    <h3
+                        ref={aboutTitleRef}
                         className={cn(
-                            "z-10 absolute flex h-fit w-fit items-center md:gap-[25vw] border-yellow-500 justify-between transform transition-transform ",
-                            // 
-                            (progress>0.3&&progress<0.5)&&"-translate-x-[100vw]",
-                            (progress>0.5&&progress<0.7)&&"-translate-x-[200vw]",
-                            progress>0.7&&"-translate-x-[300vw]",
+                            "text-center text-3xl sm:text-5xl md:text-7xl lg:text-8xl",
+                            isAboutTitleVisible && "animate-fade-down",
                         )}
                     >
-                        {aboutReasons.map((item, index) => (
-                            <div
-                                key={index}
-                                className="flex h-fit w-screen md:w-[75vw] flex-col items-center md:translate-x-[12.5vw] justify-around rounded-xl p-8 text-center"
-                            >
-                                <h3 className="text-xl sm:text-2xl md:text-4xl lg:text-6xl">{item.title}</h3>
+                        Защо да изберете нас?
+                    </h3>
+                    <div
+                        className={cn(
+                            "w-full h-fit relative flex items-center  transition-transform duration-1000 scale-90 ",
+                            isSectionBoxRefFVisible && "scale-100",
+                        )}
+                    >
+                        <div className="aboslute min-h-[400px]" />
+                        <div
+                            ref={aboutBoxRef}
+                            className={cn(
+                                "absolute ease-in z-10 flex h-fit w-fit transform items-center justify-between transition-transform md:gap-[25vw] ",
 
-                                <p className="text-md sm:text-1xl md:text-2xl lg:text-3xl">{item.description}</p>
-                            </div>
-                        ))}
+                                progress > 0.3 &&
+                                    progress < 0.5 &&
+                                    "-translate-x-[100vw]",
+                                progress > 0.5 &&
+                                    progress < 0.7 &&
+                                    "-translate-x-[200vw]",
+                                progress > 0.7 && "-translate-x-[300vw]",
+                            )}
+                        >
+                            {aboutReasons.map((item, index) => (
+                                <div
+                                    key={index}
+                                    className={cn("flex z-11 h-fit w-screen flex-col items-center justify-around p-8 text-center  md:w-[75vw] md:translate-x-[12.5vw] drop-shadow-[-35px_-35px_rgba(0,0,0,0.25)] transition-all duration-500 text-white  bg-slate-900", isSectionBoxRefFVisible&&"bg-white  text-slate-800")}
+                                >
+                                    <h3 className="text-xl sm:text-2xl md:text-4xl lg:text-6xl">
+                                        {item.title}
+                                    </h3>
+
+                                    <p className="text-md sm:text-1xl md:text-2xl lg:text-3xl">
+                                        {item.description}
+                                    </p>
+                                </div>
+                            ))}
+                         
+                        </div>
                     </div>
-                    </div>
-            </div>
-        </section>
+                </div>
+            </section>
         </Parallax>
     );
 };
