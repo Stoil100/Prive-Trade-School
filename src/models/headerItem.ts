@@ -3,6 +3,7 @@ type Header = {
     description: React.ReactNode;
     direction: string;
     textDirection: string;
+    background:string;
 };
 type Headers = Header[];
 
