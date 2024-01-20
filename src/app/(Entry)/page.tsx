@@ -166,18 +166,18 @@ const ContactSection: React.FC = () => (
         {/* <h3 className="w-full p-3 text-center text-4xl underline  decoration-4 sm:text-left lg:text-6xl">
             Свържете се с нас
         </h3> */}
-         <div className="w-full h-full flex justify-center bg-[#1d2c4d]">
+         <div className="w-full h-full flex justify-center bg-gray-900">
             <div className="h-full w-fit relative
            
              before:content-['']
              before:absolute
              before:w-full
              before:h-full
-             before:bg-[linear-gradient(90deg,transparent_0_70%,#1d2c4d_90%_100%)]
+             before:bg-[linear-gradient(90deg,transparent_0_70%,#111827_90%_100%)]
              before:right-0 
              before:top-0
         
-            after:content-[''] after:absolute after:w-full after:h-full after:bg-[linear-gradient(270deg,transparent_0_70%,#1d2c4d_90%_100%)] after:left-0 after:top-0
+            after:content-[''] after:absolute after:w-full after:h-full after:bg-[linear-gradient(270deg,transparent_0_70%,#111827_90%_100%)] after:left-0 after:top-0
     ">
             <img src={"/map.png"} className="h-full w-auto border-yellow-500 border-y-4"/>
             </div>
@@ -393,7 +393,7 @@ const AboutSection: React.FC = () => {
 
 const ProfilesSection: React.FC = () => {
     return (
-        <section className="flex min-h-[40vh] w-full flex-col items-center justify-center gap-3 bg-gradient-to-b from-slate-600  to-[#1d2c4d] p-2 sm:p-5">
+        <section className="flex min-h-[40vh] w-full flex-col items-center justify-center gap-3 bg-gradient-to-b from-slate-600  to-[#111827] p-2 sm:p-5">
             <h2 className="text-center text-3xl text-white sm:text-6xl">
                 Специалности
             </h2>
