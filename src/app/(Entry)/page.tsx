@@ -14,10 +14,10 @@ import { cn } from "@/lib/utils";
 import { DollarSign, FileSearch, Landmark, Phone } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
 import ContactForm from "@/components/ContactForm";
-import { Profiles } from "../models/profile";
-import { Reasons } from "../models/reason";
+import { Profiles } from "../../models/profile";
+import { Reasons } from "../../models/reason";
 import { Parallax } from "react-scroll-parallax";
-import { Header, Headers } from "../models/headerItem";
+import { Header, Headers } from "../../models/headerItem";
 const headerItems: Headers = [
     {
         title: "Качество и Специализация",
@@ -25,6 +25,7 @@ const headerItems: Headers = [
             "При нас ще получиш висококачествено образование, съобразено с твоите интереси и способности. Изучавай специални дисциплини, свързани с избраната от теб специалност, които ще те подготвят за успешна кариера.",
         direction: "items-center sm:items-start",
         textDirection: "text-center sm:text-left",
+        background: "bg-[url('/specialization.jpg')]",
     },
     {
         title: "Форми на обучение:",
@@ -32,6 +33,7 @@ const headerItems: Headers = [
             "Дневна форма \n Самостоятелна форма \n Дистанционна (on-line) форма",
         direction: "items-center",
         textDirection: "text-center",
+        background: "bg-[url('/onlineSchool.jpg')] ",
     },
     {
         title: "Прием условия: ",
@@ -39,6 +41,7 @@ const headerItems: Headers = [
             "Интервю с кандидатите и с техните родители (настойници) (лице в лице или онлайн) \n изпит по Английски език (за установяване на ниво)",
         direction: "items-center sm:items-end",
         textDirection: "text-center sm:text-right",
+        background: "bg-[url('/admission.jpg')] bg-center",
     },
 ];
 const profiles: Profiles = [
@@ -82,20 +85,10 @@ const aboutReasons: Reasons = [
 ];
 
 export default function Home() {
-    const pageRef = useRef(null);
-    const [isPageReady, setIsPageReady] = useState(false);
-    useEffect(() => {
-        pageRef.current && setIsPageReady(true);
-    }, [pageRef]);
     return (
-        <main
-            ref={pageRef}
-            className="flex min-h-screen w-full flex-col items-center justify-center"
-        >
+        <main className="flex min-h-screen w-full flex-col items-center justify-center">
             <HeroSection />
-
             <NewsSection />
-
             <AboutSection />
             <ProfilesSection />
             <ContactSection />
@@ -126,11 +119,11 @@ const HeroSection: React.FC = () => {
                 }}
                 plugins={[
                     Autoplay({
-                        delay: 4000,
+                        delay: 3000,
                     }),
                 ]}
             >
-                <CarouselContent className="h-[600px]">
+                <CarouselContent className="h-[660px]">
                     {headerItems.map((item, index) => (
                         <CarouselItem
                             key={index}
@@ -144,6 +137,7 @@ const HeroSection: React.FC = () => {
                                 title={item.title}
                                 description={item.description}
                                 textDirection={item.textDirection}
+                                background={item.background}
                             />
                         </CarouselItem>
                     ))}
@@ -168,17 +162,33 @@ const HeroSection: React.FC = () => {
 };
 
 const ContactSection: React.FC = () => (
-    <section className="flex w-full flex-col border-y-4 border-black bg-white pb-4">
-        <h3 className="w-full p-3 text-center text-4xl underline  decoration-4 sm:text-left lg:text-6xl">
+    <section className="w-full h-[400px]">
+        {/* <h3 className="w-full p-3 text-center text-4xl underline  decoration-4 sm:text-left lg:text-6xl">
             Свържете се с нас
-        </h3>
-        <div className="flex w-full flex-col gap-2 bg-white p-3 sm:flex-row">
-            <iframe
-                className="w-full"
+        </h3> */}
+         <div className="w-full h-full flex justify-center bg-[#1d2c4d]">
+            <div className="h-full w-fit relative
+           
+             before:content-['']
+             before:absolute
+             before:w-full
+             before:h-full
+             before:bg-[linear-gradient(90deg,transparent_0_70%,#1d2c4d_90%_100%)]
+             before:right-0 
+             before:top-0
+        
+            after:content-[''] after:absolute after:w-full after:h-full after:bg-[linear-gradient(270deg,transparent_0_70%,#1d2c4d_90%_100%)] after:left-0 after:top-0
+    ">
+            <img src={"/map.png"} className="h-full w-auto border-yellow-500 border-y-4"/>
+            </div>
+            
+         </div>
+        {/* <div className="flex w-full flex-col gap-2 bg-white sm:flex-row h-full">
+           
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2908.3079355977425!2d27.916657411454345!3d43.20303018131007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40a453f471687209%3A0xf1a81062daaa8d89!2z0KfQsNGB0YLQvdCwINGC0YrRgNCz0L7QstGB0LrQsCDQs9C40LzQvdCw0LfQuNGP!5e0!3m2!1sbg!2sbg!4v1703864908152!5m2!1sbg!2sbg"
-            />
+            
             <ContactForm />
-        </div>
+        </div> */}
     </section>
 );
 
@@ -213,6 +223,11 @@ const NewsSection: React.FC = () => {
                 opts={{
                     loop: true,
                 }}
+                plugins={[
+                    Autoplay({
+                        delay: 4000,
+                    }),
+                ]}
             >
                 <CarouselContent className="-ml-1">
                     {Array.from({ length: 5 }).map((_, index) => (
@@ -263,20 +278,24 @@ const CarouselHeaderItemContent: React.FC<Header> = ({
     title,
     description,
     textDirection,
+    background,
 }) => (
     <div
         className={cn(
-            "flex h-full w-full flex-col justify-center bg-[url('/school.jpg')] bg-cover p-8",
+            "flex h-full w-full flex-col justify-center bg-cover p-8",
             direction,
+            background,
         )}
     >
         <div
             className={cn(
-                "flex h-full w-full flex-col justify-center bg-blue-300/50 p-5 text-white backdrop-blur-sm sm:w-1/2 ",
+                "flex h-full w-full flex-col justify-center border-8 border-double bg-sky-500/30 p-5 text-white backdrop-blur-sm sm:w-1/2 ",
                 textDirection,
             )}
         >
-            <h2 className="text-3xl md:text-6xl border-b-[5px] pb-2">{title}</h2>
+            <h2 className="border-b-[5px] pb-2 text-3xl md:text-6xl">
+                {title}
+            </h2>
             <h4 className="text-2xl md:text-4xl">{description}</h4>
         </div>
     </div>
@@ -292,28 +311,23 @@ const AboutSection: React.FC = () => {
     const isSectionBoxRefFVisible = !!useVisibility(sectionBoxRef, {
         threshold: 0.95,
     })?.isIntersecting;
-
-    console.log(progress)
     return (
         <Parallax onProgressChange={(progress) => setProgress(progress)}>
             <section
                 className={cn(
-                    
-                    "max-w-screen relative h-fit min-h-[400vh] w-screen bg-white transition-colors duration-1000 bg-gradient-to-r",
-                    isSectionBoxRefFVisible && "bg-slate-600 text-white mix-blend-difference", 
-                    progress>0&&progress<0.3&&isSectionBoxRefFVisible&&
-                    "bg-sky-600",
-                    progress > 0.3 &&
-                    progress < 0.5 &&
-                    "bg-blue-600",
-                progress > 0.5 &&
-                    progress < 0.7 &&
-                    "bg-indigo-700",
-                progress > 0.7 && "bg-slate-600",
-            )}
-                
+                    "max-w-screen relative h-fit min-h-[400vh] w-screen bg-white bg-gradient-to-r transition-colors duration-1000",
+                    isSectionBoxRefFVisible &&
+                        "bg-slate-600 text-white mix-blend-difference",
+                    progress > 0 &&
+                        progress < 0.3 &&
+                        isSectionBoxRefFVisible &&
+                        "bg-sky-600",
+                    progress > 0.3 && progress < 0.5 && "bg-blue-600",
+                    progress > 0.5 && progress < 0.7 && "bg-indigo-700",
+                    progress > 0.7 && "bg-slate-600",
+                )}
             >
-                     <div className="h-full w-1/4 bg-white absolute -skew-x-[30deg]  mix-blend-overlay" />
+                <div className="absolute h-full w-1/4 -skew-x-[30deg] bg-white  mix-blend-overlay" />
                 <div
                     ref={sectionBoxRef}
                     className={cn(
@@ -321,11 +335,10 @@ const AboutSection: React.FC = () => {
                         progress > 0.5 && "text-white",
                     )}
                 >
-               
                     <h3
                         ref={aboutTitleRef}
                         className={cn(
-                            "text-center text-3xl sm:text-5xl md:text-7xl lg:text-8xl",
+                            "text-center text-3xl shadow-black drop-shadow-xl sm:text-5xl md:text-7xl lg:text-8xl",
                             isAboutTitleVisible && "animate-fade-down",
                         )}
                     >
@@ -333,7 +346,7 @@ const AboutSection: React.FC = () => {
                     </h3>
                     <div
                         className={cn(
-                            "w-full h-fit relative flex items-center  transition-transform duration-1000 scale-90 ",
+                            "relative flex h-fit w-full scale-90  items-center transition-transform duration-1000 ",
                             isSectionBoxRefFVisible && "scale-100",
                         )}
                     >
@@ -341,7 +354,7 @@ const AboutSection: React.FC = () => {
                         <div
                             ref={aboutBoxRef}
                             className={cn(
-                                "absolute ease-in z-10 flex h-fit w-fit transform items-center justify-between transition-transform md:gap-[25vw] ",
+                                "absolute z-10 flex h-fit w-fit transform items-center justify-between transition-transform ease-in md:gap-[25vw] ",
 
                                 progress > 0.3 &&
                                     progress < 0.5 &&
@@ -355,7 +368,11 @@ const AboutSection: React.FC = () => {
                             {aboutReasons.map((item, index) => (
                                 <div
                                     key={index}
-                                    className={cn("flex z-11 h-fit w-screen flex-col items-center justify-around p-8 text-center  md:w-[75vw] md:translate-x-[12.5vw] drop-shadow-[-35px_-35px_rgba(0,0,0,0.25)] transition-all duration-500 text-white  bg-slate-900", isSectionBoxRefFVisible&&"bg-white  text-slate-800")}
+                                    className={cn(
+                                        "z-11 flex h-fit w-screen flex-col items-center justify-around bg-slate-900 p-8  text-center text-white drop-shadow-[-35px_-35px_rgba(0,0,0,0.25)] transition-all duration-500 md:w-[75vw]  md:translate-x-[12.5vw]",
+                                        isSectionBoxRefFVisible &&
+                                            "bg-white  text-slate-800",
+                                    )}
                                 >
                                     <h3 className="text-xl sm:text-2xl md:text-4xl lg:text-6xl">
                                         {item.title}
@@ -366,7 +383,6 @@ const AboutSection: React.FC = () => {
                                     </p>
                                 </div>
                             ))}
-                         
                         </div>
                     </div>
                 </div>
@@ -377,29 +393,29 @@ const AboutSection: React.FC = () => {
 
 const ProfilesSection: React.FC = () => {
     return (
-        <section className="flex min-h-[40vh] w-full flex-col items-center justify-center gap-3 bg-slate-600 p-2 sm:p-5">
+        <section className="flex min-h-[40vh] w-full flex-col items-center justify-center gap-3 bg-gradient-to-b from-slate-600  to-[#1d2c4d] p-2 sm:p-5">
             <h2 className="text-center text-3xl text-white sm:text-6xl">
                 Специалности
             </h2>
-            <div className="flex h-fit w-full flex-wrap items-center justify-center gap-3 px-4 py-3 sm:px-8">
+            <div className="flex h-fit w-full flex-wrap items-center  justify-center gap-10 px-4 py-3 sm:px-8">
                 {profiles.map((item, index) => (
-                    <div key={index} className="relative h-[250px] w-[300px]">
-                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-lg border bg-white">
+                    <div key={index} className="relative h-[250px] w-[300px] drop-shadow-[15px_15px_rgba(0,0,0,0.25)]">
+                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-white">
                             <p className="text-center text-lg font-bold">
                                 {item.type}
                             </p>
                             {item.icon}
                         </div>
-                        <div className="absolute inset-0 flex transform flex-col items-center justify-center gap-2 rounded-lg border-2 bg-blue-500 p-4 text-center text-white opacity-0 transition-opacity hover:opacity-100">
+                        <div className="absolute inset-0 flex transform flex-col items-center justify-center gap-2  bg-blue-700 p-4 text-center text-white opacity-0 transition-opacity hover:opacity-100">
                             <p className="text-2xl font-bold">{item.type}</p>
                             <p>{item.description}</p>
                         </div>
                     </div>
                 ))}
             </div>
-            <p className="flex gap-2">
-                За повече информация се свържете с нас на{" "}
-                <span className="flex cursor-pointer text-blue-500 underline">
+            <p className="flex gap-2 text-gray-400">
+                За повече информация се свържете с нас на
+                <span className="flex cursor-pointer text-blue-500 underline gap-1">
                     <Phone /> +359 000 000 000
                 </span>
             </p>

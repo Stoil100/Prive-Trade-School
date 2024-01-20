@@ -24,11 +24,11 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en" suppressHydrationWarning className="scroll-smooth">
+        <html lang="en" suppressHydrationWarning>
             <head />
             <body
                 className={cn(
-                    "box-border min-h-screen overflow-x-hidden bg-gray-900 font-montserrat antialiased max-w-screen scroll-smooth",
+                    "min-h-screen bg-gray-900 font-montserrat antialiased !max-w-full !w-screen scroll-smooth !overflow-x-hidden",
                 )}
             >
                 <TopSocialMedia />
