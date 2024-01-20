@@ -91,7 +91,7 @@ export default function Navigation() {
                     </div>
                 </SheetContent>
             </Sheet>
-            <div className="hidden w-full justify-end md:flex">
+            <div className="hidden w-full justify-end md:!flex">
                 <Menubar className="border-none bg-blue-700">
                     <MenubarMenu>
                         <MenubarMenu>
