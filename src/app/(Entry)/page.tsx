@@ -366,7 +366,9 @@ const AboutSection: React.FC = () => {
                     >
                         Защо да изберете нас?
                     </h3>
-                    <Carousel setApi={setApi}>
+                    <Carousel setApi={setApi} opts={{
+                    watchDrag: false,
+                }}>
                         <CarouselContent className="h-[500px]">
                             {aboutReasons.map((item, index) => (
                                 <CarouselItem
