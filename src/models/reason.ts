@@ -1,6 +1,7 @@
 type Reason = {
     title: string;
     description: string;
+    className?: string;
 };
 type Reasons = Reason[];
 

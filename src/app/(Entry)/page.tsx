@@ -15,7 +15,7 @@ import { DollarSign, FileSearch, Landmark, Phone } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
 import ContactForm from "@/components/ContactForm";
 import { Profiles } from "../../models/profile";
-import { Reasons } from "../../models/reason";
+import { Reason, Reasons } from "../../models/reason";
 import { Parallax } from "react-scroll-parallax";
 import { Header, Headers } from "../../models/headerItem";
 const headerItems: Headers = [
@@ -119,7 +119,7 @@ const HeroSection: React.FC = () => {
                 }}
                 plugins={[
                     Autoplay({
-                        delay: 3000,
+                        delay: 10000,
                     }),
                 ]}
             >
@@ -162,27 +162,31 @@ const HeroSection: React.FC = () => {
 };
 
 const ContactSection: React.FC = () => (
-    <section className="w-full h-[400px]">
+    <section className="h-[400px] w-full">
         {/* <h3 className="w-full p-3 text-center text-4xl underline  decoration-4 sm:text-left lg:text-6xl">
             Свържете се с нас
         </h3> */}
-         <div className="w-full h-full flex justify-center bg-gray-900">
-            <div className="h-full w-fit relative
+        <div className="flex h-full w-full justify-center bg-gray-900">
+            <div
+                className="relative h-full w-fit
            
-             before:content-['']
              before:absolute
-             before:w-full
-             before:h-full
-             before:bg-[linear-gradient(90deg,transparent_0_70%,#111827_90%_100%)]
-             before:right-0 
+             before:right-0
              before:top-0
+             before:h-full
+             before:w-full
+             before:bg-[linear-gradient(90deg,transparent_0_90%,#111827_100%)] 
+             before:content-['']
         
-            after:content-[''] after:absolute after:w-full after:h-full after:bg-[linear-gradient(270deg,transparent_0_70%,#111827_90%_100%)] after:left-0 after:top-0
-    ">
-            <img src={"/map.png"} className="h-full w-auto border-yellow-500 border-y-4"/>
+            after:absolute after:left-0 after:top-0 after:h-full after:w-full after:bg-[linear-gradient(270deg,transparent_0_90%,#111827_100%)] after:content-['']
+    "
+            >
+                <img
+                    src={"/map.png"}
+                    className="h-full w-auto border-y-4 border-yellow-500"
+                />
             </div>
-            
-         </div>
+        </div>
         {/* <div className="flex w-full flex-col gap-2 bg-white sm:flex-row h-full">
            
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2908.3079355977425!2d27.916657411454345!3d43.20303018131007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40a453f471687209%3A0xf1a81062daaa8d89!2z0KfQsNGB0YLQvdCwINGC0YrRgNCz0L7QstGB0LrQsCDQs9C40LzQvdCw0LfQuNGP!5e0!3m2!1sbg!2sbg!4v1703864908152!5m2!1sbg!2sbg"
@@ -300,17 +304,35 @@ const CarouselHeaderItemContent: React.FC<Header> = ({
         </div>
     </div>
 );
+const CarouselAboutItemContent: React.FC<Reason> = ({
+    title,
+    description,
+    className,
+}) => (
+    <div className={className}>
+        <h3 className="text-xl sm:text-2xl md:text-4xl lg:text-6xl">{title}</h3>
 
+        <p className="text-md sm:text-1xl md:text-2xl lg:text-3xl">
+            {description}
+        </p>
+    </div>
+);
 const AboutSection: React.FC = () => {
     const [progress, setProgress] = useState(0);
     const sectionBoxRef = useRef<HTMLDivElement | null>(null);
-    const aboutBoxRef = useRef<HTMLDivElement | null>(null);
     const aboutTitleRef = useRef<HTMLHeadingElement | null>(null);
     const isAboutTitleVisible = !!useVisibility(aboutTitleRef, {})
         ?.isIntersecting;
     const isSectionBoxRefFVisible = !!useVisibility(sectionBoxRef, {
         threshold: 0.95,
     })?.isIntersecting;
+    const [carouselApi, setApi] = useState<CarouselApi>();
+
+    useEffect(() => {
+        if (carouselApi) {
+            carouselApi.scrollTo(Math.floor(progress * 4));
+        }
+    }, [progress]);
     return (
         <Parallax onProgressChange={(progress) => setProgress(progress)}>
             <section
@@ -319,15 +341,15 @@ const AboutSection: React.FC = () => {
                     isSectionBoxRefFVisible &&
                         "bg-slate-600 text-white mix-blend-difference",
                     progress > 0 &&
-                        progress < 0.3 &&
+                        progress < 0.25 &&
                         isSectionBoxRefFVisible &&
                         "bg-sky-600",
-                    progress > 0.3 && progress < 0.5 && "bg-blue-600",
-                    progress > 0.5 && progress < 0.7 && "bg-indigo-700",
-                    progress > 0.7 && "bg-slate-600",
+                    progress > 0.25 && progress < 0.5 && "bg-blue-600",
+                    progress > 0.5 && progress < 0.75 && "bg-indigo-700",
+                    progress > 0.75 && "bg-slate-600",
                 )}
             >
-                <div className="absolute h-full w-1/4 -skew-x-[30deg] bg-white  mix-blend-overlay" />
+                <div className="absolute h-full w-1/4  -skew-x-[5deg] bg-white mix-blend-overlay sm:-skew-x-[7deg] md:-skew-x-[10deg] lg:-skew-x-[15deg]  2xl:-skew-x-[20deg]" />
                 <div
                     ref={sectionBoxRef}
                     className={cn(
@@ -344,47 +366,29 @@ const AboutSection: React.FC = () => {
                     >
                         Защо да изберете нас?
                     </h3>
-                    <div
-                        className={cn(
-                            "relative flex h-fit w-full scale-90  items-center transition-transform duration-1000 ",
-                            isSectionBoxRefFVisible && "scale-100",
-                        )}
-                    >
-                        <div className="aboslute min-h-[400px]" />
-                        <div
-                            ref={aboutBoxRef}
-                            className={cn(
-                                "absolute z-10 flex h-fit w-fit transform items-center justify-between transition-transform ease-in md:gap-[25vw] ",
-
-                                progress > 0.3 &&
-                                    progress < 0.5 &&
-                                    "-translate-x-[100vw]",
-                                progress > 0.5 &&
-                                    progress < 0.7 &&
-                                    "-translate-x-[200vw]",
-                                progress > 0.7 && "-translate-x-[300vw]",
-                            )}
-                        >
+                    <Carousel setApi={setApi}>
+                        <CarouselContent className="h-[500px]">
                             {aboutReasons.map((item, index) => (
-                                <div
+                                <CarouselItem
                                     key={index}
                                     className={cn(
-                                        "z-11 flex h-fit w-screen flex-col items-center justify-around bg-slate-900 p-8  text-center text-white drop-shadow-[-35px_-35px_rgba(0,0,0,0.25)] transition-all duration-500 md:w-[75vw]  md:translate-x-[12.5vw]",
-                                        isSectionBoxRefFVisible &&
-                                            "bg-white  text-slate-800",
+                                        "flex scale-90 items-center justify-center transition-transform duration-1000",
+                                        isSectionBoxRefFVisible && "scale-100",
                                     )}
                                 >
-                                    <h3 className="text-xl sm:text-2xl md:text-4xl lg:text-6xl">
-                                        {item.title}
-                                    </h3>
-
-                                    <p className="text-md sm:text-1xl md:text-2xl lg:text-3xl">
-                                        {item.description}
-                                    </p>
-                                </div>
+                                    <CarouselAboutItemContent
+                                        title={item.title}
+                                        description={item.description}
+                                        className={cn(
+                                            "flex w-3/4 flex-col justify-center bg-slate-900 p-8 text-center text-white drop-shadow-[-35px_-35px_rgba(0,0,0,0.25)] transition-colors duration-500",
+                                            isSectionBoxRefFVisible &&
+                                                "bg-white  text-slate-800",
+                                        )}
+                                    />
+                                </CarouselItem>
                             ))}
-                        </div>
-                    </div>
+                        </CarouselContent>
+                    </Carousel>
                 </div>
             </section>
         </Parallax>
@@ -399,7 +403,10 @@ const ProfilesSection: React.FC = () => {
             </h2>
             <div className="flex h-fit w-full flex-wrap items-center  justify-center gap-10 px-4 py-3 sm:px-8">
                 {profiles.map((item, index) => (
-                    <div key={index} className="relative h-[250px] w-[300px] drop-shadow-[15px_15px_rgba(0,0,0,0.25)]">
+                    <div
+                        key={index}
+                        className="relative h-[250px] w-[300px] drop-shadow-[15px_15px_rgba(0,0,0,0.25)]"
+                    >
                         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-white">
                             <p className="text-center text-lg font-bold">
                                 {item.type}
@@ -415,7 +422,7 @@ const ProfilesSection: React.FC = () => {
             </div>
             <p className="flex gap-2 text-gray-400">
                 За повече информация се свържете с нас на
-                <span className="flex cursor-pointer text-blue-500 underline gap-1">
+                <span className="flex cursor-pointer gap-1 text-blue-500 underline">
                     <Phone /> +359 000 000 000
                 </span>
             </p>
