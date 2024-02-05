@@ -18,22 +18,23 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Parallax } from "react-scroll-parallax";
 import { useIntersectionObserver as useVisibility } from "usehooks-ts";
-import { useAuth } from "../components/Providers";
 import { Header, Headers } from "../models/headerItem";
 import { Profiles } from "../models/profile";
 import { Reason, Reasons } from "../models/reason";
+import { Element } from "react-scroll";
+import Link from "next/link";
 
 const headerItems: Headers = [
     {
-        link:"/apply",
+        link: "/apply",
         background: "bg-[url('/applianceT.png')]",
     },
     {
-        link:"/apply",
+        link: "/apply",
         background: "bg-[url('/appliance.png')]",
     },
     {
-        link:"/apply",
+        link: "/apply",
         background: "bg-[url('/appliance.png')]",
     },
 ];
@@ -56,24 +57,18 @@ const profiles: Profiles = [
 ];
 const aboutReasons: Reasons = [
     {
-        title: "Международни Възможности:",
-        description:
-            "Отворени сме за записвания от цяла Европа - разстоянието не е препятствие! Без значение къде се намираш в Европа, ти имаш възможността да се присъединиш към нас. ",
+        title: "Глобални възможности:",
+        description: `В ЧТГ ${"'"}Конто Трейд${"'"} не само ще разширите своя хоризонт , но и ще овладеете чужди езици като английски, немски, руски, италиански или испански на високо ниво.`,
     },
     {
-        title: "",
+        title: "Индивидуален подход към обучението:",
         description:
-            "Освен богатство от специализирани и икономически и общообразователни дисциплини, ти ще се впуснеш и в засилено изучаване на чужд език - Английски, Немски или Испански. Готви се за стажове в чужбина и международни проекти, като програма Еразмус +.        ",
+            "Нашата цел е да подкрепим всеки ученик в неговото личностно развитие, като му предоставим необходимите инструменти и внимание за постигане на успех в предприемачеството, бизнеса и най вече живота",
     },
     {
-        title: "Персонален Подход:",
+        title: "Подготовка за бизнес успех:",
         description:
-            "Вярваме, че всеки ученик е уникален. Разчитай на индивидуален подход, подкрепа и възможност да напредваш в собствени темпове.",
-    },
-    {
-        title: "Подготовка за Бизнес Успех:",
-        description:
-            "Ние не само ти предоставяме знания, но и условия за умения, научаваме те да ги използваш практически. Обочаваме те да стартираш свой собствен бизнес след завършване на гимназията.",
+            "Нашата програма е създадена така, че да осигури не само теоретични знания, но и практически умения, които са основополагащи за стартиране и управление на успешен бизнес. Ние насърчаваме предприемаческия дух и предлагаме знанията, необходими за реализацията на собствени бизнес идеи след завършване на гимназията.",
     },
 ];
 
@@ -81,7 +76,9 @@ export default function Home() {
     return (
         <main className="flex min-h-screen w-full flex-col items-center justify-center">
             <HeroSection />
-            <NewsSection />
+            <Element name="news" className="w-full">
+                <NewsSection />
+            </Element>
             <AboutSection />
             <ProfilesSection />
             <ContactSection />
@@ -152,13 +149,14 @@ const HeroSection: React.FC = () => {
 };
 
 const ContactSection: React.FC = () => (
-    <section className="h-[400px] w-full">
+    <section className="h-fit w-full">
         {/* <h3 className="w-full p-3 text-center text-4xl underline  decoration-4 sm:text-left lg:text-6xl">
             Свържете се с нас
         </h3> */}
-        <div className="flex h-full w-full justify-center bg-gray-900">
-            <div
-                className="relative h-full w-fit
+        <div className="flex h-fit w-full justify-center bg-gray-900">
+            <Link
+                href="https://maps.app.goo.gl/PCDdCJbaF5vfMTY98"
+                className="relative h-fit w-fit
            
              before:absolute
              before:right-0
@@ -172,10 +170,10 @@ const ContactSection: React.FC = () => (
     "
             >
                 <img
-                    src={"/map.png"}
-                    className="h-full w-auto border-y-4 border-yellow-500"
+                    src={"/mapT.png"}
+                    className="h-auto w-full border-y-4 border-yellow-500"
                 />
-            </div>
+            </Link>
         </div>
         {/* <div className="flex w-full flex-col gap-2 bg-white sm:flex-row h-full">
            
@@ -187,13 +185,11 @@ const ContactSection: React.FC = () => (
 );
 
 const NewsSection: React.FC = () => {
-
-    const { googleLogin, logOut } = useAuth(); 
     const [carouselApi, setApi] = useState<CarouselApi | undefined>();
     const [activeIndex, setActiveIndex] = useState(0);
     const carouselRef = useRef<HTMLDivElement | null>(null);
     const isCarouselVisible = !!useVisibility(carouselRef, {})?.isIntersecting;
-    const [news,setNews]=useState<NewsT[]>([]);
+    const [news, setNews] = useState<NewsT[]>([]);
     useEffect(() => {
         if (carouselApi) {
             carouselApi.scrollTo(activeIndex);
@@ -204,17 +200,21 @@ const NewsSection: React.FC = () => {
     }, [activeIndex, carouselApi]);
 
     useEffect(() => {
-        async function getNews(){
-            const q = query(collection(db, "news"),orderBy("createdAt","desc"),limit(5));
+        async function getNews() {
+            const q = query(
+                collection(db, "news"),
+                orderBy("createdAt", "desc"),
+                limit(5),
+            );
             const querySnapshot = await getDocs(q);
-            let tempNews:NewsT[]=[];
+            let tempNews: NewsT[] = [];
             querySnapshot.forEach((doc) => {
-               tempNews.push(doc.data() as NewsT);
-              });
-              setNews(tempNews);
-            }
+                tempNews.push(doc.data() as NewsT);
+            });
+            setNews(tempNews);
+        }
         getNews();
-    },[])
+    }, []);
 
     return (
         <section className="flex h-fit w-full flex-col items-center justify-center gap-2 bg-white p-5 sm:min-h-fit sm:max-lg:p-20">
@@ -244,7 +244,12 @@ const NewsSection: React.FC = () => {
                             key={index}
                             className="p-4 pl-1 md:basis-1/2 lg:basis-1/3"
                         >
-                            <CarouselNewsItemContent title={item.title} description={item.description} image={item.image} key={index} />
+                            <CarouselNewsItemContent
+                                title={item.title}
+                                description={item.description}
+                                image={item.image}
+                                key={index}
+                            />
                         </CarouselItem>
                     ))}
                 </CarouselContent>
@@ -268,46 +273,59 @@ const NewsSection: React.FC = () => {
         </section>
     );
 };
-const CarouselNewsItemContent: React.FC<NewsT> = ({title,description,image}) => (
-    <div className="h-full min-h-[450px] w-full bg-center bg-cover" style={{backgroundImage:`url(${image})`}}>
+const CarouselNewsItemContent: React.FC<NewsT> = ({
+    title,
+    description,
+    image,
+}) => (
+    <div
+        className="h-full min-h-[450px] w-full bg-cover bg-center"
+        style={{ backgroundImage: `url(${image})` }}
+    >
         <div className="flex h-full w-full flex-col justify-end border-sky-500 bg-opacity-30 bg-gradient-to-t from-black to-transparent to-70% p-4 text-white transition-all hover:border-b-8 hover:to-80% sm:to-50%">
             <p className="text-4xl">{title}</p>
-            <p>
-                {description}
-            </p>
+            <p>{description}</p>
         </div>
     </div>
 );
-const CarouselHeaderItemContent: React.FC<Header> = ({
-    link,
-    background,
-}) => {
-    const router=useRouter();
-    return(
-    // <div
-    //     className={cn(
-    //         "flex h-full w-full flex-col justify-center bg-cover p-8",
-    //         direction,
-    //         background,
-    //     )}
-    // >
-    //     <div
-    //         className={cn(
-    //             "flex h-full w-full flex-col justify-center  p-5 text-white sm:w-1/2 ",
-    //             textDirection,
-    //         )}
-    //     >
-    //     </div>
-    // </div>
-    <div onClick={()=>{router.push(link)}} className={cn("bg-cover bg-center w-full h-full border",background)}/>
-)};
+const CarouselHeaderItemContent: React.FC<Header> = ({ link, background }) => {
+    const router = useRouter();
+    return (
+        // <div
+        //     className={cn(
+        //         "flex h-full w-full flex-col justify-center bg-cover p-8",
+        //         direction,
+        //         background,
+        //     )}
+        // >
+        //     <div
+        //         className={cn(
+        //             "flex h-full w-full flex-col justify-center  p-5 text-white sm:w-1/2 ",
+        //             textDirection,
+        //         )}
+        //     >
+        //     </div>
+        // </div>
+        <div
+            onClick={() => {
+                router.push(link);
+            }}
+            className={cn(
+                "h-full w-full border bg-cover bg-center",
+                background,
+            )}
+        />
+    );
+};
 const CarouselAboutItemContent: React.FC<Reason> = ({
     title,
     description,
     className,
 }) => (
     <div className={className}>
-        <h3 className="text-xl sm:text-2xl md:text-4xl lg:text-6xl">{title}</h3>
+        <h3 className="text-xl font-bold sm:text-2xl md:text-4xl lg:text-6xl">
+            {title}
+        </h3>
 
         <p className="text-md sm:text-1xl md:text-2xl lg:text-3xl">
             {description}
@@ -327,7 +345,7 @@ const AboutSection: React.FC = () => {
 
     useEffect(() => {
         if (carouselApi) {
-            carouselApi.scrollTo(Math.floor(progress * 4));
+            carouselApi.scrollTo(Math.floor(progress * 3));
         }
     }, [progress]);
     return (
@@ -338,11 +356,11 @@ const AboutSection: React.FC = () => {
                     isSectionBoxRefFVisible &&
                         "bg-slate-600 text-white mix-blend-difference",
                     progress > 0 &&
-                        progress < 0.25 &&
+                        progress < 0.33 &&
                         isSectionBoxRefFVisible &&
                         "bg-sky-600",
-                    progress > 0.25 && progress < 0.5 && "bg-blue-600",
-                    progress > 0.5 && progress < 0.75 && "bg-indigo-700",
+                    progress >= 0.33 && progress < 0.66 && "bg-blue-600",
+                    progress >= 0.66 && progress < 1 && "bg-indigo-700",
                     progress > 0.75 && "bg-slate-600",
                 )}
             >
