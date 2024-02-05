@@ -1,7 +1,6 @@
 import LoginForm from "@/components/forms/auth/login";
 import { UnlockKeyhole } from "lucide-react";
 import Link from "next/link";
-import React from "react";
 
 export default function Login() {
     return (

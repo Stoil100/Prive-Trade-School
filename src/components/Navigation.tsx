@@ -1,6 +1,10 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import {
     Menubar,
     MenubarContent,
@@ -8,6 +12,15 @@ import {
     MenubarMenu,
     MenubarTrigger,
 } from "@/components/ui/menubar";
+import {
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "@/components/ui/sheet";
+import useScrollListener from "@/hooks/useScroll";
+import { cn } from "@/lib/utils";
 import {
     ChevronDown,
     CircleUserRound,
@@ -22,23 +35,10 @@ import {
     School,
     UnlockKeyhole,
 } from "lucide-react";
-import {
-    Sheet,
-    SheetContent,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from "@/components/ui/sheet";
-import {
-    Collapsible,
-    CollapsibleContent,
-    CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { cn } from "@/lib/utils";
-import useScrollListener from "@/hooks/useScroll";
-import { useAuth } from "./Providers";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { useAuth } from "./Providers";
 import { Button } from "./ui/button";
 
 export default function Navigation() {

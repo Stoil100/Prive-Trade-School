@@ -8,27 +8,25 @@ import {
     CarouselPrevious,
     type CarouselApi,
 } from "@/components/ui/carousel";
-import { useEffect, useState, useRef } from "react";
-import { useIntersectionObserver as useVisibility } from "usehooks-ts";
+import { db } from "@/firebase/config";
 import { cn } from "@/lib/utils";
-import { DollarSign, FileSearch, Landmark, Phone } from "lucide-react";
+import { NewsT } from "@/models/news";
 import Autoplay from "embla-carousel-autoplay";
-import ContactForm from "@/components/forms/ContactForm";
+import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
+import { DollarSign, FileSearch, Landmark, Phone } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { Parallax } from "react-scroll-parallax";
+import { useIntersectionObserver as useVisibility } from "usehooks-ts";
+import { useAuth } from "../components/Providers";
+import { Header, Headers } from "../models/headerItem";
 import { Profiles } from "../models/profile";
 import { Reason, Reasons } from "../models/reason";
-import { Parallax } from "react-scroll-parallax";
-import { Header, Headers } from "../models/headerItem";
-import { useAuth } from "../components/Providers";
-import { NewsT } from "@/models/news";
-import { FieldPath, FieldValue, Query, collection, getDoc, getDocs, limit, orderBy, query, startAt } from "firebase/firestore";
-import { db } from "@/firebase/config";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 const headerItems: Headers = [
     {
         link:"/apply",
-        background: "bg-[url('/appliance.png')]",
+        background: "bg-[url('/applianceT.png')]",
     },
     {
         link:"/apply",

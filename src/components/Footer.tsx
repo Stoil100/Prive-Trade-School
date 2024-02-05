@@ -1,8 +1,8 @@
 "use client";
-import { FC, useRef,useEffect, useState } from "react";
-import { Facebook, Instagram, Mail, Map, Phone, Twitter } from "lucide-react";
-import { useIntersectionObserver as useVisibility} from "usehooks-ts";
 import { cn } from "@/lib/utils";
+import { Facebook, Instagram, Mail, Map, Phone, Twitter } from "lucide-react";
+import { FC, useEffect, useRef, useState } from "react";
+import { useIntersectionObserver as useVisibility } from "usehooks-ts";
 
 const FooterLinksSection: FC<{ title: string; links: string[] }> = ({
     title,

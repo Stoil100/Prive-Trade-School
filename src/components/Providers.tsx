@@ -1,16 +1,17 @@
 "use client";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { auth, db } from "@/firebase/config";
+import { AuthT } from "@/models/auth";
 import {
+    GoogleAuthProvider,
     createUserWithEmailAndPassword,
     onAuthStateChanged,
     signInWithEmailAndPassword,
+    signInWithPopup,
     signOut,
 } from "firebase/auth";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth, db } from "@/firebase/config";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { ParallaxProvider } from "react-scroll-parallax";
-import { AuthT } from "@/models/auth";
 
 export function ParallaxProviders({ children }: { children: React.ReactNode }) {
     return <ParallaxProvider>{children}</ParallaxProvider>;
