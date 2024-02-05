@@ -1,6 +1,5 @@
 import {
     getDownloadURL,
-    getStorage,
     ref,
     updateMetadata,
     uploadBytes,
@@ -13,19 +12,14 @@ export const uploadImage = async (
     fileName: string,
 ) => {
     try {
-        // Upload image.
         const imageRef = ref(storage, `news/${fileName}`);
         const uploadImage = await uploadBytes(imageRef, file);
-
-        // Create file metadata.
         const newMetadata = {
-            cacheControl: "public,max-age=500", //3 mins - test / 3 months - 7890000000
+            cacheControl: "public,max-age= 7890000000", //3 mins - test / 3 months - 7890000000
             contentType: uploadImage.metadata.contentType,
         };
 
         await updateMetadata(imageRef, newMetadata);
-
-        // Get the image URL.
         return await getDownloadURL(imageRef);
     } catch (error) {
         throw error;
