@@ -40,6 +40,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "./Providers";
 import { Button } from "./ui/button";
+import { Link as ScrollLink } from "react-scroll";
 
 export default function Navigation() {
     const router = useRouter();
@@ -58,7 +59,12 @@ export default function Navigation() {
             ref={navigationRef}
             className="sticky top-0 z-50 flex h-[70px] w-screen max-w-full items-center justify-between bg-blue-700 px-6 text-white shadow-xl transition-all duration-500"
         >
-            <div className="w-[60px] h-full bg-[url('/logo.png')] bg-contain bg-center bg-no-repeat" onClick={()=>{router.push("/")}}/>
+            <div
+                className="h-full w-[60px] bg-[url('/logo.png')] bg-contain bg-center bg-no-repeat"
+                onClick={() => {
+                    router.push("/");
+                }}
+            />
             <Sheet>
                 <SheetTrigger
                     className="md:hidden"
@@ -171,14 +177,26 @@ export default function Navigation() {
             </Sheet>
             <div className="hidden w-full justify-end md:!flex">
                 <Menubar className="border-none bg-blue-700">
-                <MenubarMenu>
-                            <MenubarTrigger onClick={()=>{router.push("/")}}>Начало</MenubarTrigger>
-                        </MenubarMenu>
-                        <MenubarMenu>
-                            <MenubarTrigger onClick={()=>{router.push("/")}} className="bg-blue-500 hover:bg-blue-900 transition-colors" >Форма за кандидатстване</MenubarTrigger>
-                        </MenubarMenu>
                     <MenubarMenu>
-                       
+                        <MenubarTrigger
+                            onClick={() => {
+                                router.push("/");
+                            }}
+                        >
+                            Начало
+                        </MenubarTrigger>
+                    </MenubarMenu>
+                    <MenubarMenu>
+                        <MenubarTrigger
+                            onClick={() => {
+                                router.push("/");
+                            }}
+                            className="bg-blue-500 transition-colors hover:bg-blue-900"
+                        >
+                            Форма за кандидатстване
+                        </MenubarTrigger>
+                    </MenubarMenu>
+                    <MenubarMenu>
                         <MenubarTrigger>Програми</MenubarTrigger>
                         <MenubarContent className="grid grid-flow-col grid-rows-5 divide-x">
                             {Array.from({ length: 50 }).map((_, index) => (
@@ -187,7 +205,16 @@ export default function Navigation() {
                         </MenubarContent>
                     </MenubarMenu>
                     <MenubarMenu>
-                        <MenubarTrigger>Новини</MenubarTrigger>
+                        <MenubarTrigger>
+                            <ScrollLink
+                                to="news"
+                                spy={true}
+                                smooth={true}
+                                duration={500}
+                            >
+                                Новини
+                            </ScrollLink>
+                        </MenubarTrigger>
                     </MenubarMenu>
                     <MenubarMenu>
                         <MenubarTrigger>За нас</MenubarTrigger>
@@ -200,31 +227,53 @@ export default function Navigation() {
                     <MenubarMenu>
                         <MenubarTrigger>Контакти</MenubarTrigger>
                         <MenubarContent className="grid grid-flow-col grid-rows-4 divide-x">
-                        <MenubarItem className="flex justify-center gap-2">
+                            <MenubarItem className="flex justify-center gap-2">
                                 <Mail size={20} />
 
-                              <div>
-                                <p className="border-b-2 border-gray-500">privatetradeschool@gmail.com</p>
-                                <p>400070@edu.mon.bg</p>
-                              </div>
+                                <div className="flex flex-col">
+                                    <a
+                                        href="mailto:privatetradeschool@gmail.com"
+                                        className="cursor-pointer border-b-2 border-gray-500"
+                                    >
+                                        privatetradeschool@gmail.com
+                                    </a>
+                                    <a
+                                        href="mailto:400070@edu.mon.bg"
+                                        className="cursor-pointer"
+                                    >
+                                        400070@edu.mon.bg
+                                    </a>
+                                </div>
                             </MenubarItem>
                             <MenubarItem className="flex items-center gap-2">
                                 <Map size={20} />
-                                <p>ул. Преспа 1, Варна 9000</p>
+                                <Link
+                                    href={
+                                        "https://maps.app.goo.gl/PCDdCJbaF5vfMTY98"
+                                    }
+                                >
+                                    ул. Преспа 1, Варна 9000
+                                </Link>
                             </MenubarItem>
                             <MenubarItem className="flex gap-2">
-                                <Phone size={20} />
-
-                                <p>+359 893 344 539</p>
+                                <a
+                                    href={"tel:0893344539"}
+                                    className="flex cursor-pointer gap-1"
+                                >
+                                    <Phone size={20} />
+                                    <p>+359 893 344 539</p>
+                                </a>
                             </MenubarItem>
                             <MenubarItem className="flex items-center justify-evenly">
                                 <Instagram />
-                                <Link href={"https://www.facebook.com/privatetradeschool"}>
-                                <Facebook />
+                                <Link
+                                    href={
+                                        "https://www.facebook.com/privatetradeschool"
+                                    }
+                                >
+                                    <Facebook />
                                 </Link>
-                                
                             </MenubarItem>
-                          
                         </MenubarContent>
                     </MenubarMenu>
                     <MenubarMenu>
