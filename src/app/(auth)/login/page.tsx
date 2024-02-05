@@ -15,7 +15,7 @@ export default function Login() {
             <div className="w-full md:w-[400px]">
                 <LoginForm />
             </div>
-            <Link href="/register" className="text-sm mt-3 underline text-blue-400 underline-offset-2">Don't have an account? Register here</Link>
+            <Link href="/register" className="text-sm mt-3 underline text-blue-400 underline-offset-2">Don&lsquo;t have an account? Register here</Link>
         </div>
     );
 }
