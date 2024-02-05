@@ -1,8 +1,5 @@
 type Header = {
-    title: string;
-    description: React.ReactNode;
-    direction: string;
-    textDirection: string;
+    link:string;
     background:string;
 };
 type Headers = Header[];

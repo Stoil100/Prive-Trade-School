@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+
 import {
     Carousel,
     CarouselContent,
@@ -13,35 +13,30 @@ import { useIntersectionObserver as useVisibility } from "usehooks-ts";
 import { cn } from "@/lib/utils";
 import { DollarSign, FileSearch, Landmark, Phone } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
-import ContactForm from "@/components/ContactForm";
-import { Profiles } from "../../models/profile";
-import { Reason, Reasons } from "../../models/reason";
+import ContactForm from "@/components/forms/ContactForm";
+import { Profiles } from "../models/profile";
+import { Reason, Reasons } from "../models/reason";
 import { Parallax } from "react-scroll-parallax";
-import { Header, Headers } from "../../models/headerItem";
+import { Header, Headers } from "../models/headerItem";
+import { useAuth } from "../components/Providers";
+import { NewsT } from "@/models/news";
+import { FieldPath, FieldValue, Query, collection, getDoc, getDocs, limit, orderBy, query, startAt } from "firebase/firestore";
+import { db } from "@/firebase/config";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 const headerItems: Headers = [
     {
-        title: "Качество и Специализация",
-        description:
-            "При нас ще получиш висококачествено образование, съобразено с твоите интереси и способности. Изучавай специални дисциплини, свързани с избраната от теб специалност, които ще те подготвят за успешна кариера.",
-        direction: "items-center sm:items-start",
-        textDirection: "text-center sm:text-left",
-        background: "bg-[url('/specialization.jpg')]",
+        link:"/apply",
+        background: "bg-[url('/appliance.png')]",
     },
     {
-        title: "Форми на обучение:",
-        description:
-            "Дневна форма \n Самостоятелна форма \n Дистанционна (on-line) форма",
-        direction: "items-center",
-        textDirection: "text-center",
-        background: "bg-[url('/onlineSchool.jpg')] ",
+        link:"/apply",
+        background: "bg-[url('/appliance.png')]",
     },
     {
-        title: "Прием условия: ",
-        description:
-            "Интервю с кандидатите и с техните родители (настойници) (лице в лице или онлайн) \n изпит по Английски език (за установяване на ниво)",
-        direction: "items-center sm:items-end",
-        textDirection: "text-center sm:text-right",
-        background: "bg-[url('/admission.jpg')] bg-center",
+        link:"/apply",
+        background: "bg-[url('/appliance.png')]",
     },
 ];
 const profiles: Profiles = [
@@ -133,11 +128,8 @@ const HeroSection: React.FC = () => {
                         >
                             <CarouselHeaderItemContent
                                 key={index}
-                                direction={item.direction}
-                                title={item.title}
-                                description={item.description}
-                                textDirection={item.textDirection}
                                 background={item.background}
+                                link={item.link}
                             />
                         </CarouselItem>
                     ))}
@@ -197,11 +189,13 @@ const ContactSection: React.FC = () => (
 );
 
 const NewsSection: React.FC = () => {
+
+    const { googleLogin, logOut } = useAuth(); 
     const [carouselApi, setApi] = useState<CarouselApi | undefined>();
     const [activeIndex, setActiveIndex] = useState(0);
     const carouselRef = useRef<HTMLDivElement | null>(null);
     const isCarouselVisible = !!useVisibility(carouselRef, {})?.isIntersecting;
-
+    const [news,setNews]=useState<NewsT[]>([]);
     useEffect(() => {
         if (carouselApi) {
             carouselApi.scrollTo(activeIndex);
@@ -210,6 +204,19 @@ const NewsSection: React.FC = () => {
             setActiveIndex(carouselApi.selectedScrollSnap());
         });
     }, [activeIndex, carouselApi]);
+
+    useEffect(() => {
+        async function getNews(){
+            const q = query(collection(db, "news"),orderBy("createdAt","desc"),limit(5));
+            const querySnapshot = await getDocs(q);
+            let tempNews:NewsT[]=[];
+            querySnapshot.forEach((doc) => {
+               tempNews.push(doc.data() as NewsT);
+              });
+              setNews(tempNews);
+            }
+        getNews();
+    },[])
 
     return (
         <section className="flex h-fit w-full flex-col items-center justify-center gap-2 bg-white p-5 sm:min-h-fit sm:max-lg:p-20">
@@ -234,12 +241,12 @@ const NewsSection: React.FC = () => {
                 ]}
             >
                 <CarouselContent className="-ml-1">
-                    {Array.from({ length: 5 }).map((_, index) => (
+                    {news.map((item, index) => (
                         <CarouselItem
                             key={index}
                             className="p-4 pl-1 md:basis-1/2 lg:basis-1/3"
                         >
-                            <CarouselNewsItemContent key={index} />
+                            <CarouselNewsItemContent title={item.title} description={item.description} image={item.image} key={index} />
                         </CarouselItem>
                     ))}
                 </CarouselContent>
@@ -263,47 +270,39 @@ const NewsSection: React.FC = () => {
         </section>
     );
 };
-
-const CarouselNewsItemContent: React.FC = () => (
-    <div className="h-full min-h-[450px] w-full bg-[url('/school.jpg')] bg-cover">
+const CarouselNewsItemContent: React.FC<NewsT> = ({title,description,image}) => (
+    <div className="h-full min-h-[450px] w-full bg-center bg-cover" style={{backgroundImage:`url(${image})`}}>
         <div className="flex h-full w-full flex-col justify-end border-sky-500 bg-opacity-30 bg-gradient-to-t from-black to-transparent to-70% p-4 text-white transition-all hover:border-b-8 hover:to-80% sm:to-50%">
-            <p className="text-4xl">Title</p>
+            <p className="text-4xl">{title}</p>
             <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
-                atque sint vero eveniet, reprehenderit minima, reiciendis optio
-                maxime doloribus beatae molestiae deserunt minus at iure
-                delectus eligendi, alias dolorem voluptate.
+                {description}
             </p>
         </div>
     </div>
 );
 const CarouselHeaderItemContent: React.FC<Header> = ({
-    direction,
-    title,
-    description,
-    textDirection,
+    link,
     background,
-}) => (
-    <div
-        className={cn(
-            "flex h-full w-full flex-col justify-center bg-cover p-8",
-            direction,
-            background,
-        )}
-    >
-        <div
-            className={cn(
-                "flex h-full w-full flex-col justify-center border-8 border-double bg-sky-500/30 p-5 text-white backdrop-blur-sm sm:w-1/2 ",
-                textDirection,
-            )}
-        >
-            <h2 className="border-b-[5px] pb-2 text-3xl md:text-6xl">
-                {title}
-            </h2>
-            <h4 className="text-2xl md:text-4xl">{description}</h4>
-        </div>
-    </div>
-);
+}) => {
+    const router=useRouter();
+    return(
+    // <div
+    //     className={cn(
+    //         "flex h-full w-full flex-col justify-center bg-cover p-8",
+    //         direction,
+    //         background,
+    //     )}
+    // >
+    //     <div
+    //         className={cn(
+    //             "flex h-full w-full flex-col justify-center  p-5 text-white sm:w-1/2 ",
+    //             textDirection,
+    //         )}
+    //     >
+    //     </div>
+    // </div>
+    <div onClick={()=>{router.push(link)}} className={cn("bg-cover bg-center w-full h-full border",background)}/>
+)};
 const CarouselAboutItemContent: React.FC<Reason> = ({
     title,
     description,
@@ -366,9 +365,12 @@ const AboutSection: React.FC = () => {
                     >
                         Защо да изберете нас?
                     </h3>
-                    <Carousel setApi={setApi} opts={{
-                    watchDrag: false,
-                }}>
+                    <Carousel
+                        setApi={setApi}
+                        opts={{
+                            watchDrag: false,
+                        }}
+                    >
                         <CarouselContent className="h-[500px]">
                             {aboutReasons.map((item, index) => (
                                 <CarouselItem

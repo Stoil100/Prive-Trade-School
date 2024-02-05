@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import TopSocialMedia from "@/components/TopSocialMedia";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { Providers } from "./providers";
+import { AuthContextProvider, ParallaxProviders } from "../components/Providers";
 export const fontSans = FontSans({
     subsets: ["latin"],
     variable: "--font-sans",
@@ -28,13 +28,18 @@ export default function RootLayout({
             <head />
             <body
                 className={cn(
-                    "min-h-screen bg-gray-900 font-montserrat antialiased !max-w-full !w-screen scroll-smooth !overflow-x-hidden",
+                    "min-h-screen w-screen max-w-full overflow-x-hidden scroll-smooth bg-gray-900 font-montserrat antialiased flex flex-col",
                 )}
             >
-                <TopSocialMedia />
-                <Navigation />
-                <Providers>{children}</Providers>
-                <Footer />
+                {" "}
+                <AuthContextProvider>
+                    <TopSocialMedia />
+                    <Navigation />
+
+                    <ParallaxProviders>{children}</ParallaxProviders>
+
+                    <Footer />
+                </AuthContextProvider>
             </body>
         </html>
     );
