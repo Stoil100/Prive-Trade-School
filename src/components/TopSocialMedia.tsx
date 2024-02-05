@@ -15,11 +15,11 @@ export default function TopSocialMedia() {
             </div>
             <div className="flex items-center gap-2">
                 <PhoneCall size={15} />
-                <p>+359 000 000 000</p>
+                <p>+359 893 344 539</p>
             </div>
             <div className="flex items-center gap-2">
                 <AtSign size={15} />
-                <p>test@gmail.com</p>
+                <p>privatetradeschool@gmail.com</p>
             </div>
             <div className="flex items-center gap-3">
                 <Search size={15}/>
