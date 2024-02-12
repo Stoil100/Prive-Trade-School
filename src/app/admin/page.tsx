@@ -26,11 +26,8 @@ const formSchema = z.object({
     title: z.string().min(1, { message: "Please enter a valid title." }),
     description: z
         .string()
-        .min(1, {
-            message: "Please enter a valid descriptio.n",
-        })
         .optional(),
-    image:z.string().min(1, { message: "Please enter a photo." }).optional(),
+    image:z.string().optional(),
 });
 
 export default function Admin() {
@@ -109,7 +106,7 @@ export default function Admin() {
                                     <FormLabel>Title:</FormLabel>
                                     <FormControl>
                                         <Input
-                                            placeholder="Enter your name here..."
+                                            placeholder="Enter news title here..."
                                             {...field}
                                         />
                                     </FormControl>
@@ -125,7 +122,7 @@ export default function Admin() {
                                     <FormLabel>Description:</FormLabel>
                                     <FormControl>
                                         <Input
-                                            placeholder="Enter your email here..."
+                                            placeholder="Enter news description here..."
                                             {...field}
                                         />
                                     </FormControl>

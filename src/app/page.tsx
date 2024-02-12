@@ -97,7 +97,7 @@ const profiles: Profiles = [
     {
         type: "Оперативно счетоводство",
         image: "bg-[url('/accountant.jpg')]",
-        icon: <DollarSign size={40} className="border-4 border-white rounded-full p-1 self-start"/>,
+        icon: <DollarSign size={40} className="border-4 border-white rounded-full "/>,
         pdf: "/pdfs/accountant.pdf",
     },
 ];
