@@ -175,6 +175,9 @@ export default function Navigation() {
                     </div>
                 </SheetContent>
             </Sheet>
+
+            {/* End of mobile view */}
+
             <div className="hidden w-full justify-end md:!flex">
                 <Menubar className="border-none bg-blue-700">
                     <MenubarMenu>
@@ -197,12 +200,25 @@ export default function Navigation() {
                         </MenubarTrigger>
                     </MenubarMenu>
                     <MenubarMenu>
-                        <MenubarTrigger>Програми</MenubarTrigger>
-                        <MenubarContent className="grid grid-flow-col grid-rows-5 divide-x">
-                            {Array.from({ length: 50 }).map((_, index) => (
-                                <MenubarItem key={index}>{index}</MenubarItem>
-                            ))}
-                        </MenubarContent>
+                        <MenubarTrigger>
+                            <ScrollLink
+                                to="programs"
+                                spy={true}
+                                smooth={true}
+                                duration={500}
+                            >
+                                Програми
+                            </ScrollLink>
+                        </MenubarTrigger>
+                    </MenubarMenu>
+                    <MenubarMenu>
+                        <MenubarTrigger>
+                            <Link
+                               href={"/projects"}
+                            >
+                                Проекти
+                            </Link>
+                        </MenubarTrigger>
                     </MenubarMenu>
                     <MenubarMenu>
                         <MenubarTrigger>
@@ -219,27 +235,25 @@ export default function Navigation() {
                     <MenubarMenu>
                         <MenubarTrigger>За нас</MenubarTrigger>
                         <MenubarContent className="grid grid-flow-col grid-rows-2 divide-x">
-                        
                             <MenubarItem>
-                            <ScrollLink
-                                to="about"
-                                spy={true}
-                                smooth={true}
-                                duration={500}
-                            >
-                                Мисия и Визия
-                            </ScrollLink>
-                            
+                                <ScrollLink
+                                    to="about"
+                                    spy={true}
+                                    smooth={true}
+                                    duration={500}
+                                >
+                                    Мисия и Визия
+                                </ScrollLink>
                             </MenubarItem>
                             <MenubarItem>
-                            <ScrollLink
-                                to="select"
-                                spy={true}
-                                smooth={true}
-                                duration={500}
-                            >
-                               Защо да изберете нас
-                            </ScrollLink>
+                                <ScrollLink
+                                    to="select"
+                                    spy={true}
+                                    smooth={true}
+                                    duration={500}
+                                >
+                                    Защо да изберете нас
+                                </ScrollLink>
                             </MenubarItem>
                         </MenubarContent>
                     </MenubarMenu>

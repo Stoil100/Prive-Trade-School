@@ -54,7 +54,7 @@ const FooterProgramsSection: FC<{
                 Програми
             </p>
             {links.map((link, index) => (
-                <a href={link.link}target="_blank" rel="noopener noreferrer" download className="text-md" key={index}>
+                <a href={link.link} target="_blank" rel="noopener noreferrer" download className="text-md" key={index}>
                     {link.title}
                 </a>
             ))}
