@@ -1,7 +1,10 @@
+import { ReactNode } from "react";
+
 type Profile = {
     type: string;
-    icon: React.ReactNode;
-    description: string;
+    image:string;
+    icon:ReactNode;
+    pdf: string;
 };
 type Profiles = Profile[];
 

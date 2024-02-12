@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 import { NewsT } from "@/models/news";
 import Autoplay from "embla-carousel-autoplay";
 import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
-import { GraduationCap ,Backpack ,Globe , DollarSign, FileSearch, Star,BookOpenText  , Landmark, Phone } from "lucide-react";
+import { GraduationCap ,Backpack , Star,BookOpenText , Phone, FileSearch, Landmark, DollarSign } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Parallax } from "react-scroll-parallax";
@@ -33,10 +33,6 @@ const headerItems: Headers = [
     {
         link: "",
         background: "/sundayCollege.png",
-    },
-    {
-        link: "",
-        background: "/appliance.png",
     },
 ];
 const aboutItems: AboutItems = [
@@ -88,18 +84,21 @@ const selectReasons: Reasons = [
 const profiles: Profiles = [
     {
         type: "Данъчен и митнически контрол",
-        icon: <FileSearch />,
-        description: "",
+        image: "bg-[url('/borderControl.jpg')]",
+        icon:<FileSearch size={40} className="border-4 border-white rounded-full p-1 self-start"/>,
+        pdf: "/pdfs/borderAdmin.pdf",
     },
     {
         type: "Банково дело",
-        icon: <Landmark />,
-        description: "",
+        image: "bg-[url('/bank.jpg')]",
+        icon: <Landmark size={40} className="border-4 border-white rounded-full p-1 self-start"/>,
+        pdf: "/pdfs/banker.pdf",
     },
     {
         type: "Оперативно счетоводство",
-        icon: <DollarSign />,
-        description: "",
+        image: "bg-[url('/accountant.jpg')]",
+        icon: <DollarSign size={40} className="border-4 border-white rounded-full p-1 self-start"/>,
+        pdf: "/pdfs/accountant.pdf",
     },
 ];
 
@@ -493,22 +492,31 @@ const ProfilesSection: React.FC = () => {
             <h2 className="text-center text-3xl text-white sm:text-6xl">
                 Специалности
             </h2>
-            <div className="flex h-fit w-full flex-wrap items-center  justify-center gap-10 px-4 py-3 sm:px-8">
+            <div className="flex h-fit w-full flex-wrap items-center justify-center gap-10 px-4 py-3 sm:px-8">
                 {profiles.map((item, index) => (
-                    <div
-                        key={index}
-                        className="relative h-[250px] w-[300px] drop-shadow-[15px_15px_rgba(0,0,0,0.25)]"
-                    >
-                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-white">
-                            <p className="text-center text-lg font-bold">
-                                {item.type}
-                            </p>
-                            {item.icon}
+                    <div key={index} className="relative h-[450px] w-[350px] hover:scale-110 transition-transform duration-300">
+                        <div
+                            className={cn(
+                                "absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-xl border-y-8 border-amber-400 bg-white bg-cover",
+                                item.image,
+                            )}
+                        >
+                            <div className="flex h-full w-full items-center justify-between flex-col bg-opacity-30 bg-gradient-to-t from-black to-transparent to-70% p-2 text-white">
+                                {item.icon}
+                                <p className="text-center text-lg font-bold">
+                                    {item.type}
+                                </p>
+                            </div>
                         </div>
-                        <div className="absolute inset-0 flex transform flex-col items-center justify-center gap-2  bg-blue-700 p-4 text-center text-white opacity-0 transition-opacity hover:opacity-100">
-                            <p className="text-2xl font-bold">{item.type}</p>
-                            <p>{item.description}</p>
-                        </div>
+                        <a
+                            className="absolute inset-0 flex transform cursor-pointer flex-col items-center justify-center rounded-xl gap-2 bg-black/40 p-4 text-center text-xl text-white opacity-0 transition-opacity hover:opacity-100"
+                            href={item.pdf}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            download
+                        >
+                            Изтегли PDF
+                        </a>
                     </div>
                 ))}
             </div>
