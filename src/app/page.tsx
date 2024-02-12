@@ -28,7 +28,7 @@ import Link from "next/link";
 const headerItems: Headers = [
     {
         link: "/apply",
-        background: "/applianceT.png",
+        background: "/appliance.png",
     },
     {
         link: "",
@@ -551,7 +551,7 @@ const ContactSection: React.FC = () => (
     "
             >
                 <img
-                    src={"/mapT.png"}
+                    src={"/map.png"}
                     className="h-auto w-full border-y-4 border-yellow-500"
                 />
             </Link>
