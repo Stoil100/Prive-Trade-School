@@ -87,6 +87,7 @@ const FooterLinksSection: FC<{
                     smooth={true}
                     duration={500}
                     className="cursor-pointer"
+                    key={index}
                 >
                     {link.title}
                 </ScrollLink>
