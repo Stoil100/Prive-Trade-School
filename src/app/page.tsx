@@ -13,13 +13,14 @@ import { cn } from "@/lib/utils";
 import { NewsT } from "@/models/news";
 import Autoplay from "embla-carousel-autoplay";
 import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
-import { DollarSign, FileSearch, Landmark, Phone } from "lucide-react";
+import { GraduationCap ,Backpack ,Globe , DollarSign, FileSearch, Star,BookOpenText  , Landmark, Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Parallax } from "react-scroll-parallax";
 import { useIntersectionObserver as useVisibility } from "usehooks-ts";
 import { Header, Headers } from "../models/headerItem";
 import { Profiles } from "../models/profile";
+import { AboutItem, AboutItems } from "@/models/about";
 import { Reason, Reasons } from "../models/reason";
 import { Element } from "react-scroll";
 import Link from "next/link";
@@ -27,15 +28,61 @@ import Link from "next/link";
 const headerItems: Headers = [
     {
         link: "/apply",
-        background: "bg-[url('/applianceT.png')]",
+        background: "/applianceT.png",
     },
     {
-        link: "/apply",
-        background: "bg-[url('/appliance.png')]",
+        link: "",
+        background: "/sundayCollege.png",
     },
     {
-        link: "/apply",
-        background: "bg-[url('/appliance.png')]",
+        link: "",
+        background: "/appliance.png",
+    },
+];
+const aboutItems: AboutItems = [
+    {
+        
+        icon: <Star />,
+        title: "🎯Нашата мисия",
+        description:
+            " Ние споделяме  икономически знания и искаме да вдъхновяваме със страст за кариерно професионално ориентиране млади хора за бизнес реализация. Ние отваряме врати за личен и професионален успех, създавайки бизнес култура."
+        },
+    {
+        
+        icon: <BookOpenText />,
+        title: "🎯Нашата мисия",
+        description:
+            "Предлаганото от на обучение надгражда държавните образователни стандарти по общообразователна, знанията по общопрофесионална, отраслова и специфична подготовка. Създаваме мотиви за учене, умения за справяне при трудни учебни и житейски ситуации ,формираме компетенции и изграждаме отношения за сътрудничество на обучаемите младежи.",
+    },
+    {
+      
+        icon: <GraduationCap />,
+        title: "🌟Нашата визия",
+        description:
+            "Работим езиковото обучение по нива, съгласно европейската езикова рамка. Провеждаме учебната професионална практика в банкови кантори и училище, а в реална среда стажове в финансови предприятия. Редовно срещаме учениците с хора, успели да реализират себе си като успешни лидери на фирми.",
+    },
+    {
+        
+        icon: <Backpack  />,
+        title: "🌟Нашата визия",
+        description:
+            "Организират се мероприятия по метода на „преживяването“ и се работи с учениците по различни европейски проекти на икономическа, екологична и социална тематика. Ежемесечно се посещават културни институции като музеи,театрални и оперни спектакли, изложби и срещаме бъдещите млади специалисти с изявени творци.",
+    },
+];
+const selectReasons: Reasons = [
+    {
+        title: "Глобални възможности:",
+        description: `Организирайки стажове в чужбина, ние сбъдваме мечтите за работа по избрана професия. Нещо повече, даваме възможност за придобиване на трудов опит на европейско ниво. Освен това учим учениците да бъдат отговорни, открити и съвестни и им предоставяме шанс да създадат нови международни запознанства и да опознаят други култури.`,
+    },
+    {
+        title: "Индивидуален подход към обучението:",
+        description:
+            "Искаме нашите ученици да подобрят своите професионални, езикови и социални компетенции. За да улесним това, гарантираме, че обучението се провежда в малки класове и съобразно възможностите на учениците прилагаме индивидуални подходи.",
+    },
+    {
+        title: "Подготовка за бизнес успех:",
+        description:
+            "Ние споделяме  икономически знания и вдъхновяваме със страст за кариерно професионално младежко ориентиране за бизнес реализация.Надграждаме стандарти по общообразователна подготовка и учим  на  знания и умения за справяне при трудни учебни и житейски ситуации.",
     },
 ];
 const profiles: Profiles = [
@@ -55,33 +102,28 @@ const profiles: Profiles = [
         description: "",
     },
 ];
-const aboutReasons: Reasons = [
-    {
-        title: "Глобални възможности:",
-        description: `В ЧТГ ${"'"}Конто Трейд${"'"} не само ще разширите своя хоризонт , но и ще овладеете чужди езици като английски, немски, руски, италиански или испански на високо ниво.`,
-    },
-    {
-        title: "Индивидуален подход към обучението:",
-        description:
-            "Нашата цел е да подкрепим всеки ученик в неговото личностно развитие, като му предоставим необходимите инструменти и внимание за постигане на успех в предприемачеството, бизнеса и най вече живота",
-    },
-    {
-        title: "Подготовка за бизнес успех:",
-        description:
-            "Нашата програма е създадена така, че да осигури не само теоретични знания, но и практически умения, които са основополагащи за стартиране и управление на успешен бизнес. Ние насърчаваме предприемаческия дух и предлагаме знанията, необходими за реализацията на собствени бизнес идеи след завършване на гимназията.",
-    },
-];
 
 export default function Home() {
     return (
         <main className="flex min-h-screen w-full flex-col items-center justify-center">
-            <HeroSection />
+            <Element name="home" className="w-full">
+                <HeroSection />
+            </Element>
+            <Element name="about" className="w-full">
+                <AboutSection />
+            </Element>
             <Element name="news" className="w-full">
                 <NewsSection />
             </Element>
-            <AboutSection />
-            <ProfilesSection />
-            <ContactSection />
+            <Element name="select" className="w-full">
+                <SelectSection />
+            </Element>
+            <Element name="programs" className="w-full">
+                <ProfilesSection />
+            </Element>
+            <Element name="contact" className="w-full">
+                <ContactSection />
+            </Element>
         </main>
     );
 }
@@ -113,12 +155,12 @@ const HeroSection: React.FC = () => {
                     }),
                 ]}
             >
-                <CarouselContent className="h-[660px]">
+                <CarouselContent className="h-fit">
                     {headerItems.map((item, index) => (
                         <CarouselItem
                             key={index}
                             className={cn(
-                                "w-full border-b-[44px] border-sky-500",
+                                "w-full border-b-[20px] border-sky-500 lg:border-b-[44px]",
                             )}
                         >
                             <CarouselHeaderItemContent
@@ -130,7 +172,7 @@ const HeroSection: React.FC = () => {
                     ))}
                 </CarouselContent>
             </Carousel>
-            <div className="space-between absolute bottom-6 left-[50%] flex w-fit translate-x-[-50%] gap-2 drop-shadow-xl">
+            <div className="space-between absolute bottom-2 left-[50%] flex w-fit translate-x-[-50%] gap-2 drop-shadow-xl lg:bottom-6">
                 {carouselApi?.scrollSnapList().map((_: any, index: number) => (
                     <div
                         key={index}
@@ -147,43 +189,103 @@ const HeroSection: React.FC = () => {
         </section>
     );
 };
+const CarouselHeaderItemContent: React.FC<Header> = ({ link, background }) => {
+    const router = useRouter();
+    return (
+        <img
+            src={background}
+            onClick={() => {
+                router.push(link);
+            }}
+            className={cn("max-h-[81vh] w-full cursor-pointer object-cover")}
+        />
+    );
+};
+const AboutSection: React.FC = () => {
+    const [carouselApi, setApi] = useState<CarouselApi | undefined>();
+    const [activeIndex, setActiveIndex] = useState(0);
 
-const ContactSection: React.FC = () => (
-    <section className="h-fit w-full">
-        {/* <h3 className="w-full p-3 text-center text-4xl underline  decoration-4 sm:text-left lg:text-6xl">
-            Свържете се с нас
-        </h3> */}
-        <div className="flex h-fit w-full justify-center bg-gray-900">
-            <Link
-                href="https://maps.app.goo.gl/PCDdCJbaF5vfMTY98"
-                className="relative h-fit w-fit
-           
-             before:absolute
-             before:right-0
-             before:top-0
-             before:h-full
-             before:w-full
-             before:bg-[linear-gradient(90deg,transparent_0_90%,#111827_100%)] 
-             before:content-['']
-        
-            after:absolute after:left-0 after:top-0 after:h-full after:w-full after:bg-[linear-gradient(270deg,transparent_0_90%,#111827_100%)] after:content-['']
-    "
+    useEffect(() => {
+        if (carouselApi) {
+            carouselApi.scrollTo(activeIndex);
+        }
+        carouselApi?.on("select", () => {
+            setActiveIndex(carouselApi.selectedScrollSnap());
+        });
+    }, [activeIndex, carouselApi]);
+    
+    // const reorderItems = () => {
+    //     const middleIndex = Math.floor(aboutItems.length / 2);
+    //     const offset = activeIndex - middleIndex;
+    //     return [...aboutItems.slice(offset), ...aboutItems.slice(0, offset)];
+    // };
+
+    return (
+        <section className="flex h-[500px] flex-col w-full items-center justify-start gap-5 bg-gradient-to-b from-sky-500 from-50% to-100% to-white">
+            <h2 className="text-white text-7xl font-bold underline decoration-4 underline-offset-4">За нас</h2>
+            <div className="w-3/4 flex h-fit justify-center items-center">
+            <Carousel
+                setApi={setApi}
+                orientation="vertical"
+                opts={{
+                    loop: true,
+                }}
+                plugins={[
+                    Autoplay({
+                        delay: 4000,
+                    }),
+                ]}
+                className="w-[1000px]"
             >
-                <img
-                    src={"/mapT.png"}
-                    className="h-auto w-full border-y-4 border-yellow-500"
-                />
-            </Link>
-        </div>
-        {/* <div className="flex w-full flex-col gap-2 bg-white sm:flex-row h-full">
-           
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2908.3079355977425!2d27.916657411454345!3d43.20303018131007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40a453f471687209%3A0xf1a81062daaa8d89!2z0KfQsNGB0YLQvdCwINGC0YrRgNCz0L7QstGB0LrQsCDQs9C40LzQvdCw0LfQuNGP!5e0!3m2!1sbg!2sbg!4v1703864908152!5m2!1sbg!2sbg"
-            
-            <ContactForm />
-        </div> */}
-    </section>
-);
+                <CarouselContent className="mt-1 h-[300px]">
+                    {aboutItems.map((item, index) => (
+                        <CarouselItem
+                            key={index}
+                            className="w-full p-5 flex items-center justify-center border-r "
+                        >
+                            <CarouselAboutItemContent
+                                title={item.title}
+                                description={item.description}
+                                icon={item.icon}
+                                key={index}
+                            />
+                        </CarouselItem>
+                    ))}
+                </CarouselContent>
+            </Carousel>
 
+                <div className="w-fit flex flex-col justify-center items-center p-4 gap-3 min-w-40">
+                {aboutItems.map((item,index) => (
+                    <div
+                        key={index}
+                        className={cn(
+                            "flex h-16 w-16 cursor-pointer items-center justify-center rounded-full bg-blue-500 text-white transition-all",
+                            index === activeIndex && "bg-blue-600 scale-110",
+                        )}
+                    
+                        onClick={() => {
+                            setActiveIndex(index);
+                        }}
+                    >
+                        {item.icon}
+                    </div>
+                ))}
+                </div>
+            </div>
+        </section>
+    );
+};
+const CarouselAboutItemContent: React.FC<AboutItem> = ({
+    title,
+    description,
+}) => {
+    return (
+        <div className="flex h-full w-fit flex-col justify-center p-2 text-white">
+             <p className="text-5xl font-bold">{title}</p>
+            <p className="text-2xl">{description}</p>
+        </div>
+    );
+};
 const NewsSection: React.FC = () => {
     const [carouselApi, setApi] = useState<CarouselApi | undefined>();
     const [activeIndex, setActiveIndex] = useState(0);
@@ -218,7 +320,7 @@ const NewsSection: React.FC = () => {
 
     return (
         <section className="flex h-fit w-full flex-col items-center justify-center gap-2 bg-white p-5 sm:min-h-fit sm:max-lg:p-20">
-            <h1 className="font-geologica text-5xl underline decoration-4 sm:text-7xl">
+            <h1 className="font-geologica text-5xl underline decoration-4 sm:text-7xl text-cyan-900">
                 Новини
             </h1>
 
@@ -288,51 +390,7 @@ const CarouselNewsItemContent: React.FC<NewsT> = ({
         </div>
     </div>
 );
-const CarouselHeaderItemContent: React.FC<Header> = ({ link, background }) => {
-    const router = useRouter();
-    return (
-        // <div
-        //     className={cn(
-        //         "flex h-full w-full flex-col justify-center bg-cover p-8",
-        //         direction,
-        //         background,
-        //     )}
-        // >
-        //     <div
-        //         className={cn(
-        //             "flex h-full w-full flex-col justify-center  p-5 text-white sm:w-1/2 ",
-        //             textDirection,
-        //         )}
-        //     >
-        //     </div>
-        // </div>
-        <div
-            onClick={() => {
-                router.push(link);
-            }}
-            className={cn(
-                "h-full w-full border bg-cover bg-center",
-                background,
-            )}
-        />
-    );
-};
-const CarouselAboutItemContent: React.FC<Reason> = ({
-    title,
-    description,
-    className,
-}) => (
-    <div className={className}>
-        <h3 className="text-xl font-bold sm:text-2xl md:text-4xl lg:text-6xl">
-            {title}
-        </h3>
-
-        <p className="text-md sm:text-1xl md:text-2xl lg:text-3xl">
-            {description}
-        </p>
-    </div>
-);
-const AboutSection: React.FC = () => {
+const SelectSection: React.FC = () => {
     const [progress, setProgress] = useState(0);
     const sectionBoxRef = useRef<HTMLDivElement | null>(null);
     const aboutTitleRef = useRef<HTMLHeadingElement | null>(null);
@@ -388,7 +446,7 @@ const AboutSection: React.FC = () => {
                         }}
                     >
                         <CarouselContent className="h-[500px]">
-                            {aboutReasons.map((item, index) => (
+                            {selectReasons.map((item, index) => (
                                 <CarouselItem
                                     key={index}
                                     className={cn(
@@ -396,7 +454,7 @@ const AboutSection: React.FC = () => {
                                         isSectionBoxRefFVisible && "scale-100",
                                     )}
                                 >
-                                    <CarouselAboutItemContent
+                                    <CarouselSelectItemContent
                                         title={item.title}
                                         description={item.description}
                                         className={cn(
@@ -414,7 +472,21 @@ const AboutSection: React.FC = () => {
         </Parallax>
     );
 };
+const CarouselSelectItemContent: React.FC<Reason> = ({
+    title,
+    description,
+    className,
+}) => (
+    <div className={className}>
+        <h3 className="text-xl font-bold sm:text-2xl md:text-4xl lg:text-6xl">
+            {title}
+        </h3>
 
+        <p className="text-md sm:text-1xl md:text-2xl lg:text-3xl">
+            {description}
+        </p>
+    </div>
+);
 const ProfilesSection: React.FC = () => {
     return (
         <section className="flex min-h-[40vh] w-full flex-col items-center justify-center gap-3 bg-gradient-to-b from-slate-600  to-[#111827] p-2 sm:p-5">
@@ -442,10 +514,45 @@ const ProfilesSection: React.FC = () => {
             </div>
             <p className="flex gap-2 text-gray-400">
                 За повече информация се свържете с нас на
-                <span className="flex cursor-pointer gap-1 text-blue-500 underline">
-                    <Phone /> +359 000 000 000
+                <span className="flex cursor-pointer gap-1 text-blue-500 underline underline-offset-2">
+                    <Phone /> +359 893 344 538
                 </span>
             </p>
         </section>
     );
 };
+const ContactSection: React.FC = () => (
+    <section className="h-fit w-full">
+        {/* <h3 className="w-full p-3 text-center text-4xl underline  decoration-4 sm:text-left lg:text-6xl">
+            Свържете се с нас
+        </h3> */}
+        <div className="flex h-fit w-full justify-center bg-gray-900">
+            <Link
+                href="https://maps.app.goo.gl/PCDdCJbaF5vfMTY98"
+                className="relative h-fit w-fit
+           
+             before:absolute
+             before:right-0
+             before:top-0
+             before:h-full
+             before:w-full
+             before:bg-[linear-gradient(90deg,transparent_0_90%,#111827_100%)] 
+             before:content-['']
+        
+            after:absolute after:left-0 after:top-0 after:h-full after:w-full after:bg-[linear-gradient(270deg,transparent_0_90%,#111827_100%)] after:content-['']
+    "
+            >
+                <img
+                    src={"/mapT.png"}
+                    className="h-auto w-full border-y-4 border-yellow-500"
+                />
+            </Link>
+        </div>
+        {/* <div className="flex w-full flex-col gap-2 bg-white sm:flex-row h-full">
+           
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2908.3079355977425!2d27.916657411454345!3d43.20303018131007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40a453f471687209%3A0xf1a81062daaa8d89!2z0KfQsNGB0YLQvdCwINGC0YrRgNCz0L7QstGB0LrQsCDQs9C40LzQvdCw0LfQuNGP!5e0!3m2!1sbg!2sbg!4v1703864908152!5m2!1sbg!2sbg"
+            
+            <ContactForm />
+        </div> */}
+    </section>
+);
