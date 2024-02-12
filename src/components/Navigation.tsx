@@ -218,10 +218,29 @@ export default function Navigation() {
                     </MenubarMenu>
                     <MenubarMenu>
                         <MenubarTrigger>За нас</MenubarTrigger>
-                        <MenubarContent className="grid grid-flow-col grid-rows-4 divide-x">
-                            {Array.from({ length: 4 }).map((_, index) => (
-                                <MenubarItem key={index}>{index}</MenubarItem>
-                            ))}
+                        <MenubarContent className="grid grid-flow-col grid-rows-2 divide-x">
+                        
+                            <MenubarItem>
+                            <ScrollLink
+                                to="about"
+                                spy={true}
+                                smooth={true}
+                                duration={500}
+                            >
+                                Мисия и Визия
+                            </ScrollLink>
+                            
+                            </MenubarItem>
+                            <MenubarItem>
+                            <ScrollLink
+                                to="select"
+                                spy={true}
+                                smooth={true}
+                                duration={500}
+                            >
+                               Защо да изберете нас
+                            </ScrollLink>
+                            </MenubarItem>
                         </MenubarContent>
                     </MenubarMenu>
                     <MenubarMenu>

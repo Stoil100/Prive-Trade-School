@@ -3,53 +3,93 @@ import { cn } from "@/lib/utils";
 import { Facebook, Instagram, Mail, Map, Phone, Twitter } from "lucide-react";
 import { FC, useEffect, useRef, useState } from "react";
 import { useIntersectionObserver as useVisibility } from "usehooks-ts";
+import { Link as ScrollLink } from "react-scroll";
+import { Links } from "@/models/link";
+const fastLinks: Links = [
+    {
+        title: "Начало",
+        link: "home",
+    },
+    {
+        title: "За нас",
+        link: "about",
+    },
+    {
+        title: "Новини",
+        link: "news",
+    },
+    {
+        title: "Защо да изберете нас",
+        link: "select",
+    },
+    {
+        title: "Специалности",
+        link: "programs",
+    },
+    {
+        title: "Проекти",
+        link: "projects",
+    },
+];
+const programLinks: Links = [
+    { title: "Данъчен и митнически контрол", link: "/pdfs/borderAdmin.pdf" },
+    { title: "Банково дело", link: "/pdfs/banker.pdf" },
+    { title: "Оперативно счетоводство", link: "/pdfs/accountant.pdf" },
+];
 
-const FooterLinksSection: FC<{ title: string; links: string[] }> = ({
-    title,
-    links,
-}) => {
+const FooterProgramsSection: FC<{
+    links: { title: string; link: string }[];
+}> = ({ links }) => {
     const linksRef = useRef(null);
     const isLinkVisible = !!useVisibility(linksRef, {})?.isIntersecting;
     return (
         <div
             ref={linksRef}
             className={cn(
-                "animate-delay-500 flex flex-col items-center opacity-0 md:items-start",
+                "flex flex-col items-center opacity-0 animate-delay-500 md:items-start",
                 isLinkVisible && "animate-fade-up opacity-100",
             )}
         >
             <p className="before-border mb-2 border-yellow-500 text-xl sm:max-md:border-b-2 sm:max-md:before:border-none">
-                {title}
+                Програми
             </p>
             {links.map((link, index) => (
-                <p className="text-md" key={index}>
-                    {link}
-                </p>
+                <a href={link.link}target="_blank" rel="noopener noreferrer" download className="text-md" key={index}>
+                    {link.title}
+                </a>
             ))}
         </div>
     );
 };
-const FooterProgramsSection: FC<{ title: string; links: string[] }> = ({
-    title,
-    links,
-}) => {
+const FooterLinksSection: FC<{
+    links: { title: string; link: string }[];
+}> = ({ links }) => {
     const programsRef = useRef(null);
     const isProgramsVisible = !!useVisibility(programsRef, {})?.isIntersecting;
     return (
         <div
             ref={programsRef}
             className={cn(
-                "animate-delay-700 flex flex-col items-center opacity-0 md:items-start",
+                "flex flex-col items-center opacity-0 animate-delay-700 md:items-start sm:ml-6",
                 isProgramsVisible && "animate-fade-up opacity-100",
             )}
         >
-            <p className="before-border mb-2 border-yellow-500 text-xl sm:max-md:border-b-2 sm:max-md:before:border-none">
-                {title}
-            </p>
+            <h2 className="before-border mb-2 text-xl sm:max-md:border-b-2 sm:max-md:before:border-none">
+                Бързи връзки
+            </h2>
             {links.map((link, index) => (
-                <p className="text-md" key={index}>
-                    {link}
-                </p>
+                // <p className="before-border mb-2 border-yellow-500 text-xl sm:max-md:border-b-2 sm:max-md:before:border-none">
+                //     {link.title}
+                // </p>
+                <ScrollLink
+                    to={link.link}
+                    spy={true}
+                    smooth={true}
+                    duration={500}
+                    className="cursor-pointer"
+                >
+                    {link.title}
+                </ScrollLink>
             ))}
         </div>
     );
@@ -62,7 +102,7 @@ const ContactInfo: FC = () => {
         <div
             ref={contactRef}
             className={cn(
-                "animate-delay-1000 flex flex-col items-center gap-2 text-xs opacity-0 sm:items-center md:items-start",
+                "flex flex-col items-center gap-2 text-xs opacity-0 animate-delay-1000 sm:items-center md:items-start",
                 isContactVisible && "animate-fade-up opacity-100",
             )}
         >
@@ -92,19 +132,19 @@ const ContactInfo: FC = () => {
 export default function Footer() {
     const titleBoxRef = useRef(null);
     const isTitleBoxVisible = !!useVisibility(titleBoxRef, {})?.isIntersecting;
-    
-    const [hasLoaded,setHasLoaded]=useState(false);
-    useEffect(() =>{
-        titleBoxRef.current&&setHasLoaded(true);
-    },[titleBoxRef]);
-    
+
+    const [hasLoaded, setHasLoaded] = useState(false);
+    useEffect(() => {
+        titleBoxRef.current && setHasLoaded(true);
+    }, [titleBoxRef]);
+
     return (
         <footer className="flex min-h-[200px] flex-col items-center gap-10 bg-gray-900 px-10 py-3 text-white">
-            <div className="grid-rows-auto grid items-center gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-[1fr_.75fr_.75fr_.5fr]">
+            <div className="grid-rows-auto grid items-center gap-7 sm:gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-[1fr_.75fr_.75fr_.5fr]">
                 <div
                     ref={titleBoxRef}
                     className={cn(
-                        "animate-delay-200 flex flex-col items-center gap-4 text-center opacity-0 md:max-lg:col-span-3 lg:items-start lg:text-left",
+                        "flex flex-col items-center gap-4 text-center opacity-0 animate-delay-200 md:max-lg:col-span-3 lg:items-start lg:text-left",
                         isTitleBoxVisible && "animate-fade-up opacity-100",
                     )}
                 >
@@ -120,19 +160,9 @@ export default function Footer() {
                     </div>
                 </div>
                 <FooterLinksSection
-                    title="Програми"
-                    links={Array.from(
-                        { length: 8 },
-                        (_, index) => `Lorem Ipsum ${index + 1}`,
-                    )}
+                   links={fastLinks}
                 />
-                <FooterProgramsSection
-                    title="Бързи връзки"
-                    links={Array.from(
-                        { length: 5 },
-                        (_, index) => `Lorem Ipsum ${index + 1}`,
-                    )}
-                />
+                <FooterProgramsSection links={programLinks} />
                 <ContactInfo />
             </div>
             <div>
