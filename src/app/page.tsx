@@ -28,11 +28,11 @@ import Link from "next/link";
 const headerItems: Headers = [
     {
         link: "/apply",
-        background: "/appliance.png",
+        background: "/headers/appliance.png",
     },
     {
         link: "",
-        background: "/sundayCollege.png",
+        background: "/headers/sundayCollege.png",
     },
 ];
 const aboutItems: AboutItems = [
@@ -84,19 +84,19 @@ const selectReasons: Reasons = [
 const profiles: Profiles = [
     {
         type: "Данъчен и митнически контрол",
-        image: "bg-[url('/borderControl.jpg')]",
+        image: "bg-[url('/profiles/borderControl.jpg')]",
         icon:<FileSearch size={40} className="border-4 border-white rounded-full p-1 self-start"/>,
         pdf: "/pdfs/borderAdmin.pdf",
     },
     {
         type: "Банково дело",
-        image: "bg-[url('/bank.jpg')]",
+        image: "bg-[url('/profiles/bank.jpg')]",
         icon: <Landmark size={40} className="border-4 border-white rounded-full p-1 self-start"/>,
         pdf: "/pdfs/banker.pdf",
     },
     {
         type: "Оперативно счетоводство",
-        image: "bg-[url('/accountant.jpg')]",
+        image: "bg-[url('/profiles/accountant.jpg')]",
         icon: <DollarSign size={40} className="border-4 border-white rounded-full "/>,
         pdf: "/pdfs/accountant.pdf",
     },
@@ -551,7 +551,7 @@ const ContactSection: React.FC = () => (
     "
             >
                 <img
-                    src={"/map.png"}
+                    src={"/contacts/map.png"}
                     className="h-auto w-full border-y-4 border-yellow-500"
                 />
             </Link>
