@@ -31,7 +31,7 @@ const headerItems: Headers = [
         background: "/headers/appliance.png",
     },
     {
-        link: "",
+        link: "sundayCollege",
         background: "/headers/sundayCollege.png",
     },
 ];
