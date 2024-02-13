@@ -220,8 +220,8 @@ const AboutSection: React.FC = () => {
     // };
 
     return (
-        <section className="flex min-h-[500px] flex-col w-full items-center justify-start gap-5 bg-gradient-to-b from-sky-500 from-50% to-100% to-white">
-            <h2 className="text-white text-7xl font-bold underline decoration-4 underline-offset-4">За нас</h2>
+        <section className="flex min-h-[500px] flex-col w-full items-center py-4 justify-start gap-5 bg-gradient-to-b from-sky-500 from-50% to-100% to-white">
+            <h2 className="text-white text-5xl md:text-7xl font-bold underline decoration-4 underline-offset-4">За нас</h2>
             <div className="w-full flex flex-col md:flex-row h-fit justify-center items-center">
             <Carousel
                 setApi={setApi}
@@ -236,7 +236,7 @@ const AboutSection: React.FC = () => {
                 ]}
                 className="max-w-[1000px]"
             >
-                <CarouselContent className="mt-1  h-[300px] sm:h-[200px] md:h-[350px]">
+                <CarouselContent className="mt-1 h-[300px] sm:h-[200px] md:h-[350px]">
                     {aboutItems.map((item, index) => (
                         <CarouselItem
                             key={index}
