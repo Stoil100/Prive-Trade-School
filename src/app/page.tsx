@@ -97,7 +97,7 @@ const profiles: Profiles = [
     {
         type: "Оперативно счетоводство",
         image: "bg-[url('/profiles/accountant.jpg')]",
-        icon: <DollarSign size={40} className="border-4 border-white rounded-full "/>,
+        icon: <DollarSign size={40} className="border-4 border-white rounded-full p-1 self-start"/>,
         pdf: "/pdfs/accountant.pdf",
     },
 ];
@@ -141,7 +141,7 @@ const HeroSection: React.FC = () => {
     }, [activeIndex, carouselApi]);
 
     return (
-        <section className="relative flex w-full items-center justify-between gap-5">
+        <section className="relative flex w-full items-center justify-between gap-5 bg-sky-500">
             <Carousel
                 setApi={setApi}
                 className="h-fit w-full"
@@ -220,9 +220,9 @@ const AboutSection: React.FC = () => {
     // };
 
     return (
-        <section className="flex h-[500px] flex-col w-full items-center justify-start gap-5 bg-gradient-to-b from-sky-500 from-50% to-100% to-white">
+        <section className="flex min-h-[500px] flex-col w-full items-center justify-start gap-5 bg-gradient-to-b from-sky-500 from-50% to-100% to-white">
             <h2 className="text-white text-7xl font-bold underline decoration-4 underline-offset-4">За нас</h2>
-            <div className="w-3/4 flex h-fit justify-center items-center">
+            <div className="w-full flex flex-col md:flex-row h-fit justify-center items-center">
             <Carousel
                 setApi={setApi}
                 orientation="vertical"
@@ -234,13 +234,13 @@ const AboutSection: React.FC = () => {
                         delay: 4000,
                     }),
                 ]}
-                className="w-[1000px]"
+                className="max-w-[1000px]"
             >
-                <CarouselContent className="mt-1 h-[300px]">
+                <CarouselContent className="mt-1  h-[300px] sm:h-[200px] md:h-[350px]">
                     {aboutItems.map((item, index) => (
                         <CarouselItem
                             key={index}
-                            className="w-full p-5 flex items-center justify-center border-r "
+                            className="w-full p-5 flex items-center justify-center md:border-r"
                         >
                             <CarouselAboutItemContent
                                 title={item.title}
@@ -253,13 +253,13 @@ const AboutSection: React.FC = () => {
                 </CarouselContent>
             </Carousel>
 
-                <div className="w-fit flex flex-col justify-center items-center p-4 gap-3 min-w-40">
+                <div className="w-fit flex flex-row md:flex-col justify-center items-center p-4  gap-7 md:gap-3 min-w-40">
                 {aboutItems.map((item,index) => (
                     <div
                         key={index}
                         className={cn(
-                            "flex h-16 w-16 cursor-pointer items-center justify-center rounded-full bg-blue-500 text-white transition-all",
-                            index === activeIndex && "bg-blue-600 scale-110",
+                            "flex h-12 w-12  md:h-16 md:w-16 cursor-pointer items-center justify-center rounded-full bg-blue-500 text-white transition-all",
+                            index === activeIndex && "bg-blue-600 scale-125 md:scale-110",
                         )}
                     
                         onClick={() => {
@@ -279,9 +279,9 @@ const CarouselAboutItemContent: React.FC<AboutItem> = ({
     description,
 }) => {
     return (
-        <div className="flex h-full w-fit flex-col justify-center p-2 text-white">
-             <p className="text-5xl font-bold">{title}</p>
-            <p className="text-2xl">{description}</p>
+        <div className="flex h-full w-fit flex-col justify-center p-2 text-white text-center md:text-left">
+             <p className="text-3xl md:text-5xl font-bold mb-2">{title}</p>
+            <p className="text-md md:text-2xl">{description}</p>
         </div>
     );
 };
