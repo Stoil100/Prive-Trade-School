@@ -166,7 +166,7 @@ export default function Admin() {
                 {submitValues.title !== "" && (
                     <div
                         className={cn(
-                            "h-[450px] border bg-coveer w-[350px] bg-center",
+                            "h-[450px] border bg-cover w-[350px] bg-center",
                             submitValues.image,
                         )}
                         style={{
