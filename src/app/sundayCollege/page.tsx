@@ -13,7 +13,7 @@ export default function SundayCollege() {
             <img src="/headers/sundayCollege.png" className="h-auto w-full" />
             <div className="p-5">
                 <h4 className="text-4xl">
-                    Присъединете се към нашата 3-месечно програма за млади хора
+                    Присъединете се към нашата 3-месечна програма за млади хора
                     с амбиции за реализация в бизнеса.
                 </h4>
                 <div className="p-2">

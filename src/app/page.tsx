@@ -508,15 +508,16 @@ const ProfilesSection: React.FC = () => {
                                 </p>
                             </div>
                         </div>
-                        <a
+                        <Link
                             className="absolute inset-0 flex transform cursor-pointer flex-col items-center justify-center rounded-xl gap-2 bg-black/40 p-4 text-center text-xl text-white opacity-0 transition-opacity hover:opacity-100"
                             href={item.pdf}
                             target="_blank"
                             rel="noopener noreferrer"
                             download
+                            locale={false}
                         >
                             Изтегли PDF
-                        </a>
+                        </Link>
                     </div>
                 ))}
             </div>
