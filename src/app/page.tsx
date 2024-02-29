@@ -86,19 +86,19 @@ const profiles: Profiles = [
         type: "Данъчен и митнически контрол",
         image: "bg-[url('/profiles/borderControl.jpg')]",
         icon:<FileSearch size={40} className="border-4 border-white rounded-full p-1 self-start"/>,
-        pdf: "/pdfs/borderAdmin.pdf",
+        pdf: "https://firebasestorage.googleapis.com/v0/b/private-trade-school.appspot.com/o/pdfs%2Faccountant.PDF?alt=media&token=de3f1483-2c99-4701-a1a1-6174ec077ecb",
     },
     {
         type: "Банково дело",
         image: "bg-[url('/profiles/bank.jpg')]",
         icon: <Landmark size={40} className="border-4 border-white rounded-full p-1 self-start"/>,
-        pdf: "/pdfs/banker.pdf",
+        pdf: "https://firebasestorage.googleapis.com/v0/b/private-trade-school.appspot.com/o/pdfs%2Fbanker.PDF?alt=media&token=1bf1e9da-a3b3-424f-b7ae-dc65ed2de0df",
     },
     {
         type: "Оперативно счетоводство",
         image: "bg-[url('/profiles/accountant.jpg')]",
         icon: <DollarSign size={40} className="border-4 border-white rounded-full p-1 self-start"/>,
-        pdf: "/pdfs/accountant.pdf",
+        pdf: "https://firebasestorage.googleapis.com/v0/b/private-trade-school.appspot.com/o/pdfs%2FborderAdmin.PDF?alt=media&token=7135de87-2cef-4eac-b96e-15c820558744",
     },
 ];
 
