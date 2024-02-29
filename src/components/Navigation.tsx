@@ -18,6 +18,7 @@ import {
     SheetHeader,
     SheetTitle,
     SheetTrigger,
+    SheetClose,
 } from "@/components/ui/sheet";
 import useScrollListener from "@/hooks/useScroll";
 import { cn } from "@/lib/utils";
@@ -34,9 +35,10 @@ import {
     Phone,
     School,
     UnlockKeyhole,
+    Users,
 } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "./Providers";
 import { Button } from "./ui/button";
@@ -44,6 +46,7 @@ import { Link as ScrollLink } from "react-scroll";
 
 export default function Navigation() {
     const router = useRouter();
+    const pathname = usePathname();
     const navigationRef = useRef<HTMLDivElement>(null);
     const useScroll = useScrollListener();
     const [hasLoaded, setHasLoaded] = useState(false);
@@ -76,64 +79,201 @@ export default function Navigation() {
                 </SheetTrigger>
                 <SheetContent
                     side="left"
-                    className="overflow-y-auto"
+                    className="space-y-5 overflow-y-auto"
                     onChange={() => {
                         setHasLoaded(false);
                     }}
                 >
                     <SheetHeader>
-                        <SheetTitle>Menu</SheetTitle>
+                        <SheetTitle className="flex justify-center">
+                            <Link href={"/"}>
+                                <SheetClose asChild>
+                                    <img
+                                        src="/logo.png"
+                                        className="max-w-[80px]"
+                                    />
+                                </SheetClose>
+                            </Link>
+                        </SheetTitle>
                     </SheetHeader>
                     <div className="flex flex-col gap-2">
-                        {[200, 300, 500, 700, 1000].map((item, index) => (
-                            <Collapsible key={index}>
-                                <CollapsibleTrigger
-                                    className={cn(
-                                        `align-center flex w-full justify-between rounded-md border-2 p-2 text-lg font-bold animate-delay-${item} `,
-                                        hasLoaded && " animate-fade-right",
+                        <Collapsible>
+                            <CollapsibleTrigger
+                                className={cn(
+                                    `align-center flex w-full justify-center rounded-md border-2 p-2 text-lg font-bold animate-delay-1000 `,
+                                    hasLoaded && " animate-fade-right",
+                                )}
+                            >
+                                <SheetClose asChild>
+                                    {pathname === "/" ? (
+                                        <ScrollLink
+                                            to="news"
+                                            spy={true}
+                                            smooth={true}
+                                            duration={500}
+                                        >
+                                            Новини
+                                        </ScrollLink>
+                                    ) : (
+                                        <Link href="/">Новини</Link>
                                     )}
+                                </SheetClose>
+                            </CollapsibleTrigger>
+                        </Collapsible>
+                        <Collapsible>
+                            <CollapsibleTrigger
+                                className={cn(
+                                    `align-center flex w-full justify-center rounded-md border-2 p-2 text-lg font-bold animate-delay-700 `,
+                                    hasLoaded && " animate-fade-right",
+                                )}
+                            >
+                                <SheetClose asChild>
+                                    {pathname === "/" ? (
+                                        <ScrollLink
+                                            to="programs"
+                                            spy={true}
+                                            smooth={true}
+                                            duration={500}
+                                        >
+                                            Програми
+                                        </ScrollLink>
+                                    ) : (
+                                        <Link href="/">Програми</Link>
+                                    )}
+                                </SheetClose>
+                            </CollapsibleTrigger>
+                        </Collapsible>
+                        <Collapsible>
+                            <CollapsibleTrigger
+                                className={cn(
+                                    `align-center flex w-full justify-center rounded-md border-2 p-2 text-lg font-bold animate-delay-500 `,
+                                    hasLoaded && " animate-fade-right",
+                                )}
+                            >
+                                <SheetClose asChild>
+                                    <Link href={"/projects"}>Проекти</Link>
+                                </SheetClose>
+                            </CollapsibleTrigger>
+                        </Collapsible>
+                        <Collapsible>
+                            <CollapsibleTrigger
+                                className={cn(
+                                    `align-center flex w-full justify-between rounded-md border-2 p-2 text-lg font-bold animate-delay-300 `,
+                                    hasLoaded && " animate-fade-right",
+                                )}
+                            >
+                                <Users />
+                                За нас
+                                <ChevronDown />
+                            </CollapsibleTrigger>
+                            <CollapsibleContent>
+                                <div className="flex flex-col divide-y-2 p-2 text-center">
+                                    {pathname === "/" ? (
+                                        <ScrollLink
+                                            to="about"
+                                            spy={true}
+                                            smooth={true}
+                                            duration={500}
+                                        >
+                                            <SheetClose>
+                                                Мисия и визия
+                                            </SheetClose>
+                                        </ScrollLink>
+                                    ) : (
+                                        <Link href="/">
+                                            <SheetClose>
+                                                Мисия и визия
+                                            </SheetClose>
+                                        </Link>
+                                    )}
+                                    {pathname === "/" ? (
+                                        <ScrollLink
+                                            to="select"
+                                            spy={true}
+                                            smooth={true}
+                                            duration={500}
+                                        >
+                                            <SheetClose>
+                                                Защо да изберете нас
+                                            </SheetClose>
+                                        </ScrollLink>
+                                    ) : (
+                                        <Link href="/">
+                                            <SheetClose>
+                                                Защо да изберете нас
+                                            </SheetClose>
+                                        </Link>
+                                    )}
+                                </div>
+                            </CollapsibleContent>
+                        </Collapsible>
+                        <Collapsible>
+                            <CollapsibleTrigger
+                                className={cn(
+                                    `align-center flex w-full justify-between rounded-md border-2 p-2 text-lg font-bold animate-delay-200 `,
+                                    hasLoaded && " animate-fade-right",
+                                )}
+                            >
+                                <Phone />
+                                Контакти
+                                <ChevronDown />
+                            </CollapsibleTrigger>
+                            <CollapsibleContent className="flex flex-col items-center justify-center">
+                                <div className="flex items-center gap-2 p-2">
+                                    <Mail />
+                                    <div className="flex flex-col divide-y-2 text-xs">
+                                        <a href="mailto:privatetradeschool@gmail.com">
+                                            privatetradeschool@gmail.com
+                                        </a>
+                                        <a href="mailto:400070@edu.mon.bg">
+                                            400070@edu.mon.bg
+                                        </a>
+                                    </div>
+                                </div>
+                                <a
+                                    href={
+                                        "https://maps.app.goo.gl/PCDdCJbaF5vfMTY98"
+                                    }
+                                    className="flex items-center justify-center gap-1 p-2"
                                 >
-                                    Can I use this in my project?
-                                    <ChevronDown />
-                                </CollapsibleTrigger>
-                                {Array.from({ length: 5 }).map((_, index) => (
-                                    <CollapsibleContent
-                                        key={index}
-                                        className="decoration-dot before:content-['-']"
-                                    >
-                                        Yes. Free to use for personal and
-                                        commercial projects. No attribution
-                                        required.
-                                    </CollapsibleContent>
-                                ))}
-                            </Collapsible>
-                        ))}
+                                    <Map />
+                                    <p>ул. Преспа 1, Варна 9000</p>
+                                </a>
+                                <a
+                                    href={"tel:0893344539"}
+                                    className="flex items-center justify-center gap-1 p-2"
+                                >
+                                    <Phone />
+                                    <p>+359 933 445 39</p>
+                                </a>
+                            </CollapsibleContent>
+                        </Collapsible>
                         {user.uid === null ? (
                             <Collapsible>
                                 <CollapsibleTrigger
                                     className={cn(
-                                        `align-center flex w-full justify-between rounded-md border-2 p-2 text-lg font-bold animate-delay-100 `,
+                                        `align-center flex w-full justify-between rounded-md border-2 p-2 text-lg font-bold animate-delay-100`,
                                         hasLoaded && " animate-fade-right",
                                     )}
                                 >
-                                    <CircleUserRound /> Register / Login
+                                    <CircleUserRound /> Регистрация / Вход
                                     <ChevronDown />
                                 </CollapsibleTrigger>
-                                <CollapsibleContent className="decoration-dot flex justify-center  text-xl">
+                                <CollapsibleContent className="decoration-dot flex justify-center text-xl">
                                     <Link
                                         href="/login"
                                         className=" flex items-center gap-2"
                                     >
-                                        - Login
+                                        - Вход
                                         <UnlockKeyhole />
                                     </Link>
                                 </CollapsibleContent>
-                                <CollapsibleContent className="decoration-dot flex justify-center  text-xl">
+                                <CollapsibleContent className="decoration-dot flex justify-center text-xl">
                                     <Link
                                         href="/register"
                                         className=" flex items-center gap-2 "
                                     >
-                                        - Register
+                                        - Регистрация
                                         <UnlockKeyhole />
                                     </Link>
                                 </CollapsibleContent>
@@ -146,7 +286,7 @@ export default function Navigation() {
                                         hasLoaded && " animate-fade-right",
                                     )}
                                 >
-                                    <CircleUserRound /> Account
+                                    <CircleUserRound /> Акаунт
                                     <ChevronDown />
                                 </CollapsibleTrigger>
                                 <CollapsibleContent className="decoration-dot gap-2">
@@ -155,7 +295,7 @@ export default function Navigation() {
                                         className=" flex w-full items-center gap-2 text-xl font-normal"
                                         variant="ghost"
                                     >
-                                        - Logout
+                                        - Изход
                                         <LogOut />
                                     </Button>
                                 </CollapsibleContent>
@@ -165,7 +305,7 @@ export default function Navigation() {
                                             href="/register"
                                             className=" flex items-center gap-2"
                                         >
-                                            - Admin
+                                            - Админ
                                             <School />
                                         </Link>
                                     </CollapsibleContent>
@@ -178,7 +318,7 @@ export default function Navigation() {
 
             {/* End of mobile view */}
 
-            <div className="hidden w-full justify-end md:!flex">
+            <div className="hidden w-full justify-end md:!flex lg:text-base text-sm">
                 <Menubar className="border-none bg-blue-700">
                     <MenubarMenu>
                         <MenubarTrigger
@@ -213,11 +353,7 @@ export default function Navigation() {
                     </MenubarMenu>
                     <MenubarMenu>
                         <MenubarTrigger>
-                            <Link
-                               href={"/projects"}
-                            >
-                                Проекти
-                            </Link>
+                            <Link href={"/projects"}>Проекти</Link>
                         </MenubarTrigger>
                     </MenubarMenu>
                     <MenubarMenu>
