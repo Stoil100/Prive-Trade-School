@@ -13,15 +13,24 @@ import { cn } from "@/lib/utils";
 import { NewsT } from "@/models/news";
 import Autoplay from "embla-carousel-autoplay";
 import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
-import { GraduationCap ,Backpack , Star,BookOpenText , Phone, FileSearch, Landmark, DollarSign } from "lucide-react";
+import {
+    GraduationCap,
+    Backpack,
+    Star,
+    BookOpenText,
+    Phone,
+    FileSearch,
+    Landmark,
+    DollarSign,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Parallax } from "react-scroll-parallax";
 import { useIntersectionObserver as useVisibility } from "usehooks-ts";
-import { Header, Headers } from "../models/headerItem";
-import { Profiles } from "../models/profile";
+import { Header, Headers } from "../../models/headerItem";
+import { Profiles } from "../../models/profile";
 import { AboutItem, AboutItems } from "@/models/about";
-import { Reason, Reasons } from "../models/reason";
+import { Reason, Reasons } from "../../models/reason";
 import { Element } from "react-scroll";
 import Link from "next/link";
 
@@ -30,36 +39,28 @@ const headerItems: Headers = [
         link: "/apply",
         background: "/headers/appliance.png",
     },
-    {
-        link: "sundayCollege",
-        background: "/headers/sundayCollege.png",
-    },
 ];
 const aboutItems: AboutItems = [
     {
-        
         icon: <Star />,
         title: "🎯Нашата мисия",
         description:
-            " Ние споделяме  икономически знания и искаме да вдъхновяваме със страст за кариерно професионално ориентиране млади хора за бизнес реализация. Ние отваряме врати за личен и професионален успех, създавайки бизнес култура."
-        },
+            " Ние споделяме  икономически знания и искаме да вдъхновяваме със страст за кариерно професионално ориентиране млади хора за бизнес реализация. Ние отваряме врати за личен и професионален успех, създавайки бизнес култура.",
+    },
     {
-        
         icon: <BookOpenText />,
         title: "🎯Нашата мисия",
         description:
             "Предлаганото от на обучение надгражда държавните образователни стандарти по общообразователна, знанията по общопрофесионална, отраслова и специфична подготовка. Създаваме мотиви за учене, умения за справяне при трудни учебни и житейски ситуации ,формираме компетенции и изграждаме отношения за сътрудничество на обучаемите младежи.",
     },
     {
-      
         icon: <GraduationCap />,
         title: "🌟Нашата визия",
         description:
             "Работим езиковото обучение по нива, съгласно европейската езикова рамка. Провеждаме учебната професионална практика в банкови кантори и училище, а в реална среда стажове в финансови предприятия. Редовно срещаме учениците с хора, успели да реализират себе си като успешни лидери на фирми.",
     },
     {
-        
-        icon: <Backpack  />,
+        icon: <Backpack />,
         title: "🌟Нашата визия",
         description:
             "Организират се мероприятия по метода на „преживяването“ и се работи с учениците по различни европейски проекти на икономическа, екологична и социална тематика. Ежемесечно се посещават културни институции като музеи,театрални и оперни спектакли, изложби и срещаме бъдещите млади специалисти с изявени творци.",
@@ -85,19 +86,34 @@ const profiles: Profiles = [
     {
         type: "Данъчен и митнически контрол",
         image: "bg-[url('/profiles/borderControl.jpg')]",
-        icon:<FileSearch size={40} className="border-4 border-white rounded-full p-1 self-start"/>,
+        icon: (
+            <FileSearch
+                size={40}
+                className="self-start rounded-full border-4 border-white p-1"
+            />
+        ),
         pdf: "https://firebasestorage.googleapis.com/v0/b/private-trade-school.appspot.com/o/pdfs%2Faccountant.PDF?alt=media&token=de3f1483-2c99-4701-a1a1-6174ec077ecb",
     },
     {
         type: "Банково дело",
         image: "bg-[url('/profiles/bank.jpg')]",
-        icon: <Landmark size={40} className="border-4 border-white rounded-full p-1 self-start"/>,
+        icon: (
+            <Landmark
+                size={40}
+                className="self-start rounded-full border-4 border-white p-1"
+            />
+        ),
         pdf: "https://firebasestorage.googleapis.com/v0/b/private-trade-school.appspot.com/o/pdfs%2Fbanker.PDF?alt=media&token=1bf1e9da-a3b3-424f-b7ae-dc65ed2de0df",
     },
     {
         type: "Оперативно счетоводство",
         image: "bg-[url('/profiles/accountant.jpg')]",
-        icon: <DollarSign size={40} className="border-4 border-white rounded-full p-1 self-start"/>,
+        icon: (
+            <DollarSign
+                size={40}
+                className="self-start rounded-full border-4 border-white p-1"
+            />
+        ),
         pdf: "https://firebasestorage.googleapis.com/v0/b/private-trade-school.appspot.com/o/pdfs%2FborderAdmin.PDF?alt=media&token=7135de87-2cef-4eac-b96e-15c820558744",
     },
 ];
@@ -130,6 +146,23 @@ export default function Home() {
 const HeroSection: React.FC = () => {
     const [carouselApi, setApi] = useState<CarouselApi | undefined>();
     const [activeIndex, setActiveIndex] = useState(0);
+    const [headerImages, setHeaderImages] = useState<Headers>([]);
+
+    useEffect(() => {
+        const fetchUploadedContent = async () => {
+            const querySnapshot = await getDocs(collection(db, "headers"));
+            const fetchedContent: Headers = [];
+            querySnapshot.forEach((doc) => {
+                fetchedContent.push({
+                    link: doc.id,
+                    background: doc.data().image,
+                });
+            });
+            const content = headerItems.concat(fetchedContent);
+            setHeaderImages(content);
+        };
+        fetchUploadedContent();
+    }, []);
 
     useEffect(() => {
         if (carouselApi) {
@@ -155,7 +188,7 @@ const HeroSection: React.FC = () => {
                 ]}
             >
                 <CarouselContent className="h-fit">
-                    {headerItems.map((item, index) => (
+                    {headerImages.map((item, index) => (
                         <CarouselItem
                             key={index}
                             className={cn(
@@ -212,7 +245,7 @@ const AboutSection: React.FC = () => {
             setActiveIndex(carouselApi.selectedScrollSnap());
         });
     }, [activeIndex, carouselApi]);
-    
+
     // const reorderItems = () => {
     //     const middleIndex = Math.floor(aboutItems.length / 2);
     //     const offset = activeIndex - middleIndex;
@@ -220,55 +253,57 @@ const AboutSection: React.FC = () => {
     // };
 
     return (
-        <section className="flex min-h-[500px] flex-col w-full items-center py-4 justify-start gap-5 bg-gradient-to-b from-sky-500 from-50% to-100% to-white">
-            <h2 className="text-white text-5xl md:text-7xl font-bold underline decoration-4 underline-offset-4">За нас</h2>
-            <div className="w-full flex flex-col md:flex-row h-fit justify-center items-center">
-            <Carousel
-                setApi={setApi}
-                orientation="vertical"
-                opts={{
-                    loop: true,
-                }}
-                plugins={[
-                    Autoplay({
-                        delay: 4000,
-                    }),
-                ]}
-                className="max-w-[1000px]"
-            >
-                <CarouselContent className="mt-1 h-[300px] sm:h-[200px] md:h-[350px]">
-                    {aboutItems.map((item, index) => (
-                        <CarouselItem
-                            key={index}
-                            className="w-full p-5 flex items-center justify-center md:border-r"
-                        >
-                            <CarouselAboutItemContent
-                                title={item.title}
-                                description={item.description}
-                                icon={item.icon}
+        <section className="flex min-h-[500px] w-full flex-col items-center justify-start gap-5 bg-gradient-to-b from-sky-500 from-50% to-white to-100% py-4">
+            <h2 className="text-5xl font-bold text-white underline decoration-4 underline-offset-4 md:text-7xl">
+                За нас
+            </h2>
+            <div className="flex h-fit w-full flex-col items-center justify-center md:flex-row">
+                <Carousel
+                    setApi={setApi}
+                    orientation="vertical"
+                    opts={{
+                        loop: true,
+                    }}
+                    plugins={[
+                        Autoplay({
+                            delay: 4000,
+                        }),
+                    ]}
+                    className="max-w-[1000px]"
+                >
+                    <CarouselContent className="mt-1 h-[300px] sm:h-[200px] md:h-[350px]">
+                        {aboutItems.map((item, index) => (
+                            <CarouselItem
                                 key={index}
-                            />
-                        </CarouselItem>
-                    ))}
-                </CarouselContent>
-            </Carousel>
+                                className="flex w-full items-center justify-center p-5 md:border-r"
+                            >
+                                <CarouselAboutItemContent
+                                    title={item.title}
+                                    description={item.description}
+                                    icon={item.icon}
+                                    key={index}
+                                />
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                </Carousel>
 
-                <div className="w-fit flex flex-row md:flex-col justify-center items-center p-4  gap-7 md:gap-3 min-w-40">
-                {aboutItems.map((item,index) => (
-                    <div
-                        key={index}
-                        className={cn(
-                            "flex h-12 w-12  md:h-16 md:w-16 cursor-pointer items-center justify-center rounded-full bg-blue-500 text-white transition-all",
-                            index === activeIndex && "bg-blue-600 scale-125 md:scale-110",
-                        )}
-                    
-                        onClick={() => {
-                            setActiveIndex(index);
-                        }}
-                    >
-                        {item.icon}
-                    </div>
-                ))}
+                <div className="flex w-fit min-w-40 flex-row items-center justify-center gap-7  p-4 md:flex-col md:gap-3">
+                    {aboutItems.map((item, index) => (
+                        <div
+                            key={index}
+                            className={cn(
+                                "flex h-12 w-12  cursor-pointer items-center justify-center rounded-full bg-blue-500 text-white transition-all md:h-16 md:w-16",
+                                index === activeIndex &&
+                                    "scale-125 bg-blue-600 md:scale-110",
+                            )}
+                            onClick={() => {
+                                setActiveIndex(index);
+                            }}
+                        >
+                            {item.icon}
+                        </div>
+                    ))}
                 </div>
             </div>
         </section>
@@ -279,8 +314,8 @@ const CarouselAboutItemContent: React.FC<AboutItem> = ({
     description,
 }) => {
     return (
-        <div className="flex h-full w-fit flex-col justify-center p-2 text-white text-center md:text-left">
-             <p className="text-3xl md:text-5xl font-bold mb-2">{title}</p>
+        <div className="flex h-full w-fit flex-col justify-center p-2 text-center text-white md:text-left">
+            <p className="mb-2 text-3xl font-bold md:text-5xl">{title}</p>
             <p className="text-md md:text-2xl">{description}</p>
         </div>
     );
@@ -319,7 +354,7 @@ const NewsSection: React.FC = () => {
 
     return (
         <section className="flex h-fit w-full flex-col items-center justify-center gap-2 bg-white p-5 sm:min-h-fit sm:max-lg:p-20">
-            <h1 className="font-geologica text-5xl underline decoration-4 sm:text-7xl text-cyan-900">
+            <h1 className="font-geologica text-5xl text-cyan-900 underline decoration-4 sm:text-7xl">
                 Новини
             </h1>
 
@@ -494,14 +529,17 @@ const ProfilesSection: React.FC = () => {
             </h2>
             <div className="flex h-fit w-full flex-wrap items-center justify-center gap-10 px-4 py-3 sm:px-8">
                 {profiles.map((item, index) => (
-                    <div key={index} className="relative h-[450px] w-[350px] hover:scale-110 transition-transform duration-300">
+                    <div
+                        key={index}
+                        className="relative h-[450px] w-[350px] transition-transform duration-300 hover:scale-110"
+                    >
                         <div
                             className={cn(
                                 "absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-xl border-y-8 border-amber-400 bg-white bg-cover",
                                 item.image,
                             )}
                         >
-                            <div className="flex h-full w-full items-center justify-between flex-col bg-opacity-30 bg-gradient-to-t from-black to-transparent to-70% p-2 text-white">
+                            <div className="flex h-full w-full flex-col items-center justify-between bg-opacity-30 bg-gradient-to-t from-black to-transparent to-70% p-2 text-white">
                                 {item.icon}
                                 <p className="text-center text-lg font-bold">
                                     {item.type}
@@ -509,7 +547,7 @@ const ProfilesSection: React.FC = () => {
                             </div>
                         </div>
                         <Link
-                            className="absolute inset-0 flex transform cursor-pointer flex-col items-center justify-center rounded-xl gap-2 bg-black/40 p-4 text-center text-xl text-white opacity-0 transition-opacity hover:opacity-100"
+                            className="absolute inset-0 flex transform cursor-pointer flex-col items-center justify-center gap-2 rounded-xl bg-black/40 p-4 text-center text-xl text-white opacity-0 transition-opacity hover:opacity-100"
                             href={item.pdf}
                             target="_blank"
                             rel="noopener noreferrer"
