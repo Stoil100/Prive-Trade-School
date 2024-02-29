@@ -78,9 +78,6 @@ const FooterLinksSection: FC<{
                 Бързи връзки
             </h2>
             {links.map((link, index) => (
-                // <p className="before-border mb-2 border-yellow-500 text-xl sm:max-md:border-b-2 sm:max-md:before:border-none">
-                //     {link.title}
-                // </p>
                 <ScrollLink
                     to={link.link}
                     spy={true}
@@ -141,7 +138,7 @@ export default function Footer() {
 
     return (
         <footer className="flex min-h-[200px] flex-col items-center gap-10 bg-gray-900 px-10 py-3 text-white">
-            <div className="grid-rows-auto grid items-center gap-7 sm:gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-[1fr_.75fr_.75fr_.5fr]">
+            <div className="grid-rows-auto grid items-center gap-7 sm:grid-cols-2 sm:gap-3 md:grid-cols-3 lg:grid-cols-[1fr_.75fr_.75fr_.5fr]">
                 <div
                     ref={titleBoxRef}
                     className={cn(
@@ -153,16 +150,18 @@ export default function Footer() {
                         Частна търговска гимназия
                     </p>
                     <div className="flex items-center gap-5">
-                        <Instagram />
+                        <a href="https://www.facebook.com/privatetradeschool?">
                         <Facebook />
-                        <Twitter />
+                        </a>
+                        <a href="mailto:privatetradeschool@gmail.com">
                         <Mail />
+                        </a>
+                        <a href={"tel:0893344539"}>
                         <Phone />
+                        </a>
                     </div>
                 </div>
-                <FooterLinksSection
-                   links={fastLinks}
-                />
+                <FooterLinksSection links={fastLinks} />
                 <FooterProgramsSection links={programLinks} />
                 <ContactInfo />
             </div>
