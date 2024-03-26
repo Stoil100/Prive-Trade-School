@@ -3,11 +3,11 @@ import React from "react";
 export default function page() {
     return (
         <section className="bg-white p-6">
-            <h1 className="text-center text-7xl font-bold underline decoration-4 mb-4">
+            <h1 className="text-center text-6xl font-bold underline decoration-4 mb-4">
                 Проекти
             </h1>
             <div>
-                <h2 className="text-3xl font-bold">
+                <h2 className="text-xl font-bold">
                     &quot;ГЕОПАРКОВЕ – природно и културно наследство,
                     обединяващо ученици и учители от Европа“ /  GEOPARKS –
                     NATURAL AND CULTURAL HERITAGE THAT JOINS EUROPEAN STUDENTS
@@ -16,7 +16,7 @@ export default function page() {
                 <p className="px-2 text-gray-400">
                     Номер на програма: 2018-1-PL01-KA229-050575_1
                 </p>
-                <p className="px-5 py-3 text-xl">
+                <p className="px-5 py-3 text-md">
                     Международният европейски проект за обмен на опит и знания
                     между ученици от Полша, Испания, Франция, България, Унгария
                     и Кипър беше финансиран по програма Еразъм +. Те имаха
@@ -28,7 +28,7 @@ export default function page() {
                 </p>
             </div>
             <div>
-                <h2 className="text-3xl font-bold">
+                <h2 className="text-xl font-bold">
                     „Ателие за проучване на испанския опит за ползите от
                     дуалното обучение и практиката в реална чуждоезикова работна
                     среда&quot;&quot;Workshop on Exploring the Spanish
@@ -38,7 +38,7 @@ export default function page() {
                 <p className="px-2 text-gray-400">
                     Номер на програма: 2017-1-BG01-KA102-035774
                 </p>
-                <p className="px-5 py-3 text-xl">
+                <p className="px-5 py-3 text-md">
                     Целта на проекта беше да изследва как интегрираната практика
                     в реална работна среда в Испания спомага за подобряване
                     качеството на образованието и намаляване на безработицата
@@ -53,21 +53,21 @@ export default function page() {
             <div className="w-full  border border-gray-300" />
 
             <div>
-                <h2 className="text-3xl font-bold">
+                <h2 className="text-xl font-bold">
                     Международни ориентирани към действие бизнес уроци
                 </h2>
                 <p className="text-gray-400">
                     Wirtschaftsunterricht international und handlungsorientiert
                     gestalten (WIN)
                 </p>
-                <p className="px-5 py-3 text-xl">
+                <p className="px-5 py-3 text-md">
                     <span className="font-bold">Бенефициенти: </span> Институт
                     за икономическо образование в Олденбург- Германия,Свободен
                     университет Варна,фирма“ Старт ит смарт „Частна търговска
                     гимназия Варна,училище „Христо Ботев „ село Николаевка,
                     гимназията в Остенбург и училището в Бяла Подласка -Полша
                 </p>
-                <p className="px-5 py-3 text-xl">
+                <p className="px-5 py-3 text-md">
                     <span className="font-bold">Дейности: </span>обучение на
                     учениците в часовете за извънкласна дейност по
                     предприемачество и бизнес планиране, срещи с бизнесмени и
@@ -81,11 +81,11 @@ export default function page() {
                     живот и научи чрез метода на „действие“ на практически
                     знания по мениджмънт участващите в проекта ученици..
                 </p>
-                <h2 className="text-3xl font-bold">
+                <h2 className="text-xl font-bold">
                     „Екологична и икономическа ефективност на финансовото
                     управление в бизнеса “
                 </h2>
-                <p className="px-5 py-3 text-xl">
+                <p className="px-5 py-3 text-md">
                     Програма Еразъм +. Проектът на Частна Търговска Гимназия –
                     Варна бе насочен към усвояване на знания,  умения и
                     формиране на  нагласа  у  10 ученици от X - XII клас,
@@ -101,11 +101,11 @@ export default function page() {
                     финансите и банките и се придобиха умения за реална работна
                     среда.
                 </p>
-                <h2 className="text-3xl font-bold">
+                <h2 className="text-xl font-bold">
                     &quot;Иновативната икономика в туризма и морската индустрия
                     - поле за изява на младежки бизнес лидери”
                 </h2>
-                <p className="px-5 py-3 text-xl">
+                <p className="px-5 py-3 text-md">
                     Проект по програма &quot;Еразъм +&quot;, КД 1 Сектор
                     &quot;Професионално образование и обучение&quot;. Проектът
                     „бе насочен към създаване на предприемачески умения на 10
@@ -119,10 +119,10 @@ export default function page() {
                     Hotel, Chamber of tourism Malta, St.Julians public tourism
                     office, Labor office in Malta, Central Customs Office.
                 </p>
-                <h2 className="text-3xl font-bold">
+                <h2 className="text-xl font-bold">
                     Проект &quot;Маре Нострум&quot;
                 </h2>
-                <p className="px-5 py-3 text-xl">
+                <p className="px-5 py-3 text-md">
                     Проектът създаде партньорство между Европейски училища от
                     шест държави (Италия, Франция, Румъния, Португалия, България
                     и Гърция) с излаз на морски бряг на три морета и
@@ -133,14 +133,14 @@ export default function page() {
                     взаимното влияние на човешката дейност и Европейските
                     морета.
                 </p>
-                <h2 className="text-3xl font-bold">
+                <h2 className="text-xl font-bold">
                     „Не бъди озадачен от различността“, проект финансиран от
                     Академия за централни европейски училища (ACES). ACES е една
                     инициатива на ERSTE Foundation, координирана от
                     Interkulturel Zentrum (Виена, Австрия) и VČELÍ DOM
                     (Братислава, Словакия).
                 </h2>
-                <p className="px-5 py-3 text-xl">
+                <p className="px-5 py-3 text-md">
                     Училището акцентира над осъзнаване на индивидуалността и
                     приемане на различността у всеки човек без дискримация при
                     контакт с хора от други раси, етноси или в друго социално
@@ -159,14 +159,14 @@ export default function page() {
                     Партньорската среща и представление се проведе в Комарно,
                     Словакия.
                 </p>
-                <h2 className="text-3xl font-bold">
+                <h2 className="text-xl font-bold">
                     &quot;Улови реалността- проактивно използвaне на дигиталните
                     медии&quot;, финансиран от Академия за централни европейски
                     училища» (ACES). 12 ученици, на възраст между 15 и 17 год от
                     Частна търговска гимназия Варна и гимназия «Овидиус»,
                     Констанца, Румъния
                 </h2>
-                <p className="px-5 py-3 text-xl">
+                <p className="px-5 py-3 text-md">
                     Участниците придобиха технически и теоретични умения,
                     свързани с анализирането на медийни продукти и създаване на
                     собствени продукцииПолзваха се дигиталните канали като
@@ -179,11 +179,11 @@ export default function page() {
                     основните принципи за създаване на късометражни филми и
                     видео продукции.
                 </p>
-                <h2 className="text-3xl font-bold">
+                <h2 className="text-xl font-bold">
                     “Обединяване на усилията на младите хора с творчески заложби
                     в самоуправлението на малката община”
                 </h2>
-                <p className="px-5 py-3 text-xl">
+                <p className="px-5 py-3 text-md">
                     Проектът бе с основна цел изработване на стратегия за
                     задържане и привличане на младите хора в община Вълчи дол,
                     област Варненска и създаване на модел за включване на
@@ -205,11 +205,11 @@ export default function page() {
                         “Отворено общество” - Варна.
                     </span>
                 </p>
-                <h2 className="text-3xl font-bold">
+                <h2 className="text-xl font-bold">
                     “Професионална мотивация за участие на млади хора в семеен
                     хотелиерски бизнес”
                 </h2>
-                <p className="px-5 py-3 text-xl">
+                <p className="px-5 py-3 text-md">
                     Гимназията бе водеща, а неин партньор бе International House
                     Барселона. Участници в проекта бяха ученици от гимназията,
                     обучавани по специалност “Стопански мениджмънт”. Цел на
@@ -222,10 +222,10 @@ export default function page() {
                     испанските си знания със специфични термини и придобиха
                     навици за работа с туристи със специфични заболявания.
                 </p>
-                <h2 className="text-3xl font-bold">
+                <h2 className="text-xl font-bold">
                     “Евро-счетоводство и международни счетоводни стандарти”
                 </h2>
-                <p className="px-5 py-3 text-xl">
+                <p className="px-5 py-3 text-md">
                     - Частна Търговска гимназия - партньор на Сдружение “Наш
                     свят” като основна цел на проекта бе развитие на уменията за
                     ползване на счетоводни програмни продукти, подобряване на
@@ -241,12 +241,12 @@ export default function page() {
                     технологии бе посрещната с интерес от действащи
                     счетоводители, ученици от професионални гимназии,
                 </p>
-                <h2 className="text-3xl font-bold">
+                <h2 className="text-xl font-bold">
                     “Професионално обучение и мотивация за работа в хотелиерски
                     бизнес на дългосрочно безработни жени над 40 години с
                     икономическо образование”
                 </h2>
-                <p className="px-5 py-3 text-xl">
+                <p className="px-5 py-3 text-md">
                     Основната цел на проекта е повишаване квалификацията на
                     безработни жени - икономически специалисти и формиране на
                     професионална мотивация за работа в хотелиерски и
@@ -257,12 +257,12 @@ export default function page() {
                     персонал.Участници бяха ученици от самостоятелна форма на
                     обучение
                 </p>
-                <h2 className="text-3xl font-bold">
+                <h2 className="text-xl font-bold">
                     “Професионално обучение за счетоводители на младежи със
                     зрителни затруднения – слепи и слабо-виждащи, чрез говорещ
                     счетоводен софтуер”
                 </h2>
-                <p className="px-5 py-3 text-xl">
+                <p className="px-5 py-3 text-md">
                     – Гимназията бе в ролята на водеща организация. Основната цел
                     на проекта бе придобиване на квалификационни счетоводни
                     знания и професионални умения от младежи със зрителни
