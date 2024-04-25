@@ -1,11 +1,38 @@
-import React from "react";
+"use client"
+import { db } from "@/firebase/config";
+import { Project } from "@/models/project";
+import { collection, onSnapshot, query } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 
 export default function page() {
+    const [projects,setProjects] = useState<Project[]>([]);
+    useEffect(() => {
+        const q = query(collection(db, "projects"));
+        
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+          const docs: Project[] = snapshot.docs.map(doc => ({
+            ...doc.data() as Project,
+          }));
+          setProjects(docs);
+        }, (error) => {
+          console.error("Error fetching documents: ", error);
+        });
+    
+        // Cleanup subscription on unmount
+        return () => unsubscribe();
+      }, []);
     return (
         <section className="bg-white p-6">
-            <h1 className="text-center text-6xl font-bold underline decoration-4 mb-4">
+            <h1 className="mb-4 text-center text-6xl font-bold underline decoration-4">
                 Проекти
             </h1>
+            {projects.map((project, index) => (
+                <div key={index}>
+                    <h2 className="text-xl font-bold">{project.title}</h2>
+                    <p className="px-2 text-gray-400">{project.id}</p>
+                    <p className="text-md px-5 py-3">{project.description}</p>
+                </div>
+            ))}
             <div>
                 <h2 className="text-xl font-bold">
                     &quot;ГЕОПАРКОВЕ – природно и културно наследство,
@@ -16,7 +43,7 @@ export default function page() {
                 <p className="px-2 text-gray-400">
                     Номер на програма: 2018-1-PL01-KA229-050575_1
                 </p>
-                <p className="px-5 py-3 text-md">
+                <p className="text-md px-5 py-3">
                     Международният европейски проект за обмен на опит и знания
                     между ученици от Полша, Испания, Франция, България, Унгария
                     и Кипър беше финансиран по програма Еразъм +. Те имаха
@@ -38,7 +65,7 @@ export default function page() {
                 <p className="px-2 text-gray-400">
                     Номер на програма: 2017-1-BG01-KA102-035774
                 </p>
-                <p className="px-5 py-3 text-md">
+                <p className="text-md px-5 py-3">
                     Целта на проекта беше да изследва как интегрираната практика
                     в реална работна среда в Испания спомага за подобряване
                     качеството на образованието и намаляване на безработицата
@@ -60,14 +87,14 @@ export default function page() {
                     Wirtschaftsunterricht international und handlungsorientiert
                     gestalten (WIN)
                 </p>
-                <p className="px-5 py-3 text-md">
+                <p className="text-md px-5 py-3">
                     <span className="font-bold">Бенефициенти: </span> Институт
                     за икономическо образование в Олденбург- Германия,Свободен
                     университет Варна,фирма“ Старт ит смарт „Частна търговска
                     гимназия Варна,училище „Христо Ботев „ село Николаевка,
                     гимназията в Остенбург и училището в Бяла Подласка -Полша
                 </p>
-                <p className="px-5 py-3 text-md">
+                <p className="text-md px-5 py-3">
                     <span className="font-bold">Дейности: </span>обучение на
                     учениците в часовете за извънкласна дейност по
                     предприемачество и бизнес планиране, срещи с бизнесмени и
@@ -85,7 +112,7 @@ export default function page() {
                     „Екологична и икономическа ефективност на финансовото
                     управление в бизнеса “
                 </h2>
-                <p className="px-5 py-3 text-md">
+                <p className="text-md px-5 py-3">
                     Програма Еразъм +. Проектът на Частна Търговска Гимназия –
                     Варна бе насочен към усвояване на знания,  умения и
                     формиране на  нагласа  у  10 ученици от X - XII клас,
@@ -105,7 +132,7 @@ export default function page() {
                     &quot;Иновативната икономика в туризма и морската индустрия
                     - поле за изява на младежки бизнес лидери”
                 </h2>
-                <p className="px-5 py-3 text-md">
+                <p className="text-md px-5 py-3">
                     Проект по програма &quot;Еразъм +&quot;, КД 1 Сектор
                     &quot;Професионално образование и обучение&quot;. Проектът
                     „бе насочен към създаване на предприемачески умения на 10
@@ -122,7 +149,7 @@ export default function page() {
                 <h2 className="text-xl font-bold">
                     Проект &quot;Маре Нострум&quot;
                 </h2>
-                <p className="px-5 py-3 text-md">
+                <p className="text-md px-5 py-3">
                     Проектът създаде партньорство между Европейски училища от
                     шест държави (Италия, Франция, Румъния, Португалия, България
                     и Гърция) с излаз на морски бряг на три морета и
@@ -140,7 +167,7 @@ export default function page() {
                     Interkulturel Zentrum (Виена, Австрия) и VČELÍ DOM
                     (Братислава, Словакия).
                 </h2>
-                <p className="px-5 py-3 text-md">
+                <p className="text-md px-5 py-3">
                     Училището акцентира над осъзнаване на индивидуалността и
                     приемане на различността у всеки човек без дискримация при
                     контакт с хора от други раси, етноси или в друго социално
@@ -166,7 +193,7 @@ export default function page() {
                     Частна търговска гимназия Варна и гимназия «Овидиус»,
                     Констанца, Румъния
                 </h2>
-                <p className="px-5 py-3 text-md">
+                <p className="text-md px-5 py-3">
                     Участниците придобиха технически и теоретични умения,
                     свързани с анализирането на медийни продукти и създаване на
                     собствени продукцииПолзваха се дигиталните канали като
@@ -183,7 +210,7 @@ export default function page() {
                     “Обединяване на усилията на младите хора с творчески заложби
                     в самоуправлението на малката община”
                 </h2>
-                <p className="px-5 py-3 text-md">
+                <p className="text-md px-5 py-3">
                     Проектът бе с основна цел изработване на стратегия за
                     задържане и привличане на младите хора в община Вълчи дол,
                     област Варненска и създаване на модел за включване на
@@ -209,7 +236,7 @@ export default function page() {
                     “Професионална мотивация за участие на млади хора в семеен
                     хотелиерски бизнес”
                 </h2>
-                <p className="px-5 py-3 text-md">
+                <p className="text-md px-5 py-3">
                     Гимназията бе водеща, а неин партньор бе International House
                     Барселона. Участници в проекта бяха ученици от гимназията,
                     обучавани по специалност “Стопански мениджмънт”. Цел на
@@ -225,7 +252,7 @@ export default function page() {
                 <h2 className="text-xl font-bold">
                     “Евро-счетоводство и международни счетоводни стандарти”
                 </h2>
-                <p className="px-5 py-3 text-md">
+                <p className="text-md px-5 py-3">
                     - Частна Търговска гимназия - партньор на Сдружение “Наш
                     свят” като основна цел на проекта бе развитие на уменията за
                     ползване на счетоводни програмни продукти, подобряване на
@@ -246,7 +273,7 @@ export default function page() {
                     бизнес на дългосрочно безработни жени над 40 години с
                     икономическо образование”
                 </h2>
-                <p className="px-5 py-3 text-md">
+                <p className="text-md px-5 py-3">
                     Основната цел на проекта е повишаване квалификацията на
                     безработни жени - икономически специалисти и формиране на
                     професионална мотивация за работа в хотелиерски и
@@ -262,9 +289,9 @@ export default function page() {
                     зрителни затруднения – слепи и слабо-виждащи, чрез говорещ
                     счетоводен софтуер”
                 </h2>
-                <p className="px-5 py-3 text-md">
-                    – Гимназията бе в ролята на водеща организация. Основната цел
-                    на проекта бе придобиване на квалификационни счетоводни
+                <p className="text-md px-5 py-3">
+                    – Гимназията бе в ролята на водеща организация. Основната
+                    цел на проекта бе придобиване на квалификационни счетоводни
                     знания и професионални умения от младежи със зрителни
                     увреждания чрез нов информационен канал – говорещи
                     компютърни програми и учебници. Провеждането на
