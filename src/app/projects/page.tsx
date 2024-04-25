@@ -4,7 +4,7 @@ import { Project } from "@/models/project";
 import { collection, onSnapshot, query } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 
-export default function page() {
+export default function Projects() {
     const [projects,setProjects] = useState<Project[]>([]);
     useEffect(() => {
         const q = query(collection(db, "projects"));

@@ -43,7 +43,7 @@ const projectsFormSchema = z.object({
     description: z.string().min(1, { message: "Please enter a valid description." }),
 });
 
-export default function NewsAdmin(){
+export default function ProjectsAdmin(){
     const [uploadedProjects, setUploadedProjects] = useState<Project[]>();
     const [isLoading, setLoading] = useState(false);
     const [submitValues, setSubmitValues] = useState<
