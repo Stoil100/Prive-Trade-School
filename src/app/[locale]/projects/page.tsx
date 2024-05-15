@@ -2,10 +2,12 @@
 import { db } from "@/firebase/config";
 import { Project } from "@/models/project";
 import { collection, onSnapshot, query } from "firebase/firestore";
+import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 
 export default function Projects() {
     const [projects,setProjects] = useState<Project[]>([]);
+    const t =useTranslations("Projectspage");
     useEffect(() => {
         const q = query(collection(db, "projects"));
         
@@ -24,7 +26,7 @@ export default function Projects() {
     return (
         <section className="bg-white p-6">
             <h1 className="mb-4 text-center text-6xl font-bold underline decoration-4">
-                Проекти
+                {t("title")}
             </h1>
             {projects.map((project, index) => (
                 <div key={index}>

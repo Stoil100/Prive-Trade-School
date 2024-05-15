@@ -27,12 +27,13 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Parallax } from "react-scroll-parallax";
 import { useIntersectionObserver as useVisibility } from "usehooks-ts";
-import { Header, Headers } from "../../models/headerItem";
-import { Profiles } from "../../models/profile";
+import { Header, Headers } from "@/models/headerItem";
+import { Profiles } from "@/models/profile";
 import { AboutItem, AboutItems } from "@/models/about";
-import { Reason, Reasons } from "../../models/reason";
+import { Reason, Reasons } from "@/models/reason";
 import { Element } from "react-scroll";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 const headerItems: Headers = [
     {
@@ -40,84 +41,6 @@ const headerItems: Headers = [
         background: "/headers/appliance.png",
     },
 ];
-const aboutItems: AboutItems = [
-    {
-        icon: <Star />,
-        title: "🎯Нашата мисия",
-        description:
-            " Ние споделяме  икономически знания и искаме да вдъхновяваме със страст за кариерно професионално ориентиране млади хора за бизнес реализация. Ние отваряме врати за личен и професионален успех, създавайки бизнес култура.",
-    },
-    {
-        icon: <BookOpenText />,
-        title: "🎯Нашата мисия",
-        description:
-            "Предлаганото от на обучение надгражда държавните образователни стандарти по общообразователна, знанията по общопрофесионална, отраслова и специфична подготовка. Създаваме мотиви за учене, умения за справяне при трудни учебни и житейски ситуации ,формираме компетенции и изграждаме отношения за сътрудничество на обучаемите младежи.",
-    },
-    {
-        icon: <GraduationCap />,
-        title: "🌟Нашата визия",
-        description:
-            "Работим езиковото обучение по нива, съгласно европейската езикова рамка. Провеждаме учебната професионална практика в банкови кантори и училище, а в реална среда стажове в финансови предприятия. Редовно срещаме учениците с хора, успели да реализират себе си като успешни лидери на фирми.",
-    },
-    {
-        icon: <Backpack />,
-        title: "🌟Нашата визия",
-        description:
-            "Организират се мероприятия по метода на „преживяването“ и се работи с учениците по различни европейски проекти на икономическа, екологична и социална тематика. Ежемесечно се посещават културни институции като музеи,театрални и оперни спектакли, изложби и срещаме бъдещите млади специалисти с изявени творци.",
-    },
-];
-const selectReasons: Reasons = [
-    {
-        title: "Глобални възможности:",
-        description: `Организирайки стажове в чужбина, ние сбъдваме мечтите за работа по избрана професия. Нещо повече, даваме възможност за придобиване на трудов опит на европейско ниво. Освен това учим учениците да бъдат отговорни, открити и съвестни и им предоставяме шанс да създадат нови международни запознанства и да опознаят други култури.`,
-    },
-    {
-        title: "Индивидуален подход към обучението:",
-        description:
-            "Искаме нашите ученици да подобрят своите професионални, езикови и социални компетенции. За да улесним това, гарантираме, че обучението се провежда в малки класове и съобразно възможностите на учениците прилагаме индивидуални подходи.",
-    },
-    {
-        title: "Подготовка за бизнес успех:",
-        description:
-            "Ние споделяме  икономически знания и вдъхновяваме със страст за кариерно професионално младежко ориентиране за бизнес реализация.Надграждаме стандарти по общообразователна подготовка и учим  на  знания и умения за справяне при трудни учебни и житейски ситуации.",
-    },
-];
-const profiles: Profiles = [
-    {
-        type: "Данъчен и митнически контрол",
-        image: "bg-[url('/profiles/borderControl.jpg')]",
-        icon: (
-            <FileSearch
-                size={40}
-                className="self-start rounded-full border-4 border-white p-1"
-            />
-        ),
-        pdf: "https://firebasestorage.googleapis.com/v0/b/private-trade-school.appspot.com/o/pdfs%2Faccountant.PDF?alt=media&token=de3f1483-2c99-4701-a1a1-6174ec077ecb",
-    },
-    {
-        type: "Банково дело",
-        image: "bg-[url('/profiles/bank.jpg')]",
-        icon: (
-            <Landmark
-                size={40}
-                className="self-start rounded-full border-4 border-white p-1"
-            />
-        ),
-        pdf: "https://firebasestorage.googleapis.com/v0/b/private-trade-school.appspot.com/o/pdfs%2Fbanker.PDF?alt=media&token=1bf1e9da-a3b3-424f-b7ae-dc65ed2de0df",
-    },
-    {
-        type: "Оперативно счетоводство",
-        image: "bg-[url('/profiles/accountant.jpg')]",
-        icon: (
-            <DollarSign
-                size={40}
-                className="self-start rounded-full border-4 border-white p-1"
-            />
-        ),
-        pdf: "https://firebasestorage.googleapis.com/v0/b/private-trade-school.appspot.com/o/pdfs%2FborderAdmin.PDF?alt=media&token=7135de87-2cef-4eac-b96e-15c820558744",
-    },
-];
-
 export default function Home() {
     return (
         <main className="flex min-h-screen w-full flex-col items-center justify-center">
@@ -142,7 +65,6 @@ export default function Home() {
         </main>
     );
 }
-
 const HeroSection: React.FC = () => {
     const [carouselApi, setApi] = useState<CarouselApi | undefined>();
     const [activeIndex, setActiveIndex] = useState(0);
@@ -236,7 +158,29 @@ const CarouselHeaderItemContent: React.FC<Header> = ({ link, background }) => {
 const AboutSection: React.FC = () => {
     const [carouselApi, setApi] = useState<CarouselApi | undefined>();
     const [activeIndex, setActiveIndex] = useState(0);
-
+    const t = useTranslations("Homepage.About");
+    const aboutItems: AboutItems = [
+        {
+            icon: <Star />,
+            title: t("aboutItems.Star.title"),
+            description: t("aboutItems.Star.description"),
+        },
+        {
+            icon: <BookOpenText />,
+            title: t("aboutItems.Book.title"),
+            description: t("aboutItems.Book.description"),
+        },
+        {
+            icon: <GraduationCap />,
+            title: t("aboutItems.Graduation.title"),
+            description: t("aboutItems.Graduation.description"),
+        },
+        {
+            icon: <Backpack />,
+            title: t("aboutItems.Backpack.title"),
+            description: t("aboutItems.Backpack.description"),
+        },
+    ];
     useEffect(() => {
         if (carouselApi) {
             carouselApi.scrollTo(activeIndex);
@@ -255,7 +199,7 @@ const AboutSection: React.FC = () => {
     return (
         <section className="flex min-h-[500px] w-full flex-col items-center justify-start gap-5 bg-gradient-to-b from-sky-500 from-50% to-white to-100% py-4">
             <h2 className="text-5xl font-bold text-white underline decoration-4 underline-offset-4 md:text-7xl">
-                За нас
+                {t("title")}
             </h2>
             <div className="flex h-fit w-full flex-col items-center justify-center md:flex-row">
                 <Carousel
@@ -334,6 +278,7 @@ const NewsSection: React.FC = () => {
             setActiveIndex(carouselApi.selectedScrollSnap());
         });
     }, [activeIndex, carouselApi]);
+    const t =useTranslations("Homepage.News")
 
     useEffect(() => {
         async function getNews() {
@@ -355,7 +300,7 @@ const NewsSection: React.FC = () => {
     return (
         <section className="flex h-fit w-full flex-col items-center justify-center gap-2 bg-white p-5 sm:min-h-fit sm:max-lg:p-20">
             <h1 className="font-geologica text-5xl text-cyan-900 underline decoration-4 sm:text-7xl">
-                Новини
+                {t("title")}
             </h1>
 
             <Carousel
@@ -434,7 +379,21 @@ const SelectSection: React.FC = () => {
         threshold: 0.95,
     })?.isIntersecting;
     const [carouselApi, setApi] = useState<CarouselApi>();
-
+    const t = useTranslations("Homepage.Select");
+    const selectReasons: Reasons = [
+        {
+            title: t("selectReasons.Global.title"),
+            description: t("selectReasons.Global.description"),
+        },
+        {
+            title: t("selectReasons.Individual.title"),
+            description: t("selectReasons.Individual.description"),
+        },
+        {
+            title: t("selectReasons.Preperation.title"),
+            description: t("selectReasons.Preperation.description"),
+        },
+    ];
     useEffect(() => {
         if (carouselApi) {
             carouselApi.scrollTo(Math.floor(progress * 3));
@@ -471,7 +430,7 @@ const SelectSection: React.FC = () => {
                             isAboutTitleVisible && "animate-fade-down",
                         )}
                     >
-                        Защо да изберете нас?
+                        {t("title")}
                     </h3>
                     <Carousel
                         setApi={setApi}
@@ -522,10 +481,46 @@ const CarouselSelectItemContent: React.FC<Reason> = ({
     </div>
 );
 const ProfilesSection: React.FC = () => {
+    const t = useTranslations("Homepage.Profile");
+    const profiles: Profiles = [
+        {
+            type: t("profiles.border"),
+            image: "bg-[url('/profiles/borderControl.jpg')]",
+            icon: (
+                <FileSearch
+                    size={40}
+                    className="self-start rounded-full border-4 border-white p-1"
+                />
+            ),
+            pdf: "https://firebasestorage.googleapis.com/v0/b/private-trade-school.appspot.com/o/pdfs%2Faccountant.PDF?alt=media&token=de3f1483-2c99-4701-a1a1-6174ec077ecb",
+        },
+        {
+            type: t("profiles.bank"),
+            image: "bg-[url('/profiles/bank.jpg')]",
+            icon: (
+                <Landmark
+                    size={40}
+                    className="self-start rounded-full border-4 border-white p-1"
+                />
+            ),
+            pdf: "https://firebasestorage.googleapis.com/v0/b/private-trade-school.appspot.com/o/pdfs%2Fbanker.PDF?alt=media&token=1bf1e9da-a3b3-424f-b7ae-dc65ed2de0df",
+        },
+        {
+            type: t("profiles.accountant"),
+            image: "bg-[url('/profiles/accountant.jpg')]",
+            icon: (
+                <DollarSign
+                    size={40}
+                    className="self-start rounded-full border-4 border-white p-1"
+                />
+            ),
+            pdf: "https://firebasestorage.googleapis.com/v0/b/private-trade-school.appspot.com/o/pdfs%2FborderAdmin.PDF?alt=media&token=7135de87-2cef-4eac-b96e-15c820558744",
+        },
+    ];
     return (
         <section className="flex min-h-[40vh] w-full flex-col items-center justify-center gap-3 bg-gradient-to-b from-slate-600  to-[#111827] p-2 sm:p-5">
             <h2 className="text-center text-3xl text-white sm:text-6xl">
-                Специалности
+                {t("title")}
             </h2>
             <div className="flex h-fit w-full flex-wrap items-center justify-center gap-10 px-4 py-3 sm:px-8">
                 {profiles.map((item, index) => (
@@ -554,13 +549,13 @@ const ProfilesSection: React.FC = () => {
                             download
                             locale={false}
                         >
-                            Изтегли PDF
+                            {t("download")}
                         </Link>
                     </div>
                 ))}
             </div>
             <p className="flex gap-2 text-gray-400">
-                За повече информация се свържете с нас на
+                {t("info")}
                 <span className="flex cursor-pointer gap-1 text-blue-500 underline underline-offset-2">
                     <Phone /> +359 893 344 538
                 </span>
@@ -576,8 +571,7 @@ const ContactSection: React.FC = () => (
         <div className="flex h-fit w-full justify-center bg-gray-900">
             <Link
                 href="https://maps.app.goo.gl/PCDdCJbaF5vfMTY98"
-                className="relative h-fit w-fit
-           
+                className="relative h-fit w-fit       
              before:absolute
              before:right-0
              before:top-0
@@ -585,7 +579,6 @@ const ContactSection: React.FC = () => (
              before:w-full
              before:bg-[linear-gradient(90deg,transparent_0_90%,#111827_100%)] 
              before:content-['']
-        
             after:absolute after:left-0 after:top-0 after:h-full after:w-full after:bg-[linear-gradient(270deg,transparent_0_90%,#111827_100%)] after:content-['']
     "
             >

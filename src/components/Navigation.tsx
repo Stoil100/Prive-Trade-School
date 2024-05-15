@@ -43,6 +43,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAuth } from "./Providers";
 import { Button } from "./ui/button";
 import { Link as ScrollLink } from "react-scroll";
+import { useTranslations } from "next-intl";
 
 export default function Navigation() {
     const router = useRouter();
@@ -51,7 +52,7 @@ export default function Navigation() {
     const useScroll = useScrollListener();
     const [hasLoaded, setHasLoaded] = useState(false);
     const { user, logOut } = useAuth();
-
+    const t = useTranslations("navigation");
     useEffect(() => {
         navigationRef.current!.style.top =
             useScroll.y > useScroll.lastY ? "-50%" : "0px";
@@ -112,10 +113,10 @@ export default function Navigation() {
                                             smooth={true}
                                             duration={500}
                                         >
-                                            Новини
+                                            {t("news")}
                                         </ScrollLink>
                                     ) : (
-                                        <Link href="/">Новини</Link>
+                                        <Link href="/">{t("news")}</Link>
                                     )}
                                 </SheetClose>
                             </CollapsibleTrigger>
@@ -135,10 +136,12 @@ export default function Navigation() {
                                             smooth={true}
                                             duration={500}
                                         >
-                                            Програми
+                                            {t("programs")}
                                         </ScrollLink>
                                     ) : (
-                                        <Link href="/">Програми</Link>
+                                        <Link href="/">
+                                            {t("programs")}
+                                        </Link>
                                     )}
                                 </SheetClose>
                             </CollapsibleTrigger>
@@ -151,7 +154,9 @@ export default function Navigation() {
                                 )}
                             >
                                 <SheetClose asChild>
-                                    <Link href={"/projects"}>Проекти</Link>
+                                    <Link href={"/projects"}>
+                                        {t("projects")}
+                                    </Link>
                                 </SheetClose>
                             </CollapsibleTrigger>
                         </Collapsible>
@@ -163,7 +168,7 @@ export default function Navigation() {
                                 )}
                             >
                                 <Users />
-                                За нас
+                                {t("about_us")}
                                 <ChevronDown />
                             </CollapsibleTrigger>
                             <CollapsibleContent>
@@ -176,13 +181,13 @@ export default function Navigation() {
                                             duration={500}
                                         >
                                             <SheetClose>
-                                                Мисия и визия
+                                                {t("mission_vision")}
                                             </SheetClose>
                                         </ScrollLink>
                                     ) : (
                                         <Link href="/">
                                             <SheetClose>
-                                                Мисия и визия
+                                                {t("mission_vision")}
                                             </SheetClose>
                                         </Link>
                                     )}
@@ -194,13 +199,13 @@ export default function Navigation() {
                                             duration={500}
                                         >
                                             <SheetClose>
-                                                Защо да изберете нас
+                                                {t("why_choose_us")}
                                             </SheetClose>
                                         </ScrollLink>
                                     ) : (
                                         <Link href="/">
                                             <SheetClose>
-                                                Защо да изберете нас
+                                                {t("why_choose_us")}
                                             </SheetClose>
                                         </Link>
                                     )}
@@ -215,7 +220,7 @@ export default function Navigation() {
                                 )}
                             >
                                 <Phone />
-                                Контакти
+                                {t("contacts")}
                                 <ChevronDown />
                             </CollapsibleTrigger>
                             <CollapsibleContent className="flex flex-col items-center justify-center">
@@ -223,10 +228,10 @@ export default function Navigation() {
                                     <Mail />
                                     <div className="flex flex-col divide-y-2 text-xs">
                                         <a href="mailto:privatetradeschool@gmail.com">
-                                            privatetradeschool@gmail.com
+                                            {t("email_1")}
                                         </a>
                                         <a href="mailto:400070@edu.mon.bg">
-                                            400070@edu.mon.bg
+                                            {t("email_2")}
                                         </a>
                                     </div>
                                 </div>
@@ -237,14 +242,14 @@ export default function Navigation() {
                                     className="flex items-center justify-center gap-1 p-2"
                                 >
                                     <Map />
-                                    <p>ул. Преспа 1, Варна 9000</p>
+                                    <p>{t("address")}</p>
                                 </a>
                                 <a
                                     href={"tel:0893344539"}
                                     className="flex items-center justify-center gap-1 p-2"
                                 >
                                     <Phone />
-                                    <p>+359 933 445 39</p>
+                                    <p>{t("phone")}</p>
                                 </a>
                             </CollapsibleContent>
                         </Collapsible>
@@ -256,7 +261,8 @@ export default function Navigation() {
                                         hasLoaded && " animate-fade-right",
                                     )}
                                 >
-                                    <CircleUserRound /> Регистрация / Вход
+                                    <CircleUserRound />{" "}
+                                    {t("registration_login")}
                                     <ChevronDown />
                                 </CollapsibleTrigger>
                                 <CollapsibleContent className="decoration-dot flex justify-center text-xl">
@@ -264,7 +270,7 @@ export default function Navigation() {
                                         href="/login"
                                         className=" flex items-center gap-2"
                                     >
-                                        - Вход
+                                        - {t("login")}
                                         <UnlockKeyhole />
                                     </Link>
                                 </CollapsibleContent>
@@ -273,7 +279,7 @@ export default function Navigation() {
                                         href="/register"
                                         className=" flex items-center gap-2 "
                                     >
-                                        - Регистрация
+                                        - {t("register")}
                                         <UnlockKeyhole />
                                     </Link>
                                 </CollapsibleContent>
@@ -286,7 +292,7 @@ export default function Navigation() {
                                         hasLoaded && " animate-fade-right",
                                     )}
                                 >
-                                    <CircleUserRound /> Акаунт
+                                    <CircleUserRound /> {t("account")}
                                     <ChevronDown />
                                 </CollapsibleTrigger>
                                 <CollapsibleContent className="decoration-dot gap-2">
@@ -295,7 +301,7 @@ export default function Navigation() {
                                         className=" flex w-full items-center gap-2 text-xl font-normal"
                                         variant="ghost"
                                     >
-                                        - Изход
+                                        - {t("logout")}
                                         <LogOut />
                                     </Button>
                                 </CollapsibleContent>
@@ -305,7 +311,7 @@ export default function Navigation() {
                                             href="/register"
                                             className=" flex items-center gap-2"
                                         >
-                                            - Админ
+                                            - {t("admin")}
                                             <School />
                                         </Link>
                                     </CollapsibleContent>
@@ -318,25 +324,19 @@ export default function Navigation() {
 
             {/* End of mobile view */}
 
-            <div className="hidden w-full justify-end md:!flex lg:text-base text-sm">
+            <div className="hidden w-full justify-end text-sm md:!flex lg:text-base">
                 <Menubar className="border-none bg-blue-700">
                     <MenubarMenu>
-                        <MenubarTrigger
-                            onClick={() => {
-                                router.push("/");
-                            }}
-                        >
-                            Начало
+                        <MenubarTrigger onClick={() => router.push("/")}>
+                            {t("home")}
                         </MenubarTrigger>
                     </MenubarMenu>
                     <MenubarMenu>
                         <MenubarTrigger
-                            onClick={() => {
-                                router.push("/");
-                            }}
+                            onClick={() => router.push("/")}
                             className="bg-blue-500 transition-colors hover:bg-blue-900"
                         >
-                            Форма за кандидатстване
+                            {t("application_form")}
                         </MenubarTrigger>
                     </MenubarMenu>
                     <MenubarMenu>
@@ -347,13 +347,15 @@ export default function Navigation() {
                                 smooth={true}
                                 duration={500}
                             >
-                                Програми
+                                {t("programs")}
                             </ScrollLink>
                         </MenubarTrigger>
                     </MenubarMenu>
                     <MenubarMenu>
                         <MenubarTrigger>
-                            <Link href={"/projects"}>Проекти</Link>
+                            <Link href={"/projects"}>
+                                {t("projects")}
+                            </Link>
                         </MenubarTrigger>
                     </MenubarMenu>
                     <MenubarMenu>
@@ -364,12 +366,12 @@ export default function Navigation() {
                                 smooth={true}
                                 duration={500}
                             >
-                                Новини
+                                {t("news")}
                             </ScrollLink>
                         </MenubarTrigger>
                     </MenubarMenu>
                     <MenubarMenu>
-                        <MenubarTrigger>За нас</MenubarTrigger>
+                        <MenubarTrigger>{t("about_us")}</MenubarTrigger>
                         <MenubarContent className="grid grid-flow-col grid-rows-2 divide-x">
                             <MenubarItem>
                                 <ScrollLink
@@ -378,7 +380,7 @@ export default function Navigation() {
                                     smooth={true}
                                     duration={500}
                                 >
-                                    Мисия и Визия
+                                    {t("mission_vision")}
                                 </ScrollLink>
                             </MenubarItem>
                             <MenubarItem>
@@ -388,29 +390,28 @@ export default function Navigation() {
                                     smooth={true}
                                     duration={500}
                                 >
-                                    Защо да изберете нас
+                                    {t("why_choose_us")}
                                 </ScrollLink>
                             </MenubarItem>
                         </MenubarContent>
                     </MenubarMenu>
                     <MenubarMenu>
-                        <MenubarTrigger>Контакти</MenubarTrigger>
+                        <MenubarTrigger>{t("contacts")}</MenubarTrigger>
                         <MenubarContent className="grid grid-flow-col grid-rows-4 divide-x">
                             <MenubarItem className="flex justify-center gap-2">
                                 <Mail size={20} />
-
                                 <div className="flex flex-col">
                                     <a
                                         href="mailto:privatetradeschool@gmail.com"
                                         className="cursor-pointer border-b-2 border-gray-500"
                                     >
-                                        privatetradeschool@gmail.com
+                                        {t("email_1")}
                                     </a>
                                     <a
                                         href="mailto:400070@edu.mon.bg"
                                         className="cursor-pointer"
                                     >
-                                        400070@edu.mon.bg
+                                        {t("email_2")}
                                     </a>
                                 </div>
                             </MenubarItem>
@@ -421,7 +422,7 @@ export default function Navigation() {
                                         "https://maps.app.goo.gl/PCDdCJbaF5vfMTY98"
                                     }
                                 >
-                                    ул. Преспа 1, Варна 9000
+                                    {t("address")}
                                 </Link>
                             </MenubarItem>
                             <MenubarItem className="flex gap-2">
@@ -430,7 +431,7 @@ export default function Navigation() {
                                     className="flex cursor-pointer gap-1"
                                 >
                                     <Phone size={20} />
-                                    <p>+359 893 344 539</p>
+                                    <p>{t("phone")}</p>
                                 </a>
                             </MenubarItem>
                             <MenubarItem className="flex items-center justify-evenly">
@@ -459,14 +460,16 @@ export default function Navigation() {
                                                 router.push("/admin")
                                             }
                                         >
-                                            <School size={20} /> Admin
+                                            <School size={20} />{" "}
+                                            {t("admin")}
                                         </MenubarItem>
                                     )}
                                     <MenubarItem
                                         className="flex justify-center gap-2"
                                         onClick={logOut}
                                     >
-                                        Logout <LogOut size={20} />
+                                        {t("logout")}{" "}
+                                        <LogOut size={20} />
                                     </MenubarItem>
                                 </>
                             ) : (
@@ -476,14 +479,14 @@ export default function Navigation() {
                                         onClick={() => router.push("/login")}
                                     >
                                         <UnlockKeyhole size={20} />
-                                        Login
+                                        {t("login")}
                                     </MenubarItem>
                                     <MenubarItem
                                         className="flex justify-center gap-2"
                                         onClick={() => router.push("/register")}
                                     >
                                         <LockKeyhole size={20} />
-                                        Register
+                                        {t("register")}
                                     </MenubarItem>
                                 </>
                             )}

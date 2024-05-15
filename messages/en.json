@@ -1,0 +1,149 @@
+{
+    "Homepage": {
+        "News": {
+            "title": "News"
+        },
+        "About": {
+            "title": "About Us",
+            "aboutItems": {
+                "Star": {
+                    "title": "🎯Our Mission",
+                    "description": "We share economic knowledge and aim to inspire young people with a passion for career-oriented professional development in business. We open doors to personal and professional success, creating a business culture."
+                },
+                "Book": {
+                    "title": "🎯Our Mission",
+                    "description": "The training we offer builds upon the state educational standards in general education, professional, sectoral, and specific training. We create motivations for learning, skills to cope with difficult academic and life situations, and form competencies and build relationships for collaboration among the trainees."
+                },
+                "Graduation": {
+                    "title": "🌟Our Vision",
+                    "description": "We conduct language training according to the levels of the European Framework of Reference for Languages. We organize professional practice in banking branches and schools, and internships in financial enterprises in real environments. We regularly introduce our students to people who have succeeded in becoming successful business leaders."
+                },
+                "Backpack": {
+                    "title": "🌟Our Vision",
+                    "description": "Events are organized using the 'experience' method and we work with students on various European projects related to economics, ecology, and social issues. We visit cultural institutions such as museums, theaters, and operas monthly, and introduce our future young professionals to prominent artists."
+                }
+            }
+        },
+        "Select": {
+            "title": "Why Choose Us?",
+            "selectReasons": {
+                "Global": {
+                    "title": "Global Opportunities:",
+                    "description": "By organizing internships abroad, we fulfill dreams of working in chosen professions. Moreover, we provide an opportunity to gain work experience at a European level. Furthermore, we teach students to be responsible, open, and conscientious and give them a chance to make new international acquaintances and to learn about other cultures."
+                },
+                "Individual": {
+                    "title": "Individual Approach to Learning:",
+                    "description": "We want our students to improve their professional, linguistic, and social competencies. To facilitate this, we ensure that the training is conducted in small classes and adapt our methods to suit the individual needs of the students."
+                },
+                "Preperation": {
+                    "title": "Preparation for Business Success:",
+                    "description": "We share economic knowledge and inspire with a passion for career-oriented professional development for business realization. We build upon standards in general educational preparation and teach knowledge and skills to cope with difficult academic and life situations."
+                }
+            }
+        },
+        "Profile": {
+            "title": "Specialties",
+            "download": "Download PDF",
+            "info": "For more information, contact us at",
+            "profiles": {
+                "border": "Tax and Customs Control",
+                "bank": "Banking",
+                "accountant": "Operational Accounting"
+            }
+        }
+    },
+    "Applypage": {
+        "title": "Application",
+        "description": "To apply at CTG 'Konto Trade', you can fill out an online form or download, complete, and send application documents to",
+        "application_documents": "Application Documents",
+        "download_application": "DOWNLOAD APPLICATION",
+        "parent_declaration": "Parent Declaration DOWNLOAD DECLARATION",
+        "education_certificate": "Copy of the Certificate of Primary Education or a report card with grades from the first term of 7th grade - attach scanned document",
+        "enrollment_documents": "Enrollment Documents",
+        "original_certificate": "Original of the Certificate of Primary Education",
+        "transfer_certificate": "Transfer Certificate (if issued)",
+        "student_characteristic": "Student Characteristic",
+        "medical_record": "Medical Record/Immunization Passport",
+        "parent_survey": "Parent Survey Form – sample DOWNLOAD SURVEY",
+        "photos": "Three recent photos – passport size",
+        "contract_and_fee": "Upon enrollment, a training contract is signed with one of the parents, and a tuition fee for the first term or part of it is paid (depending on the agreed terms)",
+        "data_processing_declaration": "Parent Declaration for Personal Data Processing DOWNLOAD DECLARATION",
+        "video_surveillance_declaration": "Parent Declaration of Informed Consent for Video Surveillance DOWNLOAD DECLARATION",
+        "photo_video_consent_declaration": "Parent Declaration of Informed Consent for Photo and Video Materials DOWNLOAD DECLARATION",
+        "submission_deadlines": "Submission Deadlines:",
+        "individual_exam": "Indefinitely (until the announced number is filled) - for individual exam",
+        "results_announcement": "Announcement of Results - 3 days after the exams",
+        "success": "Success!",
+        "to_form": "To the Form"
+    },
+    "Projectspage": {
+        "title": "Projects"
+    },
+    "footer": {
+        "programs": "Programs",
+        "quick_links": "Quick Links",
+        "contact": "Contacts",
+        "address": "1 Prespa St., Varna 9000",
+        "phone_numbers": {
+            "main": "052 / 65 67 40",
+            "secondary1": "0893 344 538",
+            "secondary2": "0894 379 119"
+        },
+        "email": "director_tradescl@abv.bg",
+        "school_name": "Private Trade High School",
+        "city": "Private Trade High School - Varna",
+        "home": "Home",
+        "about": "About Us",
+        "news": "News",
+        "why_choose_us": "Why Choose Us",
+        "specialties": "Specialties",
+        "projects": "Projects",
+        "tax_customs_control": "Tax and Customs Control",
+        "banking": "Banking",
+        "accounting": "Operational Accounting"
+    },
+    "navigation": {
+        "home": "Home",
+        "application_form": "Application Form",
+        "programs": "Programs",
+        "projects": "Projects",
+        "news": "News",
+        "about_us": "About Us",
+        "mission_vision": "Mission and Vision",
+        "why_choose_us": "Why Choose Us",
+        "contacts": "Contacts",
+        "registration_login": "Registration / Login",
+        "login": "Login",
+        "register": "Register",
+        "account": "Account",
+        "admin": "Admin",
+        "logout": "Logout",
+        "email_1": "privatetradeschool@gmail.com",
+        "email_2": "400070@edu.mon.bg",
+        "address": "1 Prespa St., Varna 9000",
+        "phone": "+359 893 344 539"
+    },
+    "topbar": {
+        "title": "1 Prespa St., 9000 Greek Quarter, Varna",
+        "languages": {
+            "bg": "EN"
+        }
+    },
+    "contactForm": {
+        "nameLabel": "Name:",
+        "namePlaceholder": "Enter your name here...",
+        "emailLabel": "Email:",
+        "emailPlaceholder": "Enter your email here...",
+        "phoneLabel": "Phone:",
+        "phonePlaceholder": "Enter your phone here...",
+        "messageLabel": "Message:",
+        "messagePlaceholder": "Enter your message here...",
+        "submitButton": "Submit",
+        "nameMinLength": "Name must be at least 2 characters.",
+        "emailInvalid": "Please enter a valid email address.",
+        "phoneInvalid": "Invalid phone number",
+        "messageMinLength": "Message must be at least 5 characters.",
+        "messageMaxLength": "Message must not be more than 1000 characters."
+      }
+
+}
