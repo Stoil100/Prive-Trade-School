@@ -19,6 +19,23 @@ const config = {
             },
         },
         extend: {
+            spacing: {
+                nav: "var(--nav-height)",
+            },
+            height: {
+                nav: "var(--nav-height)",
+                "screen-nav": "calc(100vh - var(--nav-height))",
+            },
+            minHeight: {
+                nav: "var(--nav-height)",
+                "screen-nav": "calc(100vh - var(--nav-height))",
+            },
+            inset: {
+                nav: "var(--nav-height)",
+            },
+            translate: {
+                nav: "var(--nav-height)",
+            },
             fontFamily: {
                 montserrat: ["Montserrat", ...fontFamily.sans],
                 geologica: ["Geologica", ...fontFamily.sans],
