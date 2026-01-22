@@ -26,17 +26,13 @@ import useScrollListener from "@/hooks/useScroll";
 import { cn } from "@/lib/utils";
 import {
     ChevronDown,
-    CircleUserRound,
     Facebook,
     Instagram,
-    LockKeyhole,
-    LogOut,
     Mail,
     Map,
     Menu,
     Phone,
     School,
-    UnlockKeyhole,
     Users,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -45,7 +41,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link as ScrollLink } from "react-scroll";
 import { useAuth } from "./providers/auth";
-import { Button } from "./ui/button";
 
 // Extracted mobile menu item component
 const MobileMenuItem = memo(
@@ -231,6 +226,19 @@ export default function Navigation() {
                                 <Link href="/projects">{t("projects")}</Link>
                             </SheetClose>
                         </MobileMenuItem>
+                        {user.role === "admin" && (
+                            <MobileMenuItem
+                                hasLoaded={hasLoaded}
+                                delay="animate-delay-300"
+                            >
+                                <Link
+                                    className="mx-2 flex justify-center gap-2 self-center"
+                                    href={"/admin"}
+                                >
+                                    {t("admin")}
+                                </Link>
+                            </MobileMenuItem>
+                        )}
 
                         {/* About Us */}
                         <Collapsible>
@@ -310,73 +318,6 @@ export default function Navigation() {
                                 </a>
                             </CollapsibleContent>
                         </Collapsible>
-
-                        {/* User Menu */}
-                        {!user.uid ? (
-                            <Collapsible>
-                                <CollapsibleTrigger
-                                    className={cn(
-                                        "align-center flex w-full justify-between rounded-md border-2 p-2 text-lg font-bold animate-delay-100",
-                                        hasLoaded && "animate-fade-right",
-                                    )}
-                                >
-                                    <CircleUserRound />
-                                    {t("registration_login")}
-                                    <ChevronDown />
-                                </CollapsibleTrigger>
-                                <CollapsibleContent className="decoration-dot flex justify-center text-xl">
-                                    <Link
-                                        href="/login"
-                                        className="flex items-center gap-2"
-                                    >
-                                        - {t("login")}
-                                        <UnlockKeyhole />
-                                    </Link>
-                                </CollapsibleContent>
-                                <CollapsibleContent className="decoration-dot flex justify-center text-xl">
-                                    <Link
-                                        href="/register"
-                                        className="flex items-center gap-2"
-                                    >
-                                        - {t("register")}
-                                        <UnlockKeyhole />
-                                    </Link>
-                                </CollapsibleContent>
-                            </Collapsible>
-                        ) : (
-                            <Collapsible>
-                                <CollapsibleTrigger
-                                    className={cn(
-                                        "align-center flex w-full justify-between rounded-md border-2 p-2 text-lg font-bold animate-delay-100",
-                                        hasLoaded && "animate-fade-right",
-                                    )}
-                                >
-                                    <CircleUserRound /> {t("account")}
-                                    <ChevronDown />
-                                </CollapsibleTrigger>
-                                <CollapsibleContent className="decoration-dot gap-2">
-                                    <Button
-                                        onClick={logOut}
-                                        className="flex w-full items-center gap-2 text-xl font-normal"
-                                        variant="ghost"
-                                    >
-                                        - {t("logout")}
-                                        <LogOut />
-                                    </Button>
-                                </CollapsibleContent>
-                                {user.role === "admin" && (
-                                    <CollapsibleContent className="decoration-dot flex justify-center text-xl">
-                                        <Link
-                                            href="/admin"
-                                            className="flex items-center gap-2"
-                                        >
-                                            - {t("admin")}
-                                            <School />
-                                        </Link>
-                                    </CollapsibleContent>
-                                )}
-                            </Collapsible>
-                        )}
                     </div>
                 </SheetContent>
             </Sheet>
@@ -511,52 +452,15 @@ export default function Navigation() {
                             </MenubarItem>
                         </MenubarContent>
                     </MenubarMenu>
-
-                    <MenubarMenu>
-                        <MenubarTrigger>
-                            <CircleUserRound />
-                        </MenubarTrigger>
-                        <MenubarContent className="font-bold">
-                            {user.uid ? (
-                                <>
-                                    {user.role === "admin" && (
-                                        <MenubarItem
-                                            className="flex justify-center gap-2"
-                                            onClick={() =>
-                                                router.push("/admin")
-                                            }
-                                        >
-                                            <School size={20} /> {t("admin")}
-                                        </MenubarItem>
-                                    )}
-                                    <MenubarItem
-                                        className="flex justify-center gap-2"
-                                        onClick={logOut}
-                                    >
-                                        {t("logout")} <LogOut size={20} />
-                                    </MenubarItem>
-                                </>
-                            ) : (
-                                <>
-                                    <MenubarItem
-                                        className="flex justify-center gap-2"
-                                        onClick={() => router.push("/login")}
-                                    >
-                                        <UnlockKeyhole size={20} />
-                                        {t("login")}
-                                    </MenubarItem>
-                                    <MenubarItem
-                                        className="flex justify-center gap-2"
-                                        onClick={() => router.push("/register")}
-                                    >
-                                        <LockKeyhole size={20} />
-                                        {t("register")}
-                                    </MenubarItem>
-                                </>
-                            )}
-                        </MenubarContent>
-                    </MenubarMenu>
                 </Menubar>
+                {user.role === "admin" && (
+                    <Link
+                        className="mx-2 flex justify-center gap-2 self-center"
+                        href={"/admin"}
+                    >
+                        <School />
+                    </Link>
+                )}
             </div>
         </div>
     );

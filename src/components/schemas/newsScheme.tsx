@@ -1,18 +1,6 @@
 "use client";
 
-import { useAuth } from "@/components/Providers";
-import { useRouter } from "next/router";
-import React, {
-    useState,
-    useRef,
-    ChangeEvent,
-    useLayoutEffect,
-    useEffect,
-} from "react";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { uploadImage } from "@/firebase/utils/upload";
+import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
@@ -22,18 +10,25 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { redirect } from "next/navigation";
-import { cn } from "@/lib/utils";
 import { db } from "@/firebase/config";
+import { uploadImage } from "@/firebase/utils/upload";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
-    setDoc,
-    doc,
-    Timestamp,
-    getDocs,
     collection,
     deleteDoc,
+    doc,
+    getDocs,
+    setDoc,
+    Timestamp,
 } from "firebase/firestore";
+import {
+    ChangeEvent,
+    useEffect,
+    useState
+} from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 const newsFormSchema = z.object({
     title: z.string().min(1, { message: "Please enter a valid title." }),
@@ -41,7 +36,7 @@ const newsFormSchema = z.object({
     image: z.string().optional(),
 });
 
-export default function NewsAdmin(){
+export default function NewsAdmin() {
     const [uploadedNews, setUploadedNews] = useState<any>();
     const [submitImage, setSubmitImage] = useState("");
     const [isLoading, setLoading] = useState(false);
@@ -226,12 +221,18 @@ export default function NewsAdmin(){
             <div className="w-full">
                 <div className="flex h-[500px] w-full">
                     {uploadedNews?.map(
-                        (header: {
-                            id: string;
-                            title: string;
-                            image: string;
-                        },index:number) => (
-                            <div key={index} className="flex h-full flex-col items-center justify-center gap-1 p-3 sm:w-1/2 md:w-1/3">
+                        (
+                            header: {
+                                id: string;
+                                title: string;
+                                image: string;
+                            },
+                            index: number,
+                        ) => (
+                            <div
+                                key={index}
+                                className="flex h-full flex-col items-center justify-center gap-1 p-3 sm:w-1/2 md:w-1/3"
+                            >
                                 <div className=" flex flex-col items-center justify-center gap-2">
                                     <h2 className="text-4xl ">
                                         {header.title}
@@ -256,4 +257,4 @@ export default function NewsAdmin(){
             </div>
         </div>
     );
-};
+}

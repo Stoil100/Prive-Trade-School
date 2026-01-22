@@ -1,21 +1,19 @@
 import type { Metadata } from "next";
 
-import { Inter as FontSans } from "next/font/google";
-import "./global.css"
-import Favicon from "/public/favicon.ico";
 import Footer from "@/components/Footer";
 import Navigation from "@/components/Navigation";
+import { ParallaxProvider } from "@/components/providers/parallax";
 import TopSocialMedia from "@/components/TopSocialMedia";
 import { cn } from "@/lib/utils";
-import {
-    AuthContextProvider,
-    ParallaxProviders,
-} from "../../components/Providers";
+import { NextIntlClientProvider, useMessages } from "next-intl";
+import { Inter as FontSans } from "next/font/google";
+import { AuthContextProvider } from "../../components/providers/auth";
+import "./global.css";
+import Favicon from "/public/favicon.ico";
 export const fontSans = FontSans({
     subsets: ["latin"],
     variable: "--font-sans",
 });
-import { NextIntlClientProvider, useMessages } from "next-intl";
 
 export const metadata: Metadata = {
     title: "Частна Търговска гимназия 'Конто Трейд'",
@@ -39,13 +37,13 @@ export default function LocaleLayout({
                     "flex min-h-screen w-screen max-w-full flex-col overflow-x-hidden scroll-smooth bg-gray-900 font-montserrat antialiased",
                 )}
             >
-                 <NextIntlClientProvider messages={messages} locale={locale}>
-                <AuthContextProvider>
-                    <TopSocialMedia />
-                    <Navigation />
-                    <ParallaxProviders>{children}</ParallaxProviders>
-                    <Footer />
-                </AuthContextProvider>
+                <NextIntlClientProvider messages={messages} locale={locale}>
+                    <AuthContextProvider>
+                        <TopSocialMedia />
+                        <Navigation />
+                        <ParallaxProvider>{children}</ParallaxProvider>
+                        <Footer />
+                    </AuthContextProvider>
                 </NextIntlClientProvider>
             </body>
         </html>

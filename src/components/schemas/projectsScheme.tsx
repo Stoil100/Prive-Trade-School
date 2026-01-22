@@ -1,18 +1,6 @@
 "use client";
 
-import { useAuth } from "@/components/Providers";
-import { useRouter } from "next/router";
-import React, {
-    useState,
-    useRef,
-    ChangeEvent,
-    useLayoutEffect,
-    useEffect,
-} from "react";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { uploadImage } from "@/firebase/utils/upload";
+import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
@@ -22,28 +10,34 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { db } from "@/firebase/config";
+import { Project } from "@/models/project";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
-    setDoc,
-    doc,
-    Timestamp,
-    getDocs,
     collection,
     deleteDoc,
-    query,
+    doc,
     onSnapshot,
+    query,
+    setDoc,
+    Timestamp
 } from "firebase/firestore";
-import { Project } from "@/models/project";
+import {
+    useEffect,
+    useState
+} from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 const projectsFormSchema = z.object({
     title: z.string().min(1, { message: "Please enter a valid title." }),
     id: z.string().min(1, { message: "Please enter a valid id." }),
-    description: z.string().min(1, { message: "Please enter a valid description." }),
+    description: z
+        .string()
+        .min(1, { message: "Please enter a valid description." }),
 });
 
-export default function ProjectsAdmin(){
+export default function ProjectsAdmin() {
     const [uploadedProjects, setUploadedProjects] = useState<Project[]>();
     const [isLoading, setLoading] = useState(false);
     const [submitValues, setSubmitValues] = useState<
@@ -59,26 +53,30 @@ export default function ProjectsAdmin(){
         defaultValues: {
             title: "",
             description: "",
-            id:"",
+            id: "",
         },
     });
     useEffect(() => {
         const q = query(collection(db, "projects"));
-        
-        const unsubscribe = onSnapshot(q, (snapshot) => {
-          const docs: Project[] = snapshot.docs.map(doc => ({
-            ...doc.data() as Project,
-            pid: doc.id,
-          }));
-          console.log(docs)
-          setUploadedProjects(docs);
-        }, (error) => {
-          console.error("Error fetching documents: ", error);
-        });
-    
+
+        const unsubscribe = onSnapshot(
+            q,
+            (snapshot) => {
+                const docs: Project[] = snapshot.docs.map((doc) => ({
+                    ...(doc.data() as Project),
+                    pid: doc.id,
+                }));
+                console.log(docs);
+                setUploadedProjects(docs);
+            },
+            (error) => {
+                console.error("Error fetching documents: ", error);
+            },
+        );
+
         // Cleanup subscription on unmount
         return () => unsubscribe();
-      }, []);
+    }, []);
     const handleUpload = async () => {
         setLoading(true);
         await setDoc(doc(db, "projects", `${Date.now()}`), {
@@ -226,4 +224,4 @@ export default function ProjectsAdmin(){
             </div>
         </div>
     );
-};
+}
