@@ -6,7 +6,7 @@ import Image from "next/image";
 import MainButton from "../MainButton";
 
 type NoPermissionViewProps = {
-    t: (key: string) => string;
+    t: (key: string, values?: Record<string, any>) => string;
     router: any;
     logOut: () => Promise<void>;
 };

@@ -5,7 +5,7 @@ export const Footer = ({
     t,
 }: {
     isLoading: boolean;
-    t: (arg: string) => string;
+    t: (key: string, values?: Record<string, any>) => string;
 }) => (
     <MainButton
         className="w-fit self-center"

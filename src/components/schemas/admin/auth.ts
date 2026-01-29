@@ -1,5 +1,8 @@
 import { z } from "zod";
-export const AuthSchema = (variant: string, t: (arg: string) => string) =>
+export const authSchema = (
+    variant: string,
+    t: (key: string, values?: Record<string, any>) => string,
+) =>
     z
         .object({
             email: z.string().email({ message: t("emailValidation") }),
@@ -25,4 +28,4 @@ export const AuthSchema = (variant: string, t: (arg: string) => string) =>
                 });
             }
         });
-export type AuthSchemaType = z.infer<ReturnType<typeof AuthSchema>>;
+export type AuthSchemaType = z.infer<ReturnType<typeof authSchema>>;

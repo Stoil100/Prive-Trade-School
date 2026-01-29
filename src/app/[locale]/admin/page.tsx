@@ -2,14 +2,16 @@
 
 import { useAuth } from "@/components/providers/auth";
 
-import NoPermissionView from "@/components/admin/NoPermission";
-import AuthForm from "@/components/forms/auth/auth";
 import LoadingOverlay from "@/components/Loading";
+import MainButton from "@/components/MainButton";
+import NoPermissionView from "@/components/admin/NoPermission";
+import PostUploadSection from "@/components/admin/PostUploadSection";
+import { ApplicationLinkForm } from "@/components/admin/forms/applicationLinkForm";
+import AuthForm from "@/components/admin/forms/auth/main";
+import { AdminCreateForm } from "@/components/admin/forms/createAdmin";
 import { useRouter } from "@/components/navigationSetup";
-import HeadersAdmin from "@/components/schemas/headersScheme";
-import NewsAdmin from "@/components/schemas/newsScheme";
-import ProjectsAdmin from "@/components/schemas/projectsScheme";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { LogOutIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 export default function Admin() {
@@ -64,9 +66,18 @@ export default function Admin() {
 
     return (
         <section className="flex flex-col bg-white p-2">
-            <HeadersAdmin />
-            <NewsAdmin />
-            <ProjectsAdmin />
+            <PostUploadSection t={t} type="headers" />
+            <PostUploadSection t={t} type="news" />
+            <PostUploadSection t={t} type="projects" />
+            <PostUploadSection t={t} type="docs" />
+            <AdminCreateForm t={(key) => t(`forms.adminCreate.${key}`)} />
+            <ApplicationLinkForm
+                t={(key) => t(`forms.applicationLink.${key}`)}
+            />
+            <MainButton onClick={logOut} className="mt-2">
+                {t("logOut")}
+                <LogOutIcon />
+            </MainButton>
         </section>
     );
 }

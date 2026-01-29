@@ -7,6 +7,7 @@ import TopSocialMedia from "@/components/TopSocialMedia";
 import { cn } from "@/lib/utils";
 import { NextIntlClientProvider, useMessages } from "next-intl";
 import { Inter as FontSans } from "next/font/google";
+import { Toaster } from "sonner";
 import { AuthContextProvider } from "../../components/providers/auth";
 import "./global.css";
 import Favicon from "/public/favicon.ico";
@@ -43,6 +44,7 @@ export default function LocaleLayout({
                         <Navigation />
                         <ParallaxProvider>{children}</ParallaxProvider>
                         <Footer />
+                        <Toaster />
                     </AuthContextProvider>
                 </NextIntlClientProvider>
             </body>

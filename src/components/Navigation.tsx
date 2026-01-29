@@ -22,8 +22,10 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet";
+import { db } from "@/firebase/config";
 import useScrollListener from "@/hooks/useScroll";
 import { cn } from "@/lib/utils";
+import { doc, getDoc } from "firebase/firestore";
 import {
     ChevronDown,
     Facebook,
@@ -101,6 +103,7 @@ export default function Navigation() {
     const [hasLoaded, setHasLoaded] = useState(false);
     const { user, logOut } = useAuth();
     const t = useTranslations("navigation");
+    const [applicationLink, setApplicationLink] = useState<string | null>(null);
 
     const isHomePage = pathname === "/";
 
@@ -128,6 +131,26 @@ export default function Navigation() {
         updateHeight();
         window.addEventListener("resize", updateHeight);
         return () => window.removeEventListener("resize", updateHeight);
+    }, []);
+
+    useEffect(() => {
+        const fetchLink = async () => {
+            try {
+                const docRef = doc(db, "link", "main-link");
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    setApplicationLink(data.link || null);
+                } else {
+                    setApplicationLink(null);
+                }
+            } catch (error) {
+                console.error("Error fetching link:", error);
+            }
+        };
+
+        fetchLink();
     }, []);
 
     // Memoized handlers
@@ -205,18 +228,6 @@ export default function Navigation() {
                             </SheetClose>
                         </MobileMenuItem>
 
-                        {/* Programs */}
-                        <MobileMenuItem
-                            hasLoaded={hasLoaded}
-                            delay="animate-delay-700"
-                        >
-                            <SheetClose asChild>
-                                <ScrollOrLink pathname={pathname} to="programs">
-                                    {t("programs")}
-                                </ScrollOrLink>
-                            </SheetClose>
-                        </MobileMenuItem>
-
                         {/* Projects */}
                         <MobileMenuItem
                             hasLoaded={hasLoaded}
@@ -239,6 +250,18 @@ export default function Navigation() {
                                 </Link>
                             </MobileMenuItem>
                         )}
+
+                        {/* Programs */}
+                        <MobileMenuItem
+                            hasLoaded={hasLoaded}
+                            delay="animate-delay-700"
+                        >
+                            <SheetClose asChild>
+                                <ScrollOrLink pathname={pathname} to="programs">
+                                    {t("programs")}
+                                </ScrollOrLink>
+                            </SheetClose>
+                        </MobileMenuItem>
 
                         {/* About Us */}
                         <Collapsible>
@@ -336,7 +359,15 @@ export default function Navigation() {
                             onClick={handleLogoClick}
                             className="bg-blue-500 transition-colors hover:bg-blue-900"
                         >
-                            {t("application_form")}
+                            <Link href={applicationLink || "#"}>
+                                {t("application_form")}
+                            </Link>
+                        </MenubarTrigger>
+                    </MenubarMenu>
+
+                    <MenubarMenu>
+                        <MenubarTrigger>
+                            <Link href="/projects">{t("projects")}</Link>
                         </MenubarTrigger>
                     </MenubarMenu>
 
@@ -354,12 +385,6 @@ export default function Navigation() {
                             ) : (
                                 <Link href="/">{t("programs")}</Link>
                             )}
-                        </MenubarTrigger>
-                    </MenubarMenu>
-
-                    <MenubarMenu>
-                        <MenubarTrigger>
-                            <Link href="/projects">{t("projects")}</Link>
                         </MenubarTrigger>
                     </MenubarMenu>
 

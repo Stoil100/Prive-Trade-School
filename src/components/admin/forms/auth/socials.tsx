@@ -11,7 +11,7 @@ export const Socials = ({
     googleLogin: () => void;
     facebookLogin: () => void;
     isLoading: boolean;
-    t: (arg: string) => string;
+    t: (key: string, values?: Record<string, any>) => string;
 }) => (
     <>
         <div className="flex gap-3">

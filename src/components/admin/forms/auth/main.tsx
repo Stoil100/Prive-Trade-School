@@ -2,7 +2,7 @@
 
 import { useRouter } from "@/components/navigationSetup";
 import { useAuth } from "@/components/providers/auth";
-import { AuthSchema, AuthSchemaType } from "@/components/schemas/authScheme";
+import { authSchema, AuthSchemaType } from "@/components/schemas/admin/auth";
 import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -13,14 +13,16 @@ import { Inputs } from "./inputs";
 import { Socials } from "./socials";
 type AuthFormProps = {
     variant: "register" | "login";
-    t: (arg: string) => string;
+    t: (key: string, values?: Record<string, any>) => string;
 };
 
 const AuthForm = ({ variant = "login", t }: AuthFormProps) => {
-    const formSchema = AuthSchema(variant, t);
+    const formSchema = authSchema(variant, t);
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
-    const { signUp, googleLogin, facebookLogin, logIn } = useAuth();
+    const [success, setSuccess] = useState<string | null>(null);
+    const { signUp, googleLogin, facebookLogin, logIn, resetPassword } =
+        useAuth();
     const router = useRouter();
 
     const form = useForm<AuthSchemaType>({
@@ -121,6 +123,42 @@ const AuthForm = ({ variant = "login", t }: AuthFormProps) => {
         setIsLoading(false);
     };
 
+    const passwordReset = async () => {
+        if (variant !== "login") return;
+
+        setError(null);
+        setSuccess(null);
+
+        const email = form.getValues("email")!;
+
+        if (!email) {
+            form.setError("email", {
+                type: "manual",
+                message: t("auth.emailRequired") || "Enter your email first",
+            });
+            return;
+        }
+
+        setIsLoading(true);
+        const err = await resetPassword(email);
+
+        if (err) {
+            const resetMap: Record<string, string> = {
+                "auth/invalid-email": "Invalid email format",
+                "auth/user-not-found": "No account with this email",
+                "auth/too-many-requests": "Too many requests. Try again later",
+            };
+            setError(resetMap[err.code] || "Could not send reset email");
+        } else {
+            setSuccess(
+                t("auth.resetEmailSent") ||
+                    "Reset email sent. Check your inbox.",
+            );
+        }
+
+        setIsLoading(false);
+    };
+
     return (
         <div className="font-openSans flex flex-col items-center justify-center gap-3">
             <Header variant={variant} t={t} />
@@ -135,8 +173,14 @@ const AuthForm = ({ variant = "login", t }: AuthFormProps) => {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="flex h-full w-full flex-col justify-between space-y-6 text-black"
                 >
-                    <Inputs form={form} variant={variant} t={t} />
+                    <Inputs
+                        form={form}
+                        variant={variant}
+                        t={t}
+                        passwordReset={passwordReset}
+                    />
                     {error && <p>{error}</p>}
+                    {success && <p>{success}</p>}
                     <Footer isLoading={isLoading} t={t} />
                 </form>
             </Form>

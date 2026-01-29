@@ -19,25 +19,25 @@ import { doc, getDoc } from "firebase/firestore";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import React, { useCallback, useEffect, useState } from "react";
 
-function useHeaders(postId: string) {
-    const [header, setHeader] = useState<PostT>();
+function useProjects(postId: string) {
+    const [project, setProject] = useState<PostT>();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
     useEffect(() => {
-        const fetchHeader = async () => {
+        const fetchProject = async () => {
             if (!postId) {
                 setLoading(false);
-                setError(new Error("Invalid header ID"));
+                setError(new Error("Invalid project ID"));
                 return;
             }
 
             try {
                 setLoading(true);
-                const docRef = doc(db, "headers", postId);
+                const docRef = doc(db, "projects", postId);
                 const docSnap = await getDoc(docRef);
 
                 if (docSnap.exists()) {
-                    setHeader({
+                    setProject({
                         id: docSnap.id,
                         ...docSnap.data(),
                     } as PostT);
@@ -51,18 +51,18 @@ function useHeaders(postId: string) {
             }
         };
 
-        fetchHeader();
+        fetchProject();
     }, [postId]);
 
-    return { header, loading, error };
+    return { project, loading, error };
 }
-export default function HeaderPage({
+export default function ProjectPage({
     params,
 }: {
     params: Promise<{ id: string }>;
 }) {
     const pageId = React.use(params).id;
-    const { header, loading, error } = useHeaders(pageId);
+    const { project, loading, error } = useProjects(pageId);
     const [open, setOpen] = useState(false);
     const [activeIndex, setActiveIndex] = useState<number>();
     const [activeTabIndex, setActiveTabIndex] = useState<number>();
@@ -90,25 +90,25 @@ export default function HeaderPage({
     return (
         <section className="flex min-h-screen items-center justify-center px-2 py-6">
             <div className="max-w-2xl space-y-6">
-                <h1 className="text-5xl">{header!.title}</h1>
+                <h1 className="text-5xl">{project!.title}</h1>
                 <div className="space-y-2 px-2">
-                    {header!.titleDescriptions!.map((desc, index) => (
+                    {project!.titleDescriptions!.map((desc, index) => (
                         <p key={index} className="text-xl font-light">
                             {desc.value}
                         </p>
                     ))}
                 </div>
                 <img
-                    src={header!.heroImage}
-                    alt={header!.title}
+                    src={project!.heroImage}
+                    alt={project!.title}
                     className="w-full rounded-2xl"
                 />
                 <div className="space-y-6 text-2xl font-light">
-                    {header!.descriptions!.map((desc, index) => (
+                    {project!.descriptions!.map((desc, index) => (
                         <p key={index}>{desc.value}</p>
                     ))}
                 </div>
-                {header!.lists!.map((list, listIndex) => (
+                {project!.lists!.map((list, listIndex) => (
                     <div
                         key={listIndex}
                         className="space-y-2 text-2xl font-light"
@@ -122,7 +122,7 @@ export default function HeaderPage({
                     </div>
                 ))}
                 <div>
-                    {header!.docs!.map((doc, docIndex) => (
+                    {project!.docs!.map((doc, docIndex) => (
                         <div key={docIndex} className="space-y-4">
                             <h2 className="text-4xl">{doc.title}</h2>
                             {doc!.images!.length <= 2 ? (
@@ -172,7 +172,7 @@ export default function HeaderPage({
                                             <DialogContent className="max-w-screen z-[999999] flex h-full max-h-screen flex-col items-center justify-center border-none bg-black/80 md:p-8">
                                                 <DialogTitle className="sr-only text-2xl font-light text-white">
                                                     {
-                                                        header!.docs![
+                                                        project!.docs![
                                                             activeIndex
                                                         ].title
                                                     }
@@ -190,7 +190,7 @@ export default function HeaderPage({
                                                     }}
                                                 >
                                                     <CarouselContent className="-ml-4">
-                                                        {header!.docs![
+                                                        {project!.docs![
                                                             activeIndex
                                                         ].images!.map(
                                                             (image, index) => (
@@ -216,7 +216,7 @@ export default function HeaderPage({
                                                 </Carousel>
                                                 <ScrollArea className="min-h-fit whitespace-nowrap max-sm:hidden">
                                                     <div className="flex justify-center gap-8 p-4 2xl:gap-16">
-                                                        {header!.docs![
+                                                        {project!.docs![
                                                             activeIndex
                                                         ].images!.map(
                                                             (image, index) => (

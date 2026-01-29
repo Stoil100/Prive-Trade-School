@@ -3,7 +3,7 @@ export const Header = ({
     t,
 }: {
     variant: "register" | "login";
-    t: (arg: string) => string;
+    t: (key: string, values?: Record<string, any>) => string;
 }) => (
     <>
         <h3 className="font-playfairDSC z-10 text-center text-4xl font-bold capitalize ">

@@ -1,113 +1,3 @@
-// "use client";
-// import { auth, db } from "@/firebase/config";
-// import { AuthT } from "@/models/auth";
-// import {
-//     GoogleAuthProvider,
-//     createUserWithEmailAndPassword,
-//     onAuthStateChanged,
-//     signInWithEmailAndPassword,
-//     signInWithPopup,
-//     signOut,
-// } from "firebase/auth";
-// import { doc, getDoc, setDoc } from "firebase/firestore";
-// import React, { createContext, useContext, useEffect, useState } from "react";
-
-// interface UserType {
-//     email: string | null;
-//     uid: string | null;
-//     role: string | null;
-// }
-
-// const AuthContext = createContext({});
-// export const useAuth = () => useContext<any>(AuthContext);
-
-// export const AuthContextProvider = ({
-//     children,
-// }: {
-//     children: React.ReactNode;
-// }) => {
-//     const [user, setUser] = useState<UserType>({
-//         email: null,
-//         uid: null,
-//         role: null,
-//     });
-//     const [loading, setLoading] = useState<Boolean>(true);
-
-//     useEffect(() => {
-//         const unsubscribe = onAuthStateChanged(auth, async (user) => {
-//             if (user) {
-//                 const userRef = doc(db, "users", user?.uid);
-//                 const docSnap = await getDoc(userRef);
-//                 if (docSnap.exists()) {
-//                     setUser({
-//                         email: user.email,
-//                         uid: user.uid,
-//                         role: docSnap.data().role,
-//                     });
-//                 }
-//             } else {
-//                 setUser({ email: null, uid: null, role: null });
-//             }
-//             setLoading(false);
-//         });
-//         return () => unsubscribe();
-//     }, []);
-
-//     const signUp = async (values: AuthT) => {
-//         try {
-//           const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
-//           const user = userCredential.user;
-//           await setDoc(doc(db, "users", user.uid), {
-//             email: user.email,
-//             uid: user.uid,
-//             role: "guest",
-//           });
-
-//           return true;
-//         } catch (error) {
-//           return error;
-//         }
-//       };
-
-//     // Login the user
-//     const logIn = (values:AuthT) => {
-//         return signInWithEmailAndPassword(auth, values.email, values.password)
-//     };
-
-//     // Logout the user
-//     const logOut = async () => {
-//         setUser({ email: null, uid: null, role: null });
-//         return await signOut(auth);
-//     };
-
-//     const googleLogin = async () => {
-//         const provider = new GoogleAuthProvider();
-
-//         try {
-//             const result = await signInWithPopup(auth, provider);
-//             const user = result.user;
-//             const isNew =
-//                 user.metadata.creationTime === user.metadata.lastSignInTime;
-//             if (isNew) {
-//                 await setDoc(doc(db, "users", user.uid), {
-//                     email: user.email,
-//                     uid: user.uid,
-//                     role: "guest",
-//                 });
-//             }
-//         } catch (error: any) {
-//             return error;
-//         }
-//     };
-//     return (
-//         <AuthContext.Provider
-//             value={{ user, loading, signUp, logIn, googleLogin, logOut }}
-//         >
-//             {loading ? null : children}
-//         </AuthContext.Provider>
-//     );
-// };
-
 "use client";
 import { auth, db } from "@/firebase/config";
 import { AuthT } from "@/models/auth";
@@ -119,6 +9,7 @@ import {
     createUserWithEmailAndPassword,
     onAuthStateChanged,
     sendEmailVerification,
+    sendPasswordResetEmail,
     signInWithEmailAndPassword,
     signInWithPopup,
     signOut,
@@ -140,6 +31,7 @@ interface AuthContextType {
     logIn: (values: AuthT) => Promise<void | AuthError>;
     googleLogin: () => Promise<void | AuthError>;
     facebookLogin: () => Promise<void | AuthError>;
+    resetPassword: (email: string) => Promise<void | AuthError>;
     logOut: () => Promise<void>;
 }
 
@@ -334,6 +226,13 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
             return error as AuthError;
         }
     };
+    const resetPassword = async (email: string): Promise<void | AuthError> => {
+        try {
+            await sendPasswordResetEmail(auth, email);
+        } catch (error) {
+            return error as AuthError;
+        }
+    };
 
     const logOut = async (): Promise<void> => {
         try {
@@ -358,6 +257,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
                 logIn,
                 googleLogin,
                 facebookLogin,
+                resetPassword,
                 logOut,
             }}
         >

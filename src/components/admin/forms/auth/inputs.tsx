@@ -14,10 +14,14 @@ export const Inputs = ({
     form,
     variant,
     t,
+    passwordReset,
+    isLoading,
 }: {
     form: UseFormReturn<any>;
     variant: "register" | "login";
-    t: (arg: string) => string;
+    t: (key: string, values?: Record<string, any>) => string;
+    passwordReset?: () => void;
+    isLoading?: boolean;
 }) => {
     const [visible, setVisible] = useState(false);
 
@@ -38,31 +42,45 @@ export const Inputs = ({
                     </FormItem>
                 )}
             />
-            <div className="flex w-full gap-1">
-                <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                        <FormItem className="w-full">
-                            <FormControl>
-                                <Input
-                                    type={visible ? "text" : "password"}
-                                    placeholder={t("passwordPlaceholder")}
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => setVisible(!visible)}
-                >
-                    {visible ? <Eye /> : <EyeOff />}
-                </Button>
+            <div>
+                <div className="flex w-full gap-1">
+                    <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                            <FormItem className="w-full">
+                                <FormControl>
+                                    <Input
+                                        type={visible ? "text" : "password"}
+                                        placeholder={t("passwordPlaceholder")}
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setVisible(!visible)}
+                    >
+                        {visible ? <Eye /> : <EyeOff />}
+                    </Button>
+                </div>
+                {variant === "login" && passwordReset && (
+                    <button
+                        type="button"
+                        onClick={passwordReset}
+                        disabled={isLoading}
+                        className="w-fit text-xs  text-gray-400 disabled:opacity-50"
+                    >
+                        {t("forgotPassword") || "Forgot password?"}
+                    </button>
+                )}
             </div>
+
             {variant === "register" && (
                 <FormField
                     control={form.control}
