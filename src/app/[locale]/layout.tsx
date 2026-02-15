@@ -41,7 +41,7 @@ type Props = {
 
 export default async function LocaleLayout({ children, params }: Props) {
     const messages = await getMessages();
-    const outage = false;
+    const outage = true;
 
     const { locale } = await params;
     if (!hasLocale(routing.locales, locale)) {
