@@ -1,0 +1,435 @@
+{
+    "Pages": {
+        "Admin": {
+            "noPermission": {
+                "message": "Sorry, you do not have permission to access this section",
+                "goBack": "Go back",
+                "logout": "Log out"
+            },
+            "tabs": {
+                "login": "Login",
+                "register": "Register"
+            },
+            "forms": {
+                "auth": {
+                    "headerRegister": "Register your account",
+                    "headerLogin": "Sign in to your account",
+                    "usingSocialNetworks": "Using social networks",
+                    "orWith": "Or with",
+                    "emailPlaceholder": "Enter your email here...",
+                    "passwordPlaceholder": "Enter your password here...",
+                    "confirmPasswordPlaceholder": "Confirm your password here...",
+                    "alreadyHaveAccount": "Already have an account?",
+                    "doNotHaveAccount": "Don't have an account?",
+                    "loginHere": "Log in here",
+                    "registerHere": "Register here",
+                    "submit": "Submit",
+                    "emailValidation": "Please enter a valid email address.",
+                    "passwordUppercaseError": "One uppercase letter",
+                    "passwordLowercaseError": "One lowercase letter",
+                    "passwordNumberError": "One number",
+                    "passwordSpecialCharacterError": "One special character",
+                    "passwordMinLengthError": "Minimum 8 characters",
+                    "passwordsMismatchError": "Passwords do not match",
+                    "toggleVisibility": "Toggle visibility",
+                    "errorMessage": "Error",
+                    "forgotPassword": "Forgot password?"
+                },
+
+                "posts": {
+                    "headers": {
+                        "headers": "Header Page Form",
+                        "news": "News Form",
+                        "projects": "Projects Form",
+                        "docs": "Documents Form"
+                    },
+                    "title": "Title",
+                    "heroImage": "Hero image URL",
+
+                    "titleDescriptions": {
+                        "label": "Title descriptions",
+                        "placeholder": "Title description",
+                        "addButton": "Add title description",
+                        "removeButton": "Remove"
+                    },
+
+                    "descriptions": {
+                        "label": "Descriptions",
+                        "placeholder": "Description",
+                        "addButton": "Add description",
+                        "removeButton": "Remove"
+                    },
+
+                    "lists": {
+                        "label": "Lists",
+                        "listTitle": {
+                            "placeholder": "List title (optional)"
+                        },
+                        "items": {
+                            "placeholder": "List item",
+                            "addButton": "Add item",
+                            "removeButton": "Remove item"
+                        },
+                        "addButton": "Add list",
+                        "removeButton": "Remove list"
+                    },
+
+                    "docs": {
+                        "label": "Documents",
+                        "docTitle": {
+                            "label": "Document title",
+                            "placeholder": "Document title"
+                        },
+                        "images": {
+                            "label": "Images",
+                            "placeholder": "Image URL",
+                            "addButton": "Add image",
+                            "removeButton": "Remove"
+                        },
+                        "texts": {
+                            "label": "Texts",
+                            "placeholder": "Text content",
+                            "addTextButton": "Add text",
+                            "addListButton": "Add list",
+                            "listItems": {
+                                "placeholder": "List item",
+                                "addButton": "Add list item",
+                                "removeButton": "Remove"
+                            },
+                            "listTitle": {
+                                "placeholder": "List title (optional)"
+                            },
+                            "removeButton": "Remove text"
+                        },
+                        "addButton": "Add document",
+                        "removeButton": "Remove document"
+                    },
+
+                    "submit": {
+                        "headers": "Upload header page",
+                        "news": "Upload news",
+                        "projects": "Upload project",
+                        "docs": "Upload document"
+                    },
+
+                    "errors": {
+                        "heroImage": {
+                            "url": "Hero image must be a valid URL"
+                        },
+                        "title": {
+                            "required": "Title is required"
+                        },
+                        "titleDescriptions": {
+                            "value": {
+                                "required": "Each title description must have a value"
+                            }
+                        },
+                        "descriptions": {
+                            "value": {
+                                "required": "Each description must have a value"
+                            }
+                        },
+                        "lists": {
+                            "items": {
+                                "value": {
+                                    "required": "Each list item must have a value"
+                                },
+                                "min": "There must be at least one list item"
+                            }
+                        },
+                        "docs": {
+                            "title": {
+                                "required": "Document title is required"
+                            },
+                            "images": {
+                                "value": {
+                                    "url": "Each image must be a valid URL"
+                                }
+                            },
+                            "texts": {
+                                "value": {
+                                    "required": "Text content is required"
+                                },
+                                "listItems": {
+                                    "value": {
+                                        "required": "Each list item must have a value"
+                                    },
+                                    "min": "There must be at least one list item"
+                                }
+                            }
+                        }
+                    }
+                },
+
+                "docs": {
+                    "title": {
+                        "label": "Document title",
+                        "placeholder": "Enter document title here...",
+                        "description": "Give the document an appropriate title."
+                    },
+                    "description": {
+                        "label": "Document description (optional)",
+                        "placeholder": "Enter document description here...",
+                        "description": "Add a short description of the document."
+                    },
+                    "file": {
+                        "label": "Upload document",
+                        "description": "Choose a document to upload (PDF, Word, etc.)"
+                    },
+                    "submit": "Upload document",
+                    "uploading": "Uploading document...",
+                    "errors": {
+                        "title": {
+                            "required": "Title is required",
+                            "tooLong": "Title must not exceed 100 characters"
+                        },
+                        "description": {
+                            "tooLong": "Description must not exceed 500 characters"
+                        },
+                        "file": {
+                            "required": "File is required",
+                            "size": "File size must not exceed 2MB",
+                            "type": "Unsupported file type. Please upload PDF or DOC files."
+                        }
+                    }
+                },
+
+                "adminCreate": {
+                    "title": "Create new administrator",
+                    "email": {
+                        "label": "Email",
+                        "description": "The email address for this administrator account."
+                    },
+                    "password": {
+                        "label": "Password",
+                        "description": "Password must be at least 8 characters long and include uppercase and lowercase letters, as well as numbers.",
+                        "placeholder": "Enter password here..."
+                    },
+                    "confirmPassword": {
+                        "label": "Confirm password",
+                        "description": "Re-enter the password for confirmation.",
+                        "placeholder": "Confirm password here..."
+                    },
+                    "description": "Add a new administrator to manage the website content.",
+                    "submit": "Create administrator",
+                    "loading": "Creating administrator...",
+                    "errors": {
+                        "emailAlreadyInUse": "This email is already registered.",
+                        "weakPassword": "Password is too weak.",
+                        "invalidEmail": "Invalid email address.",
+                        "email": {
+                            "required": "Email is required",
+                            "invalid": "Please enter a valid email address"
+                        },
+                        "password": {
+                            "minLength": "Password must be at least 8 characters long",
+                            "uppercase": "Password must contain at least one uppercase letter",
+                            "lowercase": "Password must contain at least one lowercase letter",
+                            "number": "Password must contain at least one number"
+                        },
+                        "confirmPassword": {
+                            "mismatch": "Passwords do not match"
+                        }
+                    }
+                },
+
+                "applicationLink": {
+                    "title": "Application link management",
+                    "description": {
+                        "upload": "Upload a new application link",
+                        "update": "Update the existing application link"
+                    },
+                    "link": {
+                        "label": "Application link URL",
+                        "placeholder": "Enter URL here...",
+                        "description": "This link will be used on the application page."
+                    },
+                    "button": {
+                        "upload": "Upload link",
+                        "update": "Update link"
+                    },
+                    "success": {
+                        "update": "Application link updated successfully!",
+                        "upload": "Application link uploaded successfully!"
+                    },
+                    "errors": {
+                        "required": "Link URL is required",
+                        "invalid": "Please enter a valid URL"
+                    }
+                }
+            },
+            "preview": {
+                "title": {
+                    "headers": "Manage Headers",
+                    "news": "Manage News",
+                    "projects": "Manage Projects",
+                    "docs": "Manage Documents"
+                },
+
+                "view": {
+                    "headers": "View and manage all header articles submitted via the form",
+                    "news": "View and manage all news submitted via the form",
+                    "projects": "View and manage all projects submitted via the form",
+                    "docs": "View and manage all documents submitted via the form"
+                },
+
+                "filter": {
+                    "search": {
+                        "title": "Search by title...",
+                        "description": "Filter documents by title, description, or file name",
+                        "placeholder": "Search documents..."
+                    },
+
+                    "all": {
+                        "title": "All documents",
+                        "description": "View all uploaded documents",
+                        "table": {
+                            "title": "Title",
+                            "file": "File",
+                            "type": "Type",
+                            "size": "Size",
+                            "uploaded": "Uploaded on",
+                            "actions": {
+                                "title": "Actions",
+                                "delete": "Delete",
+                                "deleting": "Deleting...",
+                                "cancel": "Cancel"
+                            }
+                        }
+                    },
+
+                    "noDocsFound": "No documents found."
+                },
+
+                "table": {
+                    "title": "Title",
+                    "heroImage": "Hero image",
+                    "createdAt": "Created on",
+                    "actions": {
+                        "title": "Actions",
+                        "delete": "Delete",
+                        "cancel": "Cancel"
+                    },
+                    "alert": {
+                        "deleteTitle": "Delete article",
+                        "deleteConfirm": "Are you sure you want to delete ",
+                        "deleteMessage": " This action cannot be undone."
+                    }
+                },
+
+                "noPostsFound": {
+                    "headers": "No articles found. Create one using the articles form.",
+                    "news": "No news found. Create one using the news form.",
+                    "projects": "No projects found. Create one using the projects form.",
+                    "docs": "No documents found. Create one using the documents form."
+                }
+            },
+            "logOut": "Log out"
+        },
+        "Home": {
+            "News": {
+                "title": "News"
+            },
+            "About": {
+                "title": "About Us",
+                "aboutItems": {
+                    "Star": {
+                        "title": "🎯Our Mission",
+                        "description": "We share economic knowledge and aim to inspire young people with a passion for career and professional orientation toward business realization. We open doors to personal and professional success by creating a strong business culture."
+                    },
+                    "Book": {
+                        "title": "🎯Our Mission",
+                        "description": "The education we provide builds upon national educational standards in general education, as well as knowledge in general professional, sectoral, and specialized training. We create motivation for learning, develop skills for coping with difficult academic and life situations, build competencies, and foster cooperative relationships among students."
+                    },
+                    "Graduation": {
+                        "title": "🌟Our Vision",
+                        "description": "We conduct language training by levels in accordance with the European language framework. We provide professional training practice in bank offices and within the school, and internships in real financial enterprises. We regularly connect students with individuals who have successfully established themselves as business leaders."
+                    },
+                    "Backpack": {
+                        "title": "🌟Our Vision",
+                        "description": "Events are organized using the experiential learning method, and students participate in various European projects focused on economic, environmental, and social topics. Cultural institutions such as museums, theater and opera performances, and exhibitions are visited monthly, introducing future young specialists to distinguished artists and creators."
+                    }
+                }
+            },
+            "Select": {
+                "title": "Why Choose Us?",
+                "reasons": {
+                    "Global": {
+                        "title": "Global Opportunities:",
+                        "description": "By organizing internships abroad, we help fulfill dreams of working in a chosen profession. Moreover, we provide opportunities to gain work experience at a European level. We also teach students to be responsible, open-minded, and conscientious, giving them the chance to build international connections and explore different cultures."
+                    },
+                    "Individual": {
+                        "title": "Individual Approach to Education:",
+                        "description": "We want our students to improve their professional, language, and social competencies. To facilitate this, we ensure that classes are held in small groups and apply individual approaches tailored to students’ abilities."
+                    },
+                    "Preparation": {
+                        "title": "Preparation for Business Success:",
+                        "description": "We share economic knowledge and inspire young people with a passion for career and professional orientation toward business realization. We build upon general education standards and teach knowledge and skills for coping with challenging academic and life situations."
+                    }
+                }
+            },
+            "Specializations": {
+                "title": "Specializations",
+                "download": "Download PDF",
+                "info": "For more information, contact us at",
+                "types": {
+                    "customs": "Tax and Customs Control",
+                    "banker": "Banking",
+                    "accountant": "Operational Accounting"
+                }
+            }
+        },
+        "Documents": {
+            "title": "Documents",
+            "notFound": "No documents found",
+            "view": "View Document"
+        },
+        "Projects": {
+            "title": "Projects",
+            "notFound": "No projects found"
+        }
+    },
+    "Common": {
+        "Footer": {
+            "specializations": "Programs",
+            "quickLinks": "Quick Links",
+            "contact": "Contact",
+            "address": "1 Prespa St., Varna 9000",
+            "name": "Private Trade High School",
+            "city": "Private Trade High School - Varna",
+            "home": "Home",
+            "about": "About Us",
+            "news": "News",
+            "whyChooseUs": "Why Choose Us",
+            "specialties": "Specializations",
+            "projects": "Projects",
+            "taxCustomsControl": "Tax and Customs Control",
+            "banking": "Banking",
+            "accounting": "Operational Accounting",
+            "copyrightNotice": "All rights reserved."
+        },
+        "Navigation": {
+            "home": "Home",
+            "applicationForm": "Application Form",
+            "documents": "Documents",
+            "projects": "Projects",
+            "news": "News",
+            "aboutUs": "About Us",
+            "missionVision": "Mission and Vision",
+            "whyChooseUs": "Why Choose Us",
+            "contacts": "Contacts",
+            "login": "Login",
+            "register": "Register",
+            "account": "Account",
+            "admin": "Admin",
+            "address": "1 Prespa St., Varna 9000"
+        },
+        "Topbar": {
+            "address": "1 Prespa St., 9000 Greek Quarter, Varna"
+        },
+        "LanguageButton": {
+            "bg": "ЕН",
+            "en": "EN"
+        }
+    }
+}
