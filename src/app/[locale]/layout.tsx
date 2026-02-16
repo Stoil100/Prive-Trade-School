@@ -10,29 +10,27 @@ import { routing } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages } from "next-intl/server";
-import { Inter as FontSans, Geist, Geist_Mono } from "next/font/google";
+import { Geologica, Montserrat } from "next/font/google";
 import { notFound } from "next/navigation";
 import { AuthContextProvider } from "../../components/providers/auth";
-
-export const fontSans = FontSans({
-    subsets: ["latin"],
-    variable: "--font-sans",
-});
-const geistSans = Geist({
-    variable: "--font-geist-sans",
-    subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-    variable: "--font-geist-mono",
-    subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
     title: "Частна Търговска гимназия 'Конто Трейд'",
     description: "",
     icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
+
+const montserrat = Montserrat({
+    subsets: ["latin"],
+    weight: ["200", "400", "500", "600", "700"],
+    variable: "--font-montserrat",
+});
+
+const geologica = Geologica({
+    subsets: ["latin"],
+    weight: ["400", "700"],
+    variable: "--font-geologica",
+});
 
 type Props = {
     children: React.ReactNode;
@@ -49,11 +47,15 @@ export default async function LocaleLayout({ children, params }: Props) {
     }
 
     return (
-        <html lang={locale} suppressHydrationWarning>
+        <html
+            lang={locale}
+            suppressHydrationWarning
+            className={`${montserrat.variable} ${geologica.variable}`}
+        >
             <head />
             <body
                 className={cn(
-                    `${geistSans.variable} ${geistMono.variable} font-montserrat flex min-h-screen w-screen max-w-full flex-col overflow-x-hidden scroll-smooth bg-gray-900 antialiased`,
+                    "font-montserrat flex min-h-screen w-screen max-w-full flex-col overflow-x-hidden scroll-smooth bg-gray-900 antialiased",
                 )}
             >
                 {outage ? (

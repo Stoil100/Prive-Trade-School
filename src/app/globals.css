@@ -44,6 +44,29 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+
+  /* extend: */
+
+  /* spacing */
+  --spacing-nav: var(--nav-height);
+
+  /* height */
+  --height-nav: var(--nav-height);
+  --height-screen-nav: calc(100vh - var(--nav-height));
+
+  /* min-height */
+  --min-height-nav: var(--nav-height);
+  --min-height-screen-nav: calc(100vh - var(--nav-height));
+
+  /* inset */
+  --inset-nav: var(--nav-height);
+
+  /* translate */
+  --translate-nav: var(--nav-height);
+
+  /* fonts */
+  --font-montserrat: "Montserrat", var(--font-montserrat);
+  --font-geologica: "Geologica", var(--font-geologica);
 }
 
 :root {
@@ -119,7 +142,8 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-montserrat;
   }
 }
