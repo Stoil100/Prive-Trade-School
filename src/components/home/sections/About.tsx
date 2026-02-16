@@ -102,7 +102,7 @@ export default function AboutSection({ t }: AboutSectionProps) {
                             key={index}
                             type="button"
                             className={cn(
-                                "flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white transition-transform md:h-16 md:w-16",
+                                "flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-blue-500 text-white transition-transform md:h-16 md:w-16",
                                 index === activeIndex &&
                                     "scale-125 bg-blue-600 md:scale-110",
                             )}

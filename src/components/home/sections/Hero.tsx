@@ -9,11 +9,11 @@ import {
     type CarouselApi,
 } from "@/components/ui/carousel";
 import { db } from "@/firebase/config";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { PostT } from "@/models/post";
 import Autoplay from "embla-carousel-autoplay";
 import { collection, getDocs } from "firebase/firestore";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function HeroSection() {
@@ -88,34 +88,38 @@ export default function HeroSection() {
                     ))}
                 </CarouselContent>
             </Carousel>
-            <div className="space-between absolute bottom-2 left-[50%] flex w-fit translate-x-[-50%] gap-2 drop-shadow-xl lg:bottom-6">
-                {carouselApi?.scrollSnapList().map((_: any, index: number) => (
-                    <div
-                        key={index}
-                        className={cn(
-                            "h-2 w-2 cursor-pointer rounded-full bg-white",
-                            index === activeIndex && "bg-blue-800",
-                        )}
-                        onClick={() => {
-                            carouselApi?.scrollTo(index);
-                            autoplay.current.reset();
-                        }}
-                    />
-                ))}
-            </div>
+            {headers.length > 1 && (
+                <div className="space-between absolute bottom-2 left-[50%] flex w-fit translate-x-[-50%] gap-2 drop-shadow-xl lg:bottom-6">
+                    {carouselApi
+                        ?.scrollSnapList()
+                        .map((_: any, index: number) => (
+                            <div
+                                key={index}
+                                className={cn(
+                                    "h-2 w-2 cursor-pointer rounded-full bg-white",
+                                    index === activeIndex && "bg-blue-800",
+                                )}
+                                onClick={() => {
+                                    carouselApi?.scrollTo(index);
+                                    autoplay.current.reset();
+                                }}
+                            />
+                        ))}
+                </div>
+            )}
         </section>
     );
 }
 
 const CarouselHeaderItemContent: React.FC<PostT> = ({ id, heroImage }) => {
-    const router = useRouter();
     return (
-        <img
-            src={heroImage || "/placeholder.svg"}
-            onClick={() => {
-                router.push(id || "/");
-            }}
-            className={cn("max-h-[81vh] w-full cursor-pointer object-cover")}
-        />
+        <Link href={`/${id}`}>
+            <img
+                src={heroImage || "/placeholder.svg"}
+                className={cn(
+                    "max-h-[81vh] w-full cursor-pointer object-cover",
+                )}
+            />
+        </Link>
     );
 };

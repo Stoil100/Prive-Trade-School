@@ -14,7 +14,14 @@ import { db } from "@/firebase/config";
 import { cn } from "@/lib/utils";
 import { PostT } from "@/models/post";
 import Autoplay from "embla-carousel-autoplay";
-import { collection, getDocs } from "firebase/firestore";
+import {
+    collection,
+    getDocs,
+    orderBy,
+    query,
+    Timestamp,
+    where,
+} from "firebase/firestore";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useIntersectionObserver } from "usehooks-ts";
@@ -41,14 +48,47 @@ export default function NewsSection({ t }: NewsSectionProps) {
         const fetchNews = async () => {
             try {
                 const newsCollection = collection(db, "news");
-                const newSnapshot = await getDocs(newsCollection);
-                const newsList: PostT[] = newSnapshot.docs.map(
+
+                const now = new Date();
+
+                // 2 months ago
+                const twoMonthsAgo = new Date();
+                twoMonthsAgo.setMonth(now.getMonth() - 2);
+
+                const twoMonthQuery = query(
+                    newsCollection,
+                    where("createdAt", ">=", Timestamp.fromDate(twoMonthsAgo)),
+                    orderBy("createdAt", "desc"),
+                );
+
+                let snapshot = await getDocs(twoMonthQuery);
+
+                // If no results → fetch last 6 months
+                if (snapshot.empty) {
+                    const sixMonthsAgo = new Date();
+                    sixMonthsAgo.setMonth(now.getMonth() - 6);
+
+                    const sixMonthQuery = query(
+                        newsCollection,
+                        where(
+                            "createdAt",
+                            ">=",
+                            Timestamp.fromDate(sixMonthsAgo),
+                        ),
+                        orderBy("createdAt", "desc"),
+                    );
+
+                    snapshot = await getDocs(sixMonthQuery);
+                }
+
+                const newsList: PostT[] = snapshot.docs.map(
                     (doc) =>
                         ({
                             id: doc.id,
                             ...doc.data(),
                         }) as PostT,
                 );
+
                 setNews(newsList);
             } catch (error) {
                 console.error("Error fetching news:", error);
@@ -57,6 +97,7 @@ export default function NewsSection({ t }: NewsSectionProps) {
 
         fetchNews();
     }, []);
+    console.log("Fetched news:", news);
 
     useEffect(() => {
         if (!carouselApi) return;
@@ -101,36 +142,43 @@ export default function NewsSection({ t }: NewsSectionProps) {
                         </CarouselItem>
                     ))}
                 </CarouselContent>
-                <CarouselPrevious
-                    className="bg-opacity-60 hidden h-12 w-12 bg-black text-white shadow-xl backdrop-blur-sm sm:flex lg:translate-x-20"
-                    onClick={() => {
-                        carouselApi?.scrollPrev();
-                        autoplay.current.reset();
-                    }}
-                />
-                <CarouselNext
-                    className="bg-opacity-60 hidden h-12 w-12 bg-black text-white shadow-xl backdrop-blur-sm sm:flex lg:-translate-x-20"
-                    onClick={() => {
-                        carouselApi?.scrollNext();
-                        autoplay.current.reset();
-                    }}
-                />{" "}
+                {news.length > 1 && (
+                    <>
+                        <CarouselPrevious
+                            className="bg-opacity-60 hidden h-12 w-12 bg-black text-white shadow-xl backdrop-blur-sm sm:flex lg:translate-x-20"
+                            onClick={() => {
+                                carouselApi?.scrollPrev();
+                                autoplay.current.reset();
+                            }}
+                        />
+                        <CarouselNext
+                            className="bg-opacity-60 hidden h-12 w-12 bg-black text-white shadow-xl backdrop-blur-sm sm:flex lg:-translate-x-20"
+                            onClick={() => {
+                                carouselApi?.scrollNext();
+                                autoplay.current.reset();
+                            }}
+                        />
+                    </>
+                )}
             </Carousel>
-
-            <div className="space-between flex w-fit gap-2 sm:hidden">
-                {carouselApi?.scrollSnapList().map((_: any, index: number) => (
-                    <div
-                        key={index}
-                        className={`h-3 w-3 cursor-pointer rounded-full bg-gray-400 ${
-                            index === activeIndex && "bg-slate-800"
-                        }`}
-                        onClick={() => {
-                            carouselApi?.scrollTo(index);
-                            autoplay.current.reset();
-                        }}
-                    />
-                ))}
-            </div>
+            {news.length > 1 && (
+                <div className="space-between flex w-fit gap-2 sm:hidden">
+                    {carouselApi
+                        ?.scrollSnapList()
+                        .map((_: any, index: number) => (
+                            <div
+                                key={index}
+                                className={`h-3 w-3 cursor-pointer rounded-full bg-gray-400 ${
+                                    index === activeIndex && "bg-slate-800"
+                                }`}
+                                onClick={() => {
+                                    carouselApi?.scrollTo(index);
+                                    autoplay.current.reset();
+                                }}
+                            />
+                        ))}
+                </div>
+            )}
         </section>
     );
 }
@@ -141,13 +189,16 @@ const CarouselNewsItemContent: React.FC<PostT> = ({
     titleDescriptions,
     heroImage,
 }) => (
-    <Link
-        href={`news/${id}`}
-        className="h-full min-h-[450px] w-full bg-cover bg-center"
-        style={{ backgroundImage: `url(${heroImage})` }}
-    >
-        <div className="bg-opacity-30 flex h-full w-full flex-col justify-end border-sky-500 bg-linear-to-t from-black to-transparent to-70% p-4 text-white transition-all hover:border-b-8 hover:to-80% sm:to-50%">
-            <p className="text-4xl">{title}</p>
+    <Link href={`news/${id}`} className="relative">
+        {heroImage && (
+            <img
+                src={heroImage}
+                alt={title}
+                className="absolute inset-0 h-full w-full object-cover"
+            />
+        )}
+        <div className="bg-opacity-30 relative flex h-full min-h-[450px] w-full flex-col justify-end border-sky-500 bg-linear-to-t from-black to-transparent to-70% p-4 text-white transition-all hover:border-b-8 hover:to-80% sm:to-50%">
+            <p className="z-999 text-4xl">{title}</p>
             {titleDescriptions?.map((desc) => (
                 <p key={desc.id}>{desc.value}</p>
             ))}
