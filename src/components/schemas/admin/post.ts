@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const postSchema = (t: (arg: string) => string) =>
     z.object({
-        heroImage: z.string().url(t("heroImage.url")).optional(),
+        heroImage: z.url(t("heroImage.url")).trim().optional(),
         title: z.string().min(1, t("title.required")),
         titleDescriptions: z
             .array(
@@ -47,7 +47,7 @@ export const postSchema = (t: (arg: string) => string) =>
                         .array(
                             z.object({
                                 id: z.number(),
-                                value: z.url(t("docs.images.value.url")),
+                                value: z.url(t("docs.images.value.url")).trim(),
                             }),
                         )
                         .optional(),

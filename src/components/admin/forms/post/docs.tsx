@@ -8,6 +8,8 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { deleteImageByUrl } from "@/firebase/utils/delete";
+import { uploadImage } from "@/firebase/utils/upload";
 import { Trash2 } from "lucide-react";
 import { Control, useFieldArray } from "react-hook-form";
 
@@ -15,9 +17,11 @@ type DocsProps = {
     control: Control<any>;
     name: string;
     t: (key: string, values?: Record<string, any>) => string;
+    getValues: any;
+    type: "headers" | "news" | "projects";
 };
 
-export function Docs({ control, name, t }: DocsProps) {
+export function Docs({ control, name, t, getValues, type }: DocsProps) {
     const { fields, append, remove } = useFieldArray({
         control,
         name,
@@ -52,6 +56,8 @@ export function Docs({ control, name, t }: DocsProps) {
                         control={control}
                         name={`${name}.${index}.images`}
                         t={(key) => t(`images.${key}`)}
+                        getValues={getValues}
+                        type={type}
                     />
                     <DocTexts
                         control={control}
@@ -83,10 +89,14 @@ function DocImages({
     control,
     name,
     t,
+    getValues,
+    type,
 }: {
     control: Control<any>;
     name: string;
     t: (arg: string) => string;
+    getValues: any;
+    type: "headers" | "news" | "projects";
 }) {
     const { fields, append, remove } = useFieldArray({
         control,
@@ -106,12 +116,39 @@ function DocImages({
                             <FormControl>
                                 <div className="flex items-center space-x-2">
                                     <Input
-                                        {...field}
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={async (e) => {
+                                            const file = e.target.files?.[0];
+                                            if (!file) return;
+
+                                            try {
+                                                const url = await uploadImage({
+                                                    file,
+                                                    type,
+                                                });
+                                                field.onChange(url); // this sets heroImage = downloadURL
+                                            } catch (err) {
+                                                console.error(err);
+                                            }
+                                        }}
                                         placeholder={t("placeholder")}
                                     />
                                     <Button
                                         type="button"
-                                        onClick={() => remove(index)}
+                                        onClick={async () => {
+                                            const imageUrl = getValues(
+                                                `${name}.${index}.value`,
+                                            );
+
+                                            if (imageUrl) {
+                                                await deleteImageByUrl(
+                                                    imageUrl,
+                                                );
+                                            }
+
+                                            remove(index);
+                                        }}
                                         variant="destructive"
                                     >
                                         <p className="max-md:hidden">

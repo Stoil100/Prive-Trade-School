@@ -1,26 +1,28 @@
-import {
-    getDownloadURL,
-    ref,
-    updateMetadata,
-    uploadBytes,
-} from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { v4 as uuidv4 } from "uuid";
 import { storage } from "../config";
 
-export const uploadImage = async (
-    file: Blob | ArrayBuffer | File,
-    fileName: string,
-) => {
-    try {
-        const imageRef = ref(storage, `news/${fileName}`);
-        const uploadImage = await uploadBytes(imageRef, file);
-        const newMetadata = {
-            cacheControl: "public,max-age= 7890000000", //3 mins - test / 3 months - 7890000000
-            contentType: uploadImage.metadata.contentType,
-        };
+interface Props {
+    file: File;
+    type: "news" | "projects" | "headers";
+}
 
-        await updateMetadata(imageRef, newMetadata);
-        return await getDownloadURL(imageRef);
-    } catch (error) {
-        throw error;
+export const uploadImage = async ({ file, type }: Props) => {
+    if (!file.type.startsWith("image/")) {
+        throw new Error("Only image files are allowed");
     }
+
+    if (file.size > 3 * 1024 * 1024) {
+        throw new Error("Image must be under 3MB");
+    }
+
+    const uniqueName = `${uuidv4()}.${file.type.split("/")[1]}`;
+    const imageRef = ref(storage, `${type}/${uniqueName}`);
+
+    await uploadBytes(imageRef, file, {
+        cacheControl: "public, max-age=86400",
+        contentType: file.type,
+    });
+
+    return (await getDownloadURL(imageRef)).trim();
 };

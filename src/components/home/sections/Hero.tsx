@@ -115,7 +115,7 @@ const CarouselHeaderItemContent: React.FC<PostT> = ({ id, heroImage }) => {
     return (
         <Link href={`/${id}`}>
             <img
-                src={heroImage || "/placeholder.svg"}
+                src={heroImage || "/placeholder.png"}
                 className={cn(
                     "max-h-[81vh] w-full cursor-pointer object-cover",
                 )}

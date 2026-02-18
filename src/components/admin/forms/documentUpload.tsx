@@ -46,12 +46,21 @@ export function DocumentUploadForm({ t, onSuccess }: DocumentUploadFormProps) {
             const file = data.file[0];
 
             // Upload file to Firebase Storage
-            const storageRef = ref(
-                storage,
-                `documents/${Date.now()}_${file.name}`,
-            );
-            const uploadResult = await uploadBytes(storageRef, file);
-            const downloadURL = await getDownloadURL(uploadResult.ref);
+            if (!file) throw new Error("No file selected");
+
+            if (file.size > 3 * 1024 * 1024) {
+                throw new Error("File must be under 3MB");
+            }
+
+            const uniqueName = `${Date.now()}-${crypto.randomUUID()}-${file.name}`;
+            const storageRef = ref(storage, `documents/${uniqueName}`);
+
+            await uploadBytes(storageRef, file, {
+                cacheControl: "public, max-age=31536000",
+                contentType: file.type,
+            });
+
+            const downloadURL = await getDownloadURL(storageRef);
 
             // Add document metadata to Firestore
             await addDoc(collection(db, "documents"), {

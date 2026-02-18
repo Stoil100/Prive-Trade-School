@@ -133,7 +133,10 @@ export default function PostPreview({ type, t }: PostPreviewProps) {
                                             </TableCell>
                                             <TableCell className="max-w-xs truncate">
                                                 <Image
-                                                    src={post.heroImage!}
+                                                    src={
+                                                        post.heroImage ||
+                                                        "/placeholder.png"
+                                                    }
                                                     alt={post.title}
                                                     width={100}
                                                     height={50}

@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { db } from "@/firebase/config";
+import { uploadImage } from "@/firebase/utils/upload";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { UploadIcon } from "lucide-react";
@@ -68,7 +69,24 @@ export function PostForm({ type, t }: PostSchemaProps) {
                         <FormItem>
                             <FormLabel>{t("heroImage")}</FormLabel>
                             <FormControl>
-                                <Input {...field} />
+                                <Input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={async (e) => {
+                                        const file = e.target.files?.[0];
+                                        if (!file) return;
+
+                                        try {
+                                            const url = await uploadImage({
+                                                file,
+                                                type,
+                                            });
+                                            field.onChange(url); // this sets heroImage = downloadURL
+                                        } catch (err) {
+                                            console.error(err);
+                                        }
+                                    }}
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -94,11 +112,12 @@ export function PostForm({ type, t }: PostSchemaProps) {
                 />
 
                 <Docs
+                    type={type}
                     control={form.control}
                     name="docs"
                     t={(key) => t(`docs.${key}`)}
+                    getValues={form.getValues}
                 />
-
                 <MainButton className="w-full" type="submit">
                     {t(`submit.${type}`)} <UploadIcon />
                 </MainButton>

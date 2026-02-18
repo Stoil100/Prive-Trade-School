@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3MB
 const ACCEPTED_FILE_TYPES = [
     "application/pdf",
     "application/msword",
