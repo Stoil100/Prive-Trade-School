@@ -299,7 +299,8 @@
                         "deleteTitle": "Изтриване на статия",
                         "deleteConfirm": "Сигурни ли сте, че искате да изтриете ",
                         "deleteMessage": " Това действие не може да бъде отменено."
-                    }
+                    },
+                    "successDelete": "Article deleted successfully!"
                 },
                 "noPostsFound": {
                     "headers": "Не са намерени статии. Създайте такава чрез формуляра за статии.",

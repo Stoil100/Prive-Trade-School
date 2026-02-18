@@ -1,6 +1,7 @@
 "use client";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/firebase/config";
+import { Link } from "@/i18n/navigation";
 import { PostT } from "@/models/post";
 import { collection, onSnapshot, query } from "firebase/firestore";
 import { useTranslations } from "next-intl";
@@ -17,6 +18,7 @@ export default function ProjectsPage() {
             (snapshot) => {
                 const docs: PostT[] = snapshot.docs.map((doc) => ({
                     ...(doc.data() as PostT),
+                    id: doc.id,
                 }));
                 setProjects(docs);
             },
@@ -40,7 +42,11 @@ export default function ProjectsPage() {
                 </div>
             ) : (
                 projects.map((project, index) => (
-                    <div key={index} className="w-full">
+                    <Link
+                        href={`/projects/${project.id}`}
+                        key={index}
+                        className="w-full"
+                    >
                         <h2 className="text-xl font-bold">{project.title}</h2>
                         {project.titleDescriptions!.map((description) => (
                             <p
@@ -51,7 +57,7 @@ export default function ProjectsPage() {
                             </p>
                         ))}
                         <Separator className="my-8 bg-slate-700" />
-                    </div>
+                    </Link>
                 ))
             )}
         </section>

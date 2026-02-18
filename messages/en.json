@@ -297,10 +297,8 @@
                             }
                         }
                     },
-
                     "noDocsFound": "No documents found."
                 },
-
                 "table": {
                     "title": "Title",
                     "heroImage": "Hero image",
@@ -314,7 +312,8 @@
                         "deleteTitle": "Delete article",
                         "deleteConfirm": "Are you sure you want to delete ",
                         "deleteMessage": " This action cannot be undone."
-                    }
+                    },
+                    "successDelete": "Article deleted successfully!"
                 },
 
                 "noPostsFound": {

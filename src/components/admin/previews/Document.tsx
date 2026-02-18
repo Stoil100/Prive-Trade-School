@@ -120,7 +120,7 @@ export default function DocumentPreview({ t }: DocumentPreviewProps) {
             const fileRef = ref(storage, documentToDelete.url);
             await deleteObject(fileRef);
 
-            toast.success("Document deleted successfully");
+            toast.success(t("successDelete"));
             setDeleteDialogOpen(false);
             setDocumentToDelete(null);
         } catch (error) {

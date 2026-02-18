@@ -70,12 +70,12 @@ export default function PostPreview({ type, t }: PostPreviewProps) {
         }
     };
 
-    const handleDelete = async (id: string, title: string) => {
+    const handleDelete = async (id: string) => {
         try {
             setDeletingId(id);
             await deleteDoc(doc(db, type, id));
             setPosts(posts.filter((post) => post.id !== id));
-            toast.success(t("success.delete"));
+            toast.success(t("successDelete"));
         } catch (error) {
             console.error("Error deleting post:", error);
             toast.error("Failed to delete post");
@@ -203,7 +203,6 @@ export default function PostPreview({ type, t }: PostPreviewProps) {
                                                                 onClick={() =>
                                                                     handleDelete(
                                                                         post.id,
-                                                                        post.title,
                                                                     )
                                                                 }
                                                                 className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
