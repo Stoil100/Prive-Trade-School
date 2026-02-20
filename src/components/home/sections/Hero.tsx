@@ -13,7 +13,7 @@ import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { PostT } from "@/models/post";
 import Autoplay from "embla-carousel-autoplay";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
 export default function HeroSection() {
@@ -24,14 +24,16 @@ export default function HeroSection() {
         const fetchHeaders = async () => {
             try {
                 const headersCollection = collection(db, "headers");
-                const headerSnapshot = await getDocs(headersCollection);
-                const headersList: PostT[] = headerSnapshot.docs.map(
-                    (doc) =>
-                        ({
-                            id: doc.id,
-                            ...doc.data(),
-                        }) as PostT,
-                );
+
+                const q = query(headersCollection, orderBy("createdAt", "asc"));
+
+                const headerSnapshot = await getDocs(q);
+
+                const headersList: PostT[] = headerSnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                })) as PostT[];
+
                 setHeaders(headersList);
             } catch (error) {
                 console.error("Error fetching headers:", error);

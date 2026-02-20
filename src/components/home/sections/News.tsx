@@ -14,14 +14,7 @@ import { db } from "@/firebase/config";
 import { cn } from "@/lib/utils";
 import { PostT } from "@/models/post";
 import Autoplay from "embla-carousel-autoplay";
-import {
-    collection,
-    getDocs,
-    orderBy,
-    query,
-    Timestamp,
-    where,
-} from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useIntersectionObserver } from "usehooks-ts";
@@ -45,56 +38,77 @@ export default function NewsSection({ t }: NewsSectionProps) {
         }),
     );
     useEffect(() => {
+        // const fetchNews = async () => {
+        //     try {
+        //         const newsCollection = collection(db, "news");
+
+        //         const now = new Date();
+
+        //         // 2 months ago
+        //         const twoMonthsAgo = new Date();
+        //         twoMonthsAgo.setMonth(now.getMonth() - 2);
+
+        //         const twoMonthQuery = query(
+        //             newsCollection,
+        //             where("createdAt", ">=", Timestamp.fromDate(twoMonthsAgo)),
+        //             orderBy("createdAt", "desc"),
+        //         );
+
+        //         let snapshot = await getDocs(twoMonthQuery);
+
+        //         // If no results → fetch last 6 months
+        //         if (snapshot.empty) {
+        //             const sixMonthsAgo = new Date();
+        //             sixMonthsAgo.setMonth(now.getMonth() - 6);
+
+        //             const sixMonthQuery = query(
+        //                 newsCollection,
+        //                 where(
+        //                     "createdAt",
+        //                     ">=",
+        //                     Timestamp.fromDate(sixMonthsAgo),
+        //                 ),
+        //                 orderBy("createdAt", "desc"),
+        //             );
+
+        //             snapshot = await getDocs(sixMonthQuery);
+        //         }
+
+        //         const newsList: PostT[] = snapshot.docs.map(
+        //             (doc) =>
+        //                 ({
+        //                     id: doc.id,
+        //                     ...doc.data(),
+        //                 }) as PostT,
+        //         );
+
+        //         setNews(newsList);
+        //     } catch (error) {
+        //         console.error("Error fetching news:", error);
+        //     }
+        // };
+
         const fetchNews = async () => {
             try {
                 const newsCollection = collection(db, "news");
 
-                const now = new Date();
-
-                // 2 months ago
-                const twoMonthsAgo = new Date();
-                twoMonthsAgo.setMonth(now.getMonth() - 2);
-
-                const twoMonthQuery = query(
+                const q = query(
                     newsCollection,
-                    where("createdAt", ">=", Timestamp.fromDate(twoMonthsAgo)),
-                    orderBy("createdAt", "desc"),
+                    orderBy("createdAt", "desc"), // newest first
                 );
 
-                let snapshot = await getDocs(twoMonthQuery);
+                const snapshot = await getDocs(q);
 
-                // If no results → fetch last 6 months
-                if (snapshot.empty) {
-                    const sixMonthsAgo = new Date();
-                    sixMonthsAgo.setMonth(now.getMonth() - 6);
-
-                    const sixMonthQuery = query(
-                        newsCollection,
-                        where(
-                            "createdAt",
-                            ">=",
-                            Timestamp.fromDate(sixMonthsAgo),
-                        ),
-                        orderBy("createdAt", "desc"),
-                    );
-
-                    snapshot = await getDocs(sixMonthQuery);
-                }
-
-                const newsList: PostT[] = snapshot.docs.map(
-                    (doc) =>
-                        ({
-                            id: doc.id,
-                            ...doc.data(),
-                        }) as PostT,
-                );
+                const newsList: PostT[] = snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                })) as PostT[];
 
                 setNews(newsList);
             } catch (error) {
                 console.error("Error fetching news:", error);
             }
         };
-
         fetchNews();
     }, []);
     console.log("Fetched news:", news);
