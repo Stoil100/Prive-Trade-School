@@ -130,7 +130,7 @@ export default function ProjectPage({
                             <div key={docIndex} className="space-y-4">
                                 <h2 className="text-4xl">{doc.title}</h2>
                                 {images.length > 0 && images.length <= 2 && (
-                                    <div className="flex gap-2">
+                                    <div className="flex flex-col gap-2">
                                         {images.map((image) => (
                                             <img
                                                 key={image.id}
