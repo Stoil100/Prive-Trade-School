@@ -70,7 +70,7 @@ export function DocumentUploadForm({ t, onSuccess }: DocumentUploadFormProps) {
                 fileSize: file.size,
                 fileType: file.type,
                 fileUrl: downloadURL,
-                uploadedAt: Timestamp.now(),
+                createdAt: Timestamp.now(),
             });
 
             toast("Document uploaded successfully");

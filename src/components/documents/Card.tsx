@@ -20,7 +20,6 @@ interface DocumentCardProps {
 export function DocumentCard({ t, document, onClick }: DocumentCardProps) {
     const isPdf = document.type === "pdf";
     const Icon = isPdf ? FileText : FileIcon;
-
     return (
         <Card
             className="group cursor-pointer transition-shadow hover:shadow-lg"
@@ -32,15 +31,21 @@ export function DocumentCard({ t, document, onClick }: DocumentCardProps) {
                         <Icon className="text-primary h-6 w-6" />
                     </div>
                     <CardTitle className="line-clamp-2 flex-1 text-base leading-relaxed">
-                        {document.name}
+                        {document.title}
                     </CardTitle>
                 </div>
             </CardHeader>
             <CardContent>
+                <p className="text-sm">
+                    {document.description ?? t("noDescription")}
+                </p>
                 <div className="text-muted-foreground flex items-center justify-between text-sm">
                     <span className="uppercase">{document.type}</span>
+                    <span className="uppercase">
+                        {(document.size / (1024 * 1024)).toFixed(2)} MB
+                    </span>
                     <span>
-                        {new Date(document.uploadedAt).toLocaleDateString()}
+                        {new Date(document.createdAt).toLocaleDateString()}
                     </span>
                 </div>
             </CardContent>

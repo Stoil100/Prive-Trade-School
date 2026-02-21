@@ -1,19 +1,13 @@
 "use client";
 
-import {
-    getDownloadURL,
-    getMetadata,
-    listAll,
-    ref,
-    type FullMetadata,
-} from "firebase/storage";
 import { useEffect, useState } from "react";
 
 import { DocumentCard } from "@/components/documents/Card";
 import { DocumentViewerDialog } from "@/components/documents/Viewer";
 import LoadingOverlay from "@/components/Loading";
-import { storage } from "@/firebase/config";
+import { db } from "@/firebase/config";
 import { DocumentT } from "@/models/document";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { useTranslations } from "next-intl";
 
 type DocType = "pdf" | "doc" | "docx";
@@ -49,65 +43,64 @@ export default function DocumentsPage() {
     const [dialogOpen, setDialogOpen] = useState(false);
     const t = useTranslations("Pages.Documents");
 
+    function normalizeDocumentType(contentType?: string) {
+        if (!contentType) return "other";
+
+        if (contentType === "application/pdf") return "pdf";
+
+        if (contentType.includes("word")) return "word";
+
+        if (contentType.includes("spreadsheet")) return "excel";
+
+        if (contentType.includes("presentation")) return "powerpoint";
+
+        if (contentType === "text/plain") return "txt";
+
+        if (contentType === "text/csv") return "csv";
+
+        if (contentType.includes("zip")) return "zip";
+
+        return "other";
+    }
+
     useEffect(() => {
         let cancelled = false;
 
         const fetchDocuments = async () => {
             try {
-                const folderRef = ref(storage, "documents");
-                const res = await listAll(folderRef);
-
-                const docs = await Promise.all(
-                    res.items.map(async (itemRef) => {
-                        const [url, meta]: [string, FullMetadata] =
-                            await Promise.all([
-                                getDownloadURL(itemRef),
-                                getMetadata(itemRef),
-                            ]);
-
-                        const uploadedAt = meta.timeCreated
-                            ? new Date(meta.timeCreated)
-                            : new Date();
-                        const type = inferTypeFromNameOrContentType(
-                            meta.name,
-                            meta.contentType,
-                        );
-
-                        // Build a DocumentT that won't break UI expecting title/description/name/type/url/uploadedAt
-                        const doc: DocumentT = {
-                            // Prefer a stable id. fullPath is stable for storage objects.
-                            id: itemRef.fullPath,
-
-                            // Common fields used across your UI:
-                            name: meta.name,
-                            url,
-                            type,
-                            uploadedAt,
-
-                            // Safe defaults if your UI expects them:
-                            title: meta.name, // or strip extension if you want
-                            description: "",
-
-                            // Optional but useful:
-                            size:
-                                typeof meta.size === "number"
-                                    ? meta.size
-                                    : undefined,
-                            storagePath: itemRef.fullPath,
-                        } as unknown as DocumentT;
-
-                        return doc;
-                    }),
+                const q = query(
+                    collection(db, "documents"),
+                    orderBy("createdAt", "desc"),
                 );
 
-                docs.sort(
-                    (a, b) => b.uploadedAt.getTime() - a.uploadedAt.getTime(),
-                );
+                const snapshot = await getDocs(q);
+
+                const docs: DocumentT[] = snapshot.docs.map((doc) => {
+                    const data = doc.data();
+
+                    const normalizedType = normalizeDocumentType(data.fileType);
+
+                    return {
+                        id: doc.id,
+
+                        title: data.title,
+                        description: data.description ?? "",
+
+                        size: data.fileSize ?? 0,
+                        name: data.fileName ?? "",
+                        url: data.fileUrl,
+
+                        // 🔥 controlled type
+                        type: normalizedType,
+
+                        createdAt: data.createdAt?.toDate?.() ?? new Date(),
+                    } as DocumentT;
+                });
 
                 if (!cancelled) setDocuments(docs);
             } catch (error) {
                 console.error(
-                    "[documents] Error fetching documents from Storage:",
+                    "[documents] Error fetching from Firestore:",
                     error,
                 );
                 if (!cancelled) setDocuments([]);
@@ -123,6 +116,7 @@ export default function DocumentsPage() {
         };
     }, []);
 
+    console.log(documents);
     const handleDocumentClick = (document: DocumentT) => {
         setSelectedDocument(document);
         setDialogOpen(true);

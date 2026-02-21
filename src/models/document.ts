@@ -5,5 +5,6 @@ export interface DocumentT extends UploadDocSchemaType {
     name: string;
     url: string;
     type: string;
-    uploadedAt: Date;
+    size: number;
+    createdAt: Date;
 }
