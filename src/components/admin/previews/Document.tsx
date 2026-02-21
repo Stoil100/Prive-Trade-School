@@ -58,26 +58,51 @@ export default function DocumentPreview({ t }: DocumentPreviewProps) {
     );
     const [deleting, setDeleting] = useState(false);
 
+    function normalizeDocumentType(contentType?: string) {
+        if (!contentType) return "other";
+
+        if (contentType === "application/pdf") return "pdf";
+
+        if (contentType.includes("word")) return "word";
+
+        if (contentType.includes("spreadsheet")) return "excel";
+
+        if (contentType.includes("presentation")) return "powerpoint";
+
+        if (contentType === "text/plain") return "txt";
+
+        if (contentType === "text/csv") return "csv";
+
+        if (contentType.includes("zip")) return "zip";
+
+        return "other";
+    }
+
     useEffect(() => {
         const q = query(
             collection(db, "documents"),
             orderBy("uploadedAt", "desc"),
         );
-
         const unsubscribe = onSnapshot(
             q,
             (snapshot) => {
                 const docs: DocumentT[] = snapshot.docs.map((docSnapshot) => {
                     const data = docSnapshot.data() as any;
 
+                    const normalizedType = normalizeDocumentType(data.fileType);
+
                     return {
-                        id: docSnapshot.id,
-                        title: data.title ?? "",
+                        id: data.id,
+
+                        title: data.title,
                         description: data.description ?? "",
-                        url: data.fileUrl ?? "",
+                        file: undefined as any,
+
+                        size: data.fileSize ?? 0,
                         name: data.fileName ?? "",
-                        type: data.fileType ?? "",
-                        uploadedAt: data.uploadedAt?.toDate?.() ?? new Date(),
+                        url: data.fileUrl,
+                        type: normalizedType,
+                        createdAt: data.createdAt?.toDate?.() ?? new Date(),
                     } as DocumentT;
                 });
 
@@ -301,7 +326,7 @@ export default function DocumentPreview({ t }: DocumentPreviewProps) {
 
                                                 <TableCell className="text-muted-foreground text-sm">
                                                     {formatDate(
-                                                        document.uploadedAt,
+                                                        document.createdAt,
                                                     )}
                                                 </TableCell>
 

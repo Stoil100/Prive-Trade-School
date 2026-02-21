@@ -85,14 +85,12 @@ export default function DocumentsPage() {
 
                         title: data.title,
                         description: data.description ?? "",
+                        file: undefined as any,
 
                         size: data.fileSize ?? 0,
                         name: data.fileName ?? "",
                         url: data.fileUrl,
-
-                        // 🔥 controlled type
                         type: normalizedType,
-
                         createdAt: data.createdAt?.toDate?.() ?? new Date(),
                     } as DocumentT;
                 });
